@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="id" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil Saya - FurniNest</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --cream: #F5F0E8;
+            --warm-white: #FAF7F2;
+            --brown: #5C3D2E;
+            --brown-light: #8B6352;
+            --gold: #C6A15B;
+            --gold-dark: #A27C3E;
+            --text-dark: #3A2C1F;
+            --text-light: #7A6B5D;
+            --border-light: #E8DFD5;
+            --shadow: 0 20px 40px rgba(0,0,0,0.05);
+            --shadow-hover: 0 30px 50px rgba(0,0,0,0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--cream);
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(250, 247, 242, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-light);
+            padding: 16px 0;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 32px;
+        }
+
+        .nav-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--brown);
+            letter-spacing: 1px;
+            cursor: pointer;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 36px;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-dark);
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: var(--gold);
+        }
+
+        .nav-icons {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-icons i {
+            font-size: 18px;
+            color: var(--text-dark);
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .nav-icons i:hover {
+            color: var(--gold);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -12px;
+            background: var(--gold);
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Profile Container */
+        .profile-container {
+            max-width: 1100px;
+            margin: 100px auto 60px;
+            padding: 0 20px;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+        }
+
+        .page-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            font-weight: 600;
+            color: var(--brown);
+            margin-top: 8px;
+        }
+
+        .welcome-badge {
+            display: inline-block;
+            font-size: 12px;
+            letter-spacing: 3px;
+            color: var(--gold);
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        /* Profile Tabs */
+        .profile-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            background: white;
+            padding: 8px;
+            border-radius: 20px;
+            margin-bottom: 32px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-light);
+        }
+
+        .profile-tab {
+            padding: 12px 24px;
+            border-radius: 16px;
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            background: transparent;
+        }
+
+        .profile-tab i {
+            margin-right: 8px;
+        }
+
+        .profile-tab.active,
+        .profile-tab:hover {
+            color: white;
+            background: var(--gold);
+        }
+
+        /* Section Card */
+        .section-card {
+            background: white;
+            border-radius: 28px;
+            padding: 32px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-light);
+        }
+
+        .section-card h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--brown);
+            margin-bottom: 24px;
+        }
+
+        /* Profile Grid */
+        .profile-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 32px;
+        }
+
+        .profile-info-item {
+            margin-bottom: 20px;
+        }
+
+        .profile-info-item label {
+            display: block;
+            font-weight: 600;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--brown);
+            margin-bottom: 8px;
+        }
+
+        .profile-info-item input {
+            width: 100%;
+            padding: 14px 16px;
+            border-radius: 16px;
+            border: 1px solid var(--border-light);
+            background: var(--warm-white);
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .profile-info-item input:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(198, 161, 91, 0.1);
+        }
+
+        .info-text {
+            color: var(--text-light);
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        /* Buttons */
+        .btn-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 28px;
+            border-radius: 40px;
+            background: var(--brown);
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-action:hover {
+            background: var(--gold);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1.5px solid var(--gold);
+            color: var(--gold-dark);
+        }
+
+        .btn-outline:hover {
+            background: var(--gold);
+            color: white;
+        }
+
+        .btn-remove {
+            background: rgba(220, 38, 38, 0.1);
+            color: #dc2626;
+            border: 1px solid rgba(220, 38, 38, 0.3);
+        }
+
+        .btn-remove:hover {
+            background: #dc2626;
+            color: white;
+        }
+
+        /* Lists */
+        .orders-list,
+        .wishlist-list,
+        .addresses-list {
+            display: grid;
+            gap: 20px;
+        }
+
+        .list-card {
+            background: var(--warm-white);
+            border: 1px solid var(--border-light);
+            border-radius: 20px;
+            padding: 20px;
+            transition: all 0.3s;
+        }
+
+        .list-card:hover {
+            box-shadow: var(--shadow-hover);
+        }
+
+        .list-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .list-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--brown);
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .badge-default {
+            background: var(--gold);
+            color: white;
+        }
+
+        .badge-status {
+            background: rgba(198, 161, 91, 0.15);
+            color: var(--gold-dark);
+        }
+
+        .badge-delivered {
+            background: rgba(46, 125, 50, 0.15);
+            color: #2e7d32;
+        }
+
+        /* Wishlist Image */
+        .wishlist-product {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .wishlist-img {
+            width: 80px;
+            height: 80px;
+            border-radius: 16px;
+            overflow: hidden;
+            background: var(--border-light);
+        }
+
+        .wishlist-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .wishlist-info {
+            flex: 1;
+        }
+
+        .wishlist-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 48px 24px;
+            background: var(--warm-white);
+            border-radius: 20px;
+            border: 1px dashed var(--border-light);
+            color: var(--text-light);
+        }
+
+        .empty-state i {
+            font-size: 48px;
+            color: var(--gold);
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        /* Password Form */
+        .password-form .form-group {
+            margin-bottom: 20px;
+        }
+
+        .password-form label {
+            display: block;
+            font-weight: 600;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--brown);
+            margin-bottom: 8px;
+        }
+
+        .password-form input {
+            width: 100%;
+            padding: 14px 16px;
+            border-radius: 16px;
+            border: 1px solid var(--border-light);
+            background: var(--warm-white);
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+        }
+
+        .password-form input:focus {
+            outline: none;
+            border-color: var(--gold);
+        }
+
+        .message-success {
+            color: #2e7d32;
+            background: rgba(46, 125, 50, 0.1);
+            padding: 12px;
+            border-radius: 12px;
+            margin-top: 16px;
+        }
+
+        .message-error {
+            color: #dc2626;
+            background: rgba(220, 38, 38, 0.1);
+            padding: 12px;
+            border-radius: 12px;
+            margin-top: 16px;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--brown);
+            color: white;
+            padding: 48px 0 24px;
+            margin-top: 60px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            margin-bottom: 32px;
+        }
+
+        .footer-col h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+            margin-bottom: 16px;
+            color: var(--gold);
+        }
+
+        .footer-col p, .footer-col a {
+            font-size: 13px;
+            color: rgba(255,255,255,0.7);
+            line-height: 1.8;
+            text-decoration: none;
+            display: block;
+        }
+
+        .footer-col a:hover { color: var(--gold); }
+
+        .social-icons {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .social-icons i {
+            width: 36px;
+            height: 36px;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .social-icons i:hover {
+            background: var(--gold);
+            border-color: var(--gold);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 24px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 12px;
+            color: rgba(255,255,255,0.5);
+        }
+
+        /* Toast */
+        .toast-notif {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--brown);
+            color: white;
+            padding: 12px 28px;
+            border-radius: 40px;
+            font-size: 14px;
+            z-index: 9999;
+            transition: all 0.3s;
+            opacity: 0;
+        }
+
+        .toast-notif.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .profile-grid { grid-template-columns: 1fr; }
+            .profile-tabs { overflow-x: auto; flex-wrap: nowrap; }
+            .profile-tab { white-space: nowrap; }
+            .footer-grid { grid-template-columns: repeat(2, 1fr); }
+            .nav-menu { display: none; }
+        }
+
+        @media (max-width: 600px) {
+            .container { padding: 0 20px; }
+            .section-card { padding: 24px; }
+            .footer-grid { grid-template-columns: 1fr; text-align: center; }
+            .social-icons { justify-content: center; }
+            .wishlist-product { flex-direction: column; text-align: center; }
+            .wishlist-actions { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<div class="navbar">
+    <div class="container nav-inner">
+        <div class="logo" onclick="window.location.href='/home'">
+            <h1>FurniNest</h1>
+        </div>
+        <div class="nav-menu">
+            <a href="/home">Beranda</a>
+            <a href="/home#productsSection">Produk</a>
+            <a href="/home#categorySection">Kategori</a>
+            <a href="/home#footer">Kontak</a>
+            <a href="/profile">👤 [[${session.currentUser.fullName}]]</a>
+            <a href="/logout">Logout</a>
+        </div>
+        <div class="nav-icons">
+            <div style="position: relative;">
+                <i class="fas fa-shopping-bag" onclick="window.location.href='/checkout'"></i>
+                <span class="cart-badge" id="cartBadge" style="display: none;">0</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<main>
+    <div class="profile-container">
+        <div class="page-header">
+            <div>
+                <span class="welcome-badge"><i class="fas fa-user"></i> Akun Saya</span>
+                <h1>Selamat datang, [[${session.currentUser.fullName}]]</h1>
+            </div>
+            <button class="btn-action btn-outline" onclick="window.location.href='/logout'">
+                <i class="fas fa-sign-out-alt"></i> Keluar
+            </button>
+        </div>
+
+        <!-- Tabs -->
+        <div class="profile-tabs">
+            <a class="profile-tab" th:classappend="${currentTab == 'profile'} ? 'active' : ''" href="/profile?tab=profile">
+                <i class="fas fa-user"></i> Informasi Akun
+            </a>
+            <a class="profile-tab" th:classappend="${currentTab == 'address'} ? 'active' : ''" href="/profile?tab=address">
+                <i class="fas fa-map-marker-alt"></i> Alamat Saya
+            </a>
+            <a class="profile-tab" th:classappend="${currentTab == 'orders'} ? 'active' : ''" href="/profile?tab=orders">
+                <i class="fas fa-box"></i> Riwayat Pesanan
+            </a>
+            <a class="profile-tab" th:classappend="${currentTab == 'wishlist'} ? 'active' : ''" href="/profile?tab=wishlist">
+                <i class="fas fa-heart"></i> Wishlist
+            </a>
+            <a class="profile-tab" th:classappend="${currentTab == 'password'} ? 'active' : ''" href="/profile?tab=password">
+                <i class="fas fa-lock"></i> Ganti Password
+            </a>
+        </div>
+
+        <!-- Tab: Informasi Akun -->
+        <div class="section-card" th:if="${currentTab == 'profile'}">
+            <h2><i class="fas fa-user-edit" style="color: var(--gold); margin-right: 10px;"></i> Informasi Akun</h2>
+            <form id="accountForm" onsubmit="return saveAccountInfo(event)">
+                <div class="profile-grid">
+                    <div>
+                        <div class="profile-info-item">
+                            <label>Nama Lengkap</label>
+                            <input type="text" id="fullName" name="fullName" th:value="${user.fullName}" required>
+                        </div>
+                        <div class="profile-info-item">
+                            <label>Email</label>
+                            <input type="email" id="email" name="email" th:value="${user.email}" required>
+                        </div>
+                        <div class="profile-info-item">
+                            <label>Nomor Telepon</label>
+                            <input type="tel" id="phone" name="phone" th:value="${user.phone}" required>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="info-text">
+                            <i class="fas fa-info-circle" style="color: var(--gold);"></i>
+                            <p style="margin-top: 8px;">Halo! Di halaman ini Anda dapat memperbarui data akun secara instan. Simpan setiap perubahan untuk memastikan profil Anda tetap akurat dan siap digunakan untuk pesanan selanjutnya.</p>
+                        </div>
+                        <button type="submit" class="btn-action">
+                            <i class="fas fa-save"></i> Simpan Perubahan
+                        </button>
+                    </div>
+                </div>
+                <div id="profileMessage" style="margin-top: 20px;"></div>
+            </form>
+        </div>
+
+        <!-- Tab: Alamat Saya -->
+        <div class="section-card" th:if="${currentTab == 'address'}">
+            <h2><i class="fas fa-map-pin" style="color: var(--gold); margin-right: 10px;"></i> Alamat Saya</h2>
+            <div class="addresses-list">
+                <div th:if="${addresses == null or #lists.isEmpty(addresses)}" class="empty-state">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <p>Tidak ada alamat tersimpan.</p>
+                    <p>Gunakan tombol berikut untuk menambahkan alamat baru atau kelola alamat yang sudah ada.</p>
+                    <div style="margin-top: 20px;">
+                        <a class="btn-action" href="/alamat/manage">
+                            <i class="fas fa-plus"></i> Kelola Alamat
+                        </a>
+                    </div>
+                </div>
+                <div th:each="addr : ${addresses}" class="list-card">
+                    <div class="list-header">
+                        <h3><i class="fas fa-tag"></i> [[${addr.label}]]</h3>
+                        <span class="badge badge-default" th:if="${addr.default}">
+                            <i class="fas fa-star"></i> Utama
+                        </span>
+                    </div>
+                    <p><strong>[[${addr.recipientName}]]</strong> · 📞 [[${addr.phone}]]</p>
+                    <p style="color: var(--text-light); margin-top: 8px;">
+                        📍 [[${addr.addressLine}]], [[${addr.city}]], [[${addr.province}]] - [[${addr.postalCode}]]
+                    </p>
+                    <a class="btn-action btn-outline" href="/alamat/manage" style="margin-top: 16px; display: inline-block;">
+                        <i class="fas fa-edit"></i> Kelola Alamat
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab: Riwayat Pesanan -->
+        <div class="section-card" th:if="${currentTab == 'orders'}">
+            <h2><i class="fas fa-history" style="color: var(--gold); margin-right: 10px;"></i> Riwayat Pesanan</h2>
+            <div class="orders-list">
+                <div th:if="${orders == null or #lists.isEmpty(orders)}" class="empty-state">
+                    <i class="fas fa-shopping-bag"></i>
+                    <p>Belum ada pesanan.</p>
+                    <p>Silakan mulai berbelanja untuk melihat riwayat pesanan Anda di sini.</p>
+                </div>
+                <div th:each="order : ${orders}" class="list-card">
+                    <div class="list-header">
+                        <h3>Order #<span th:text="${order.orderId}"></span></h3>
+                        <span class="badge badge-status" th:text="${order.status}">
+                            <i class="fas fa-clock"></i>
+                        </span>
+                    </div>
+                    <p style="color: var(--text-light);" th:text="${order.orderDate}"></p>
+                    <div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;">
+                        <span class="badge" style="background: var(--gold); color: white;">
+                            <i class="fas fa-credit-card"></i> Total: Rp [[${order.totalAmount}]]
+                        </span>
+                        <span class="badge badge-status" th:if="${order.estimatedArrival != null}">
+                            <i class="fas fa-truck"></i> Estimasi: [[${order.estimatedArrival}]]
+                        </span>
+                    </div>
+                    <p style="color: var(--text-light);" th:text="${order.items}"></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab: Wishlist -->
+        <div class="section-card" th:if="${currentTab == 'wishlist'}">
+            <h2><i class="fas fa-heart" style="color: var(--gold); margin-right: 10px;"></i> Wishlist</h2>
+            <div class="wishlist-list">
+                <div th:if="${wishlist == null or #lists.isEmpty(wishlist)}" class="empty-state">
+                    <i class="fas fa-heart-broken"></i>
+                    <p>Wishlist Anda kosong.</p>
+                    <p>Simpan produk favorit ke wishlist untuk membelinya nanti.</p>
+                </div>
+                <div th:each="item : ${wishlist}" class="list-card">
+                    <div class="wishlist-product">
+                        <div class="wishlist-img">
+                            <img th:src="${item.productImg}" th:alt="${item.productName}">
+                        </div>
+                        <div class="wishlist-info">
+                            <h3>[[${item.productName}]]</h3>
+                            <p style="color: var(--gold-dark); font-weight: 700; margin-top: 4px;">
+                                Rp [[${item.productPrice}]]
+                            </p>
+                        </div>
+                        <div class="wishlist-actions">
+                            <a class="btn-action btn-outline" th:href="@{/product/{id}(id=${item.productId})}">
+                                <i class="fas fa-eye"></i> Lihat
+                            </a>
+                            <button type="button" class="btn-action btn-remove" th:attr="onclick=|removeFromWishlist(${item.productId})|">
+                                <i class="fas fa-trash"></i> Hapus
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab: Ganti Password -->
+        <div class="section-card" th:if="${currentTab == 'password'}">
+            <h2><i class="fas fa-key" style="color: var(--gold); margin-right: 10px;"></i> Ganti Password</h2>
+            <form class="password-form" id="passwordForm" onsubmit="return handleChangePassword(event)">
+                <div class="form-group">
+                    <label>Password Lama</label>
+                    <input type="password" id="oldPassword" name="oldPassword" required>
+                </div>
+                <div class="form-group">
+                    <label>Password Baru</label>
+                    <input type="password" id="newPassword" name="newPassword" required>
+                </div>
+                <div class="form-group">
+                    <label>Konfirmasi Password Baru</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required>
+                </div>
+                <button type="submit" class="btn-action">
+                    <i class="fas fa-save"></i> Simpan Password
+                </button>
+                <div id="passwordMessage" style="margin-top: 16px;"></div>
+            </form>
+        </div>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>FurniNest</h4>
+                <p>Furniture premium dengan kualitas terbaik dan desain timeless untuk hunian impian Anda.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Navigasi</h4>
+                <a href="/home">Beranda</a>
+                <a href="/home#productsSection">Produk</a>
+                <a href="/home#categorySection">Kategori</a>
+                <a href="/home#footer">Kontak</a>
+            </div>
+            <div class="footer-col">
+                <h4>Kontak</h4>
+                <p>📞 +62 812 3456 7890</p>
+                <p>✉️ hello@furninest.com</p>
+                <p>📍 Jakarta, Indonesia</p>
+            </div>
+            <div class="footer-col">
+                <h4>Ikuti Kami</h4>
+                <div class="social-icons">
+                    <i class="fab fa-instagram" onclick="showSocialNotification('Instagram')"></i>
+                    <i class="fab fa-pinterest" onclick="showSocialNotification('Pinterest')"></i>
+                    <i class="fab fa-facebook-f" onclick="showSocialNotification('Facebook')"></i>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">© 2025 FurniNest — Premium Furniture for Spaces with Character</div>
+    </div>
+</footer>
+
+<div id="toastMsg" class="toast-notif"></div>
+
+<script>
+    function showToast(msg) {
+        const toast = document.getElementById('toastMsg');
+        toast.textContent = msg;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+
+    function showSocialNotification(name) {
+        showToast(`Menuju halaman ${name}`);
+    }
+
+    // Update cart badge
+    async function updateCartBadge() {
+        try {
+            const response = await fetch('/api/cart');
+            const data = await response.json();
+            let count = data.loggedIn ? (data.count || 0) : JSON.parse(localStorage.getItem('cart') || '[]').reduce((sum, item) => sum + (item.quantity || 1), 0);
+            const badge = document.getElementById('cartBadge');
+            if (count > 0) { badge.textContent = count; badge.style.display = 'flex'; } 
+            else { badge.style.display = 'none'; }
+        } catch (error) {
+            const count = JSON.parse(localStorage.getItem('cart') || '[]').reduce((sum, item) => sum + (item.quantity || 1), 0);
+            const badge = document.getElementById('cartBadge');
+            if (count > 0) { badge.textContent = count; badge.style.display = 'flex'; } 
+            else { badge.style.display = 'none'; }
+        }
+    }
+
+    // Handle change password
+    function handleChangePassword(event) {
+        event.preventDefault();
+        const oldPassword = document.getElementById('oldPassword').value;
+        const newPassword = document.getElementById('newPassword').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        const messageDiv = document.getElementById('passwordMessage');
+
+        if (newPassword !== confirmPassword) {
+            messageDiv.innerHTML = '<div class="message-error"><i class="fas fa-exclamation-circle"></i> Password baru tidak cocok.</div>';
+            return false;
+        }
+
+        if (newPassword.length < 6) {
+            messageDiv.innerHTML = '<div class="message-error"><i class="fas fa-exclamation-circle"></i> Password baru minimal 6 karakter.</div>';
+            return false;
+        }
+
+        fetch('/api/profile/change-password', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ oldPassword, newPassword })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                messageDiv.innerHTML = '<div class="message-success"><i class="fas fa-check-circle"></i> Password berhasil diperbarui.</div>';
+                document.getElementById('passwordForm').reset();
+            } else {
+                messageDiv.innerHTML = `<div class="message-error"><i class="fas fa-exclamation-circle"></i> ${data.message || 'Gagal memperbarui password.'}</div>`;
+            }
+        })
+        .catch(() => {
+            messageDiv.innerHTML = '<div class="message-error"><i class="fas fa-exclamation-circle"></i> Terjadi kesalahan. Silakan coba lagi.</div>';
+        });
+
+        return false;
+    }
+
+    // Remove from wishlist
+    function removeFromWishlist(productId) {
+        if (!productId) {
+            showToast('Produk tidak ditemukan');
+            return;
+        }
+
+        fetch('/api/wishlist/remove', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ productId: Number(productId) })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                showToast('❤️ Produk dihapus dari wishlist');
+                setTimeout(() => window.location.href = '/profile?tab=wishlist', 500);
+            } else {
+                showToast(data.message || 'Gagal menghapus dari wishlist');
+            }
+        })
+        .catch(() => {
+            showToast('Terjadi kesalahan saat menghapus wishlist');
+        });
+    }
+
+    // Save account info
+    function saveAccountInfo(event) {
+        event.preventDefault();
+        const fullName = document.getElementById('fullName').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const phone = document.getElementById('phone').value.trim();
+        const messageDiv = document.getElementById('profileMessage');
+
+        messageDiv.innerHTML = '<div class="message-success"><i class="fas fa-spinner fa-pulse"></i> Menyimpan perubahan...</div>';
+
+        fetch('/api/profile/update', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ fullName, email, phone })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                messageDiv.innerHTML = '<div class="message-success"><i class="fas fa-check-circle"></i> Profil berhasil diperbarui.</div>';
+                setTimeout(() => window.location.reload(), 1000);
+            } else {
+                messageDiv.innerHTML = `<div class="message-error"><i class="fas fa-exclamation-circle"></i> ${data.message || 'Gagal memperbarui profil.'}</div>`;
+            }
+        })
+        .catch(() => {
+            messageDiv.innerHTML = '<div class="message-error"><i class="fas fa-exclamation-circle"></i> Terjadi kesalahan. Silakan coba lagi.</div>';
+        });
+
+        return false;
+    }
+
+    updateCartBadge();
+</script>
+</body>
+</html>

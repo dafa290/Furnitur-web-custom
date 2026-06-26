@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="id" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FurniNest | Detail Produk</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #f5f0eb;
+            color: #2c2418;
+            line-height: 1.5;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: #ffffff;
+            padding: 16px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .nav-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            cursor: pointer;
+        }
+
+        .logo h1 {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #b87c4f, #8b5a2b);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 32px;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: #4a3727;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-menu a:hover {
+            color: #b87c4f;
+        }
+
+        .nav-icons {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .nav-icons i {
+            font-size: 22px;
+            color: #4a3727;
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -12px;
+            background: #b87c4f;
+            color: white;
+            font-size: 11px;
+            font-weight: 600;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Back button */
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin: 32px 0 24px;
+            text-decoration: none;
+            color: #8b5a2b;
+            font-weight: 500;
+            transition: gap 0.2s;
+        }
+
+        .back-button:hover {
+            gap: 12px;
+            color: #b87c4f;
+        }
+
+        /* Product Detail Card */
+        .product-detail-card {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+            background: white;
+            border-radius: 32px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+            margin-bottom: 60px;
+        }
+
+        .product-gallery {
+            background: #faf7f4;
+            padding: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .product-gallery img {
+            width: 100%;
+            max-width: 400px;
+            border-radius: 24px;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .product-gallery img:hover {
+            transform: scale(1.02);
+        }
+
+        .product-info {
+            padding: 48px 48px 48px 0;
+        }
+
+        .product-category {
+            display: inline-block;
+            background: #f0eae4;
+            color: #b87c4f;
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .product-info h1 {
+            font-size: 36px;
+            font-weight: 700;
+            color: #2c2418;
+            margin-bottom: 12px;
+        }
+
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .stars {
+            color: #f5b042;
+            letter-spacing: 2px;
+        }
+
+        .rating-text {
+            color: #8b8a7a;
+            font-size: 14px;
+        }
+
+        .product-price {
+            font-size: 32px;
+            font-weight: 800;
+            color: #b87c4f;
+            margin-bottom: 24px;
+        }
+
+        .product-description {
+            color: #5a4a3a;
+            line-height: 1.7;
+            margin-bottom: 28px;
+            border-left: 3px solid #e6d5c3;
+            padding-left: 20px;
+        }
+
+        .specs-grid {
+            background: #fefcf9;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 28px;
+            border: 1px solid #f0e6dc;
+        }
+
+        .spec-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0e6dc;
+        }
+
+        .spec-row:last-child {
+            border-bottom: none;
+        }
+
+        .spec-label {
+            font-weight: 600;
+            color: #2c2418;
+        }
+
+        .spec-value {
+            color: #7a6856;
+        }
+
+        .stock-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 24px;
+        }
+
+        .in-stock {
+            background: #e8f3ec;
+            color: #2e7d32;
+        }
+
+        .low-stock {
+            background: #fff3e0;
+            color: #ed6c02;
+        }
+
+        .out-stock {
+            background: #ffebee;
+            color: #d32f2f;
+        }
+
+        /* Quantity & Add to Cart */
+        .cart-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .quantity-wrapper {
+            display: flex;
+            align-items: center;
+            border: 1px solid #e6d5c3;
+            border-radius: 60px;
+            overflow: hidden;
+        }
+
+        .qty-btn {
+            width: 44px;
+            height: 44px;
+            background: #fefcf9;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: #b87c4f;
+            transition: background 0.2s;
+        }
+
+        .qty-btn:hover {
+            background: #f0eae4;
+        }
+
+        .qty-input {
+            width: 60px;
+            text-align: center;
+            border: none;
+            font-size: 16px;
+            font-weight: 500;
+            background: white;
+            padding: 10px 0;
+        }
+
+        .btn-add-cart {
+            flex: 1;
+            background: #2c2418;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 60px;
+            color: white;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.2s;
+        }
+
+        .btn-add-cart:hover {
+            background: #b87c4f;
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        .footer {
+            background: #1f1a14;
+            color: #d6cdc4;
+            padding: 48px 0 24px;
+            margin-top: 40px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 32px;
+        }
+
+        .footer-col h4 {
+            color: white;
+            margin-bottom: 16px;
+            font-size: 18px;
+        }
+
+        .footer-col p {
+            margin: 8px 0;
+            font-size: 14px;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 24px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 13px;
+        }
+
+        /* Toast */
+        .toast-notif {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #2c2418;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-size: 14px;
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 1000;
+            white-space: nowrap;
+        }
+
+        .toast-notif.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .product-detail-card {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+            .product-info {
+                padding: 32px;
+            }
+            .nav-menu {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<div class="navbar">
+    <div class="container nav-inner">
+        <div class="logo" onclick="window.location.href='/home'">
+            <h1>FurniNest</h1>
+        </div>
+        <div class="nav-menu">
+            <a href="/home">Beranda</a>
+            <a href="/home#products">Produk</a>
+            <a href="/home#kategori">Kategori</a>
+            <a href="/home#footer">Kontak</a>
+        </div>
+        <div class="nav-icons" onclick="window.location.href='/checkout'">
+            <i class="fas fa-shopping-bag"></i>
+            <span class="cart-badge" id="cartBadge" style="display: none;">0</span>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <a href="/home" class="back-button">
+        <i class="fas fa-arrow-left"></i> Kembali
+    </a>
+    
+    <div class="product-detail-card" id="productDetailCard">
+        <div class="product-gallery">
+            <img id="productImage" src="" alt="Product Image">
+        </div>
+        <div class="product-info">
+            <span class="product-category" id="productCategory">Furniture</span>
+            <h1 id="productName">Loading...</h1>
+            <div class="product-rating">
+                <span class="stars" id="productStars"></span>
+                <span class="rating-text" id="productRatingText"></span>
+            </div>
+            <div class="product-price" id="productPrice"></div>
+            <div class="product-description" id="productDescription"></div>
+            
+            <div class="specs-grid">
+                <div class="spec-row">
+                    <span class="spec-label">Warna</span>
+                    <span class="spec-value" id="productColor">-</span>
+                </div>
+                <div class="spec-row">
+                    <span class="spec-label">Bahan</span>
+                    <span class="spec-value" id="productMaterial">-</span>
+                </div>
+                <div class="spec-row">
+                    <span class="spec-label">Dimensi</span>
+                    <span class="spec-value" id="productDimensions">-</span>
+                </div>
+            </div>
+            
+            <div id="stockStatus"></div>
+            
+            <div class="cart-section">
+                <div class="quantity-wrapper">
+                    <button class="qty-btn" onclick="decrementQty()">−</button>
+                    <input type="number" id="quantity" class="qty-input" value="1" min="1" max="99" readonly>
+                    <button class="qty-btn" onclick="incrementQty()">+</button>
+                </div>
+                <button class="btn-add-cart" onclick="addToCart()">
+                    <i class="fas fa-shopping-cart"></i> Tambah ke Keranjang
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="footer" id="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>FurniNest</h4>
+                <p>Furniture premium dengan sentuhan kayu alami dan desain timeless untuk hunian Anda.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Kontak Kami</h4>
+                <p>📞 +62 812 3456 7890</p>
+                <p>✉️ hello@furninest.com</p>
+                <p>📍 Jakarta, Indonesia</p>
+            </div>
+        </div>
+        <div class="copyright">© 2025 FurniNest — Hangatkan rumah dengan furnitur berkualitas.</div>
+    </div>
+</footer>
+
+<div id="toastMsg" class="toast-notif"></div>
+
+<script>
+    let currentProduct = null;
+    const productId = window.location.pathname.split('/').pop();
+    
+    function formatIDR(val) {
+        return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(val);
+    }
+    
+    function showToast(text) {
+        const toast = document.getElementById('toastMsg');
+        toast.textContent = text;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+    
+    async function loadProductDetail() {
+        try {
+            const response = await fetch(`/api/products/${productId}`);
+            if (!response.ok) throw new Error('Product not found');
+            currentProduct = await response.json();
+            
+            document.getElementById('productImage').src = currentProduct.img || 'https://via.placeholder.com/500x500?text=Furniture';
+            document.getElementById('productName').textContent = currentProduct.name;
+            document.getElementById('productPrice').textContent = formatIDR(currentProduct.price);
+            document.getElementById('productDescription').textContent = currentProduct.description || 'Produk furnitur berkualitas tinggi dengan desain eksklusif.';
+            document.getElementById('productCategory').textContent = currentProduct.category || 'Furniture';
+            document.getElementById('productColor').textContent = currentProduct.color || 'Natural Wood';
+            document.getElementById('productMaterial').textContent = currentProduct.material || 'Kayu Jati';
+            document.getElementById('productDimensions').textContent = currentProduct.dimensions || 'Standar';
+            
+            // Rating stars
+            const rating = currentProduct.rating || 4.7;
+            const fullStars = Math.floor(rating);
+            const hasHalf = rating % 1 >= 0.5;
+            let starsHtml = '';
+            for (let i = 1; i <= 5; i++) {
+                if (i <= fullStars) starsHtml += '★';
+                else if (hasHalf && i === fullStars + 1) starsHtml += '½';
+                else starsHtml += '☆';
+            }
+            document.getElementById('productStars').innerHTML = starsHtml;
+            document.getElementById('productRatingText').textContent = `${rating} / 5 (${Math.floor(Math.random() * 50) + 10} ulasan)`;
+            
+            // Stock status
+            const stock = currentProduct.stock ?? 15;
+            const stockDiv = document.getElementById('stockStatus');
+            if (stock > 10) {
+                stockDiv.innerHTML = `<div class="stock-status in-stock"><i class="fas fa-check-circle"></i> Stok tersedia (${stock} pcs)</div>`;
+            } else if (stock > 0) {
+                stockDiv.innerHTML = `<div class="stock-status low-stock"><i class="fas fa-exclamation-triangle"></i> Stok terbatas (${stock} pcs)</div>`;
+            } else {
+                stockDiv.innerHTML = `<div class="stock-status out-stock"><i class="fas fa-times-circle"></i> Stok habis</div>`;
+            }
+        } catch (error) {
+            console.error(error);
+            document.getElementById('productDetailCard').innerHTML = '<div style="padding:60px;text-align:center;">Produk tidak ditemukan</div>';
+        }
+    }
+    
+    function incrementQty() {
+        const input = document.getElementById('quantity');
+        let val = parseInt(input.value);
+        const max = currentProduct?.stock || 99;
+        if (val < max && val < 99) {
+            input.value = val + 1;
+        } else {
+            showToast('Stok tidak mencukupi');
+        }
+    }
+    
+    function decrementQty() {
+        const input = document.getElementById('quantity');
+        let val = parseInt(input.value);
+        if (val > 1) {
+            input.value = val - 1;
+        }
+    }
+    
+    async function addToCart() {
+        if (!currentProduct) return;
+        const quantity = parseInt(document.getElementById('quantity').value);
+        
+        try {
+            const cartResponse = await fetch('/api/cart');
+            const cartData = await cartResponse.json();
+            
+            if (cartData.loggedIn) {
+                for (let i = 0; i < quantity; i++) {
+                    await fetch('/api/cart/add', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            id: currentProduct.id,
+                            name: currentProduct.name,
+                            price: currentProduct.price
+                        })
+                    });
+                }
+                showToast(`✓ ${currentProduct.name} (${quantity}x) ditambahkan ke keranjang`);
+            } else {
+                let localCart = JSON.parse(localStorage.getItem('cart') || '[]');
+                const existing = localCart.find(item => item.id === currentProduct.id);
+                if (existing) {
+                    existing.quantity += quantity;
+                } else {
+                    localCart.push({
+                        id: currentProduct.id,
+                        name: currentProduct.name,
+                        price: currentProduct.price,
+                        quantity: quantity,
+                        img: currentProduct.img
+                    });
+                }
+                localStorage.setItem('cart', JSON.stringify(localCart));
+                showToast(`✓ ${currentProduct.name} (${quantity}x) ditambahkan ke keranjang`);
+            }
+            updateCartBadge();
+        } catch (error) {
+            let localCart = JSON.parse(localStorage.getItem('cart') || '[]');
+            const existing = localCart.find(item => item.id === currentProduct.id);
+            if (existing) existing.quantity += quantity;
+            else localCart.push({ id: currentProduct.id, name: currentProduct.name, price: currentProduct.price, quantity: quantity });
+            localStorage.setItem('cart', JSON.stringify(localCart));
+            showToast(`✓ ${currentProduct.name} (${quantity}x) ditambahkan`);
+            updateCartBadge();
+        }
+    }
+    
+    async function updateCartBadge() {
+        try {
+            const response = await fetch('/api/cart');
+            const data = await response.json();
+            let count = 0;
+            if (data.loggedIn) {
+                count = data.count || 0;
+            } else {
+                const localCart = JSON.parse(localStorage.getItem('cart') || '[]');
+                count = localCart.reduce((sum, item) => sum + item.quantity, 0);
+            }
+            const badge = document.getElementById('cartBadge');
+            if (count > 0) {
+                badge.textContent = count;
+                badge.style.display = 'flex';
+            } else {
+                badge.style.display = 'none';
+            }
+        } catch (e) {
+            const localCart = JSON.parse(localStorage.getItem('cart') || '[]');
+            const count = localCart.reduce((sum, item) => sum + item.quantity, 0);
+            const badge = document.getElementById('cartBadge');
+            if (count > 0) {
+                badge.textContent = count;
+                badge.style.display = 'flex';
+            } else {
+                badge.style.display = 'none';
+            }
+        }
+    }
+    
+    loadProductDetail();
+    updateCartBadge();
+</script>
+</body>
+</html>

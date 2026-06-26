@@ -1,0 +1,11 @@
+/node_modules
+/vendor
+/.git
+/.env
+/storage/*.key
+/tests
+/.github
+/phpunit.xml
+/README.md
+/STRUCTURE.md
+/*.html

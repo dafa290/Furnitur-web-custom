@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class Diagram - E-Commerce Furnitur</title>
+    <!-- Library Mermaid JS -->
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ 
+            startOnLoad: true, 
+            theme: 'default',
+            class: { useMaxWidth: false }
+        });
+    </script>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 20px; background-color: #f4f4f9; }
+        .diagram-container { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 40px; overflow-x: auto; display: flex; justify-content: center; }
+        .mermaid { display: flex; justify-content: center; width: 100%; }
+        .mermaid svg { margin: 0 auto; max-width: 100%; height: auto; }
+        h2 { color: #333; text-align: center; border-bottom: 2px solid #ddd; padding-bottom: 10px; margin-bottom: 20px;}
+        .note { text-align: center; color: #666; font-size: 14px; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+
+    <p class="note"><b>Petunjuk:</b> Ini adalah gambar stuktur database dan rancangan object (Class Diagram). Jika terlalu kecil/terpotong, geser kursor di area kotak putih.</p>
+
+    <h2>Class Diagram - E-Commerce Furnitur</h2>
+    <div class="diagram-container">
+        <div class="mermaid">
+            classDiagram
+                class User {
+                    +int id
+                    +String nama
+                    +String email
+                    +String password
+                    +String no_telp
+                    +login()
+                    +register()
+                    +logout()
+                }
+
+                class Pelanggan {
+                    +String alamat_pengiriman
+                    +orderBarang()
+                    +beriUlasan()
+                    +lacakPengiriman()
+                }
+
+                class Produsen {
+                    +String nama_toko
+                    +String status_verifikasi
+                    +kelolaProduk()
+                    +setTagihanPesanan()
+                    +siapkanBarang()
+                }
+
+                class Admin {
+                    +verifikasiAkunProdusen()
+                    +kelolaDataUser()
+                }
+
+                class Produk {
+                    +int id_produk
+                    +int id_produsen
+                    +String nama_furnitur
+                    +String deskripsi
+                    +double harga
+                    +int stok
+                    +String kategori
+                    +boolean bisa_custom
+                    +String foto
+                    +tambahStok()
+                    +kurangiStok()
+                }
+
+                class Pesanan {
+                    +int id_pesanan
+                    +int id_pelanggan
+                    +Date tanggal_pesan
+                    +double total_harga
+                    +String status_pesanan
+                    +checkout()
+                    +updateStatus()
+                }
+
+                class DetailPesanan {
+                    +int id_detail
+                    +int id_pesanan
+                    +int id_produk
+                    +int kuantitas
+                    +double subtotal
+                }
+
+                class CustomPesanan {
+                    +int id_custom
+                    +int id_detail
+                    +String deskripsi_custom
+                    +double biaya_tambahan
+                }
+
+                class Pembayaran {
+                    +int id_pembayaran
+                    +int id_pesanan
+                    +String metode_bayar
+                    +String nomor_va
+                    +double jumlah_bayar
+                    +String status_bayar
+                    +generateVA()
+                    +verifikasiOtomatis()
+                }
+
+                class Pengiriman {
+                    +int id_pengiriman
+                    +int id_pesanan
+                    +String nama_kurir
+                    +String no_resi
+                    +String alamat_tujuan
+                    +String status_pengiriman
+                    +pickupBarang()
+                    +updateResi()
+                }
+
+                class Ulasan {
+                    +int id_ulasan
+                    +int id_produk
+                    +int id_pelanggan
+                    +int rating
+                    +String komentar
+                }
+
+                %% Hubungan / Relasi (Diurutkan agar layout rapi dan stabil di tengah)
+                User <|-- Admin : Inheritance
+                User <|-- Pelanggan : Inheritance
+                User <|-- Produsen : Inheritance
+                
+                Pelanggan "1" -- "0..*" Pesanan : creates
+                Produsen "1" -- "0..*" Produk : manages
+                Pelanggan "1" -- "0..*" Ulasan : submits
+                
+                Pesanan "1" *-- "1..*" DetailPesanan : contains
+                Pesanan "1" -- "1" Pembayaran : has
+                Pesanan "1" -- "1" Pengiriman : uses
+                
+                Produk "1" -- "0..*" Ulasan : receives
+                Produk "1" -- "0..*" DetailPesanan : is_part_of
+                
+                DetailPesanan "1" *-- "0..1" CustomPesanan : has_options
+        </div>
+    </div>
+
+</body>
+</html>

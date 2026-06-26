@@ -1,0 +1,1303 @@
+<!DOCTYPE html>
+<html lang="id" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FurniNest | Premium Furniture</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --cream: #F5F0E8;
+            --warm-white: #FAF7F2;
+            --brown: #5C3D2E;
+            --brown-light: #8B6352;
+            --gold: #C6A15B;
+            --gold-dark: #A27C3E;
+            --sage: #8F9E7C;
+            --terracotta: #C87A5A;
+            --dark: #2C2418;
+            --text-dark: #3A2C1F;
+            --text-light: #7A6B5D;
+            --border-light: #E8DFD5;
+            --shadow: 0 20px 40px rgba(0,0,0,0.05);
+            --shadow-hover: 0 30px 50px rgba(0,0,0,0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--cream);
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(250, 247, 242, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-light);
+            padding: 16px 0;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 32px;
+        }
+
+        .nav-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--brown);
+            letter-spacing: 1px;
+            cursor: pointer;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 36px;
+            align-items: center;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-dark);
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: var(--gold);
+        }
+
+        .nav-user-name {
+            color: var(--gold);
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .nav-icons {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-icons i {
+            font-size: 18px;
+            color: var(--text-dark);
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .nav-icons i:hover {
+            color: var(--gold);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -12px;
+            background: var(--gold);
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Dropdown Menu */
+        .dropdown-content {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: 16px;
+            min-width: 220px;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-light);
+            animation: fadeIn 0.2s ease;
+        }
+
+        .dropdown-content a {
+            display: block;
+            padding: 12px 20px;
+            color: var(--text-dark);
+            text-decoration: none;
+            transition: background 0.2s;
+            font-size: 13px;
+        }
+
+        .dropdown-content a:hover {
+            background: var(--warm-white);
+        }
+
+        .dropdown-content a i {
+            width: 20px;
+            margin-right: 10px;
+            color: var(--gold);
+        }
+
+        .dropdown-content hr {
+            margin: 8px 0;
+            border: none;
+            border-top: 1px solid var(--border-light);
+        }
+
+        .dropdown-content a:last-child i {
+            color: #dc2626;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            padding-top: 80px;
+            gap: 60px;
+            flex-wrap: wrap;
+        }
+
+        .hero-content {
+            flex: 1;
+            min-width: 280px;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            font-size: 12px;
+            letter-spacing: 3px;
+            color: var(--gold);
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(42px, 5vw, 68px);
+            font-weight: 600;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            color: var(--brown);
+        }
+
+        .hero-title em {
+            font-style: italic;
+            color: var(--gold);
+        }
+
+        .hero-desc {
+            font-size: 16px;
+            line-height: 1.7;
+            color: var(--text-light);
+            max-width: 460px;
+            margin-bottom: 36px;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--brown);
+            color: white;
+            padding: 14px 32px;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            background: var(--gold);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(198, 161, 91, 0.2);
+        }
+
+        .hero-image {
+            flex: 1;
+            min-width: 280px;
+            position: relative;
+        }
+
+        .hero-image video {
+            width: 100%;
+            border-radius: 32px;
+            box-shadow: var(--shadow-hover);
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 32px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--gold);
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Section Titles */
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 36px;
+            font-weight: 600;
+            color: var(--brown);
+            margin-bottom: 16px;
+        }
+
+        .section-eyebrow {
+            font-size: 12px;
+            letter-spacing: 3px;
+            color: var(--gold);
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        /* Category Cards */
+        .category-section {
+            padding: 60px 0;
+        }
+
+        .category-scroll {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            padding-bottom: 12px;
+            scrollbar-width: thin;
+        }
+
+        .category-scroll::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .category-scroll::-webkit-scrollbar-track {
+            background: var(--border-light);
+            border-radius: 4px;
+        }
+
+        .category-scroll::-webkit-scrollbar-thumb {
+            background: var(--gold);
+            border-radius: 4px;
+        }
+
+        .cat-card {
+            flex: 0 0 180px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .cat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .cat-card.active .cat-icon {
+            background: var(--gold);
+            color: white;
+            border-color: var(--gold);
+        }
+
+        .cat-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 16px;
+            background: white;
+            border: 1px solid var(--border-light);
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: var(--gold);
+            transition: all 0.3s;
+        }
+
+        .cat-card span {
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+
+        /* Carousel Iklan */
+        .carousel-container {
+            background: white;
+            border-radius: 32px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            margin: 40px 0 20px;
+            position: relative;
+        }
+
+        .carousel-wrapper {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .carousel-slides-ads {
+            display: flex;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .carousel-slide-ad {
+            min-width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 48px;
+            padding: 48px 56px;
+            background: linear-gradient(135deg, #FAF7F2 0%, #FFFFFF 100%);
+        }
+
+        .carousel-content {
+            flex: 1;
+        }
+
+        .carousel-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            color: white;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 6px 16px;
+            border-radius: 40px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            box-shadow: 0 4px 12px rgba(198, 161, 91, 0.25);
+        }
+
+        .carousel-content h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--brown);
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+
+        .carousel-content p {
+            color: var(--text-light);
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 28px;
+            max-width: 440px;
+        }
+
+        .carousel-image {
+            flex: 1;
+            border-radius: 28px;
+            overflow: hidden;
+            box-shadow: var(--shadow-hover);
+        }
+
+        .carousel-image img {
+            width: 100%;
+            height: 260px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .carousel-slide-ad:hover .carousel-image img {
+            transform: scale(1.03);
+        }
+
+        .carousel-prev-ad,
+        .carousel-next-ad {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--brown);
+            color: white;
+            border: none;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s ease;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .carousel-prev-ad:hover,
+        .carousel-next-ad:hover {
+            background: var(--gold);
+            transform: translateY(-50%) scale(1.08);
+            box-shadow: 0 8px 20px rgba(198, 161, 91, 0.3);
+        }
+
+        .carousel-prev-ad { left: 24px; }
+        .carousel-next-ad { right: 24px; }
+
+        .carousel-dots-ad {
+            position: absolute;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 12px;
+            z-index: 10;
+        }
+
+        .dot-ad {
+            width: 10px;
+            height: 10px;
+            background: rgba(92, 61, 46, 0.3);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .dot-ad.active {
+            background: var(--gold);
+            width: 28px;
+            border-radius: 10px;
+        }
+
+        @keyframes fadeSlideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .carousel-slide-ad.active .carousel-content {
+            animation: fadeSlideUp 0.5s ease forwards;
+        }
+
+        .carousel-slide-ad.active .carousel-image {
+            animation: fadeSlideUp 0.5s 0.1s ease forwards;
+        }
+
+        /* Product Grid */
+        .products-section {
+            padding: 40px 0 80px;
+        }
+
+        .layout-dual {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            gap: 40px;
+        }
+
+        .filter-sidebar {
+            background: white;
+            border-radius: 24px;
+            padding: 28px 24px;
+            position: sticky;
+            top: 92px;
+            box-shadow: var(--shadow);
+        }
+
+        .filter-group {
+            margin-bottom: 24px;
+        }
+
+        .filter-label {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--brown);
+            margin-bottom: 14px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .reset-link {
+            font-size: 10px;
+            color: var(--text-light);
+            cursor: pointer;
+        }
+
+        .reset-link:hover { color: var(--gold); }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--border-light);
+            border-radius: 16px;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            background: var(--warm-white);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--gold);
+        }
+
+        .cat-filter-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .cat-filter-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .cat-filter-item input {
+            accent-color: var(--gold);
+            width: 16px;
+            height: 16px;
+        }
+
+        .price-slider {
+            width: 100%;
+            accent-color: var(--gold);
+            cursor: pointer;
+        }
+
+        .price-values {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: var(--text-light);
+            margin-top: 8px;
+        }
+
+        .swatch-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .swatch {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .swatch:hover, .swatch.active {
+            border-color: var(--gold);
+            transform: scale(1.1);
+        }
+
+        .material-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .material-opt {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .material-opt input {
+            accent-color: var(--gold);
+        }
+
+        .divider {
+            border: none;
+            border-top: 1px solid var(--border-light);
+            margin: 20px 0;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 28px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 24px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: var(--shadow);
+        }
+
+        .product-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .product-img-wrap {
+            height: 220px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .product-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .product-card:hover .product-img-wrap img {
+            transform: scale(1.05);
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: var(--gold);
+            color: white;
+            font-size: 10px;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-category {
+            font-size: 11px;
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+
+        .product-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--brown);
+        }
+
+        .product-meta {
+            font-size: 12px;
+            color: var(--text-light);
+            margin-bottom: 12px;
+        }
+
+        .product-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .product-price {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--gold-dark);
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-cart, .btn-wishlist {
+            width: 36px;
+            height: 36px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid var(--border-light);
+            background: white;
+        }
+
+        .btn-cart:hover {
+            background: var(--gold);
+            color: white;
+            border-color: var(--gold);
+        }
+
+        .btn-wishlist:hover {
+            background: #ef4444;
+            color: white;
+            border-color: #ef4444;
+        }
+
+        .no-products {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 60px;
+            color: var(--text-light);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--brown);
+            color: white;
+            padding: 60px 0 30px;
+            margin-top: 60px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: var(--gold);
+        }
+
+        .footer-col p, .footer-col a {
+            font-size: 14px;
+            color: rgba(255,255,255,0.7);
+            line-height: 1.8;
+            text-decoration: none;
+            display: block;
+        }
+
+        .footer-col a:hover { color: var(--gold); }
+
+        .social-icons {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .social-icons i {
+            width: 36px;
+            height: 36px;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .social-icons i:hover {
+            background: var(--gold);
+            border-color: var(--gold);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 12px;
+            color: rgba(255,255,255,0.5);
+        }
+
+        .toast-notif {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--brown);
+            color: white;
+            padding: 12px 28px;
+            border-radius: 40px;
+            font-size: 14px;
+            z-index: 9999;
+            transition: all 0.3s;
+            opacity: 0;
+        }
+
+        .toast-notif.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .layout-dual { grid-template-columns: 1fr; }
+            .filter-sidebar { position: static; }
+            .hero { flex-direction: column; text-align: center; }
+            .hero-desc { margin-left: auto; margin-right: auto; }
+            .hero-stats { justify-content: center; }
+            .footer-grid { grid-template-columns: repeat(2, 1fr); }
+            .nav-menu { display: none; }
+            .carousel-slide-ad {
+                flex-direction: column;
+                text-align: center;
+                padding: 36px 28px;
+                gap: 24px;
+            }
+            .carousel-content p { margin-left: auto; margin-right: auto; }
+            .carousel-content h3 { font-size: 26px; }
+            .carousel-prev-ad, .carousel-next-ad {
+                width: 40px;
+                height: 40px;
+                font-size: 16px;
+            }
+            .carousel-prev-ad { left: 12px; }
+            .carousel-next-ad { right: 12px; }
+            .carousel-image img { height: 200px; }
+        }
+
+        @media (max-width: 600px) {
+            .container { padding: 0 20px; }
+            .footer-grid { grid-template-columns: 1fr; }
+            .carousel-slide-ad { padding: 28px 20px; }
+            .carousel-content h3 { font-size: 22px; }
+            .carousel-badge { font-size: 10px; padding: 4px 12px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <div class="container nav-inner">
+        <div class="logo" onclick="window.location.href='/home'"><h1>FurniNest</h1></div>
+        <div class="nav-menu">
+            <a href="/home">Beranda</a>
+            <a href="#productsSection">Produk</a>
+            <a href="#categorySection">Kategori</a>
+            <a href="#footer">Kontak</a>
+            <div th:if="${session.currentUser == null}">
+                <a href="/">Login</a>
+                <a href="/register">Daftar</a>
+            </div>
+            <div th:if="${session.currentUser != null}" style="position: relative;">
+                <span class="nav-user-name" onclick="toggleDropdown()">👤 [[${session.currentUser.fullName}]] <i class="fas fa-chevron-down" style="font-size: 10px;"></i></span>
+                <div id="profileDropdown" class="dropdown-content" style="display: none;">
+                    <a href="/profile?tab=profile"><i class="fas fa-user"></i> Informasi Akun</a>
+                    <a href="/alamat/manage"><i class="fas fa-map-marker-alt"></i> Alamat Saya</a>
+                    <a href="/profile?tab=orders"><i class="fas fa-box"></i> Riwayat Pesanan</a>
+                    <a href="/profile?tab=wishlist"><i class="fas fa-heart"></i> Wishlist</a>
+                    <a href="/profile?tab=password"><i class="fas fa-lock"></i> Ganti Password</a>
+                    <hr>
+                    <a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </div>
+            </div>
+        </div>
+        <div class="nav-icons">
+            <i class="fas fa-search" onclick="toggleSearchBar()"></i>
+            <div style="position: relative;">
+                <i class="fas fa-shopping-bag" onclick="window.location.href='/checkout'"></i>
+                <span class="cart-badge" id="cartBadge" style="display: none;">0</span>
+            </div>
+        </div>
+    </div>
+    <div id="navbarSearchBar" style="display: none; padding: 12px 32px 20px;">
+        <input type="text" id="navbarSearchInput" class="search-input" placeholder="Cari furniture...">
+    </div>
+</div>
+
+<main>
+    <div class="container">
+        <!-- Hero Section dengan Video -->
+        <div class="hero">
+            <div class="hero-content">
+                <div class="hero-badge">✦ Koleksi 2025 ✦</div>
+                <h1 class="hero-title">Temukan Furniture<br><em>Impian Anda</em></h1>
+                <p class="hero-desc">Koleksi eksklusif dengan sentuhan hangat kayu natural dan desain kontemporer untuk ruang yang penuh karakter.</p>
+                <button class="btn-primary" onclick="scrollToProducts()">Belanja Sekarang <i class="fas fa-arrow-right"></i></button>
+                <div class="hero-stats">
+                    <div class="stat-item"><div class="stat-number">500+</div><div class="stat-label">Produk Premium</div></div>
+                    <div class="stat-item"><div class="stat-number">4.9★</div><div class="stat-label">Rating Pelanggan</div></div>
+                    <div class="stat-item"><div class="stat-number">Gratis</div><div class="stat-label">Ongkir JKT</div></div>
+                </div>
+            </div>
+            <div class="hero-image">
+                <video autoplay muted loop playsinline>
+                    <source src="/videos/furniture-preview.mp4" type="video/mp4">
+                    Browser tidak mendukung video.
+                </video>
+            </div>
+        </div>
+
+        <!-- Category Section -->
+        <div class="category-section" id="categorySection">
+            <span class="section-eyebrow">Jelajahi</span>
+            <h2 class="section-title">Koleksi Unggulan</h2>
+            <div class="category-scroll" id="categoryScroll">
+                <div class="cat-card" data-cat="Kursi" onclick="filterByCategory('Kursi')"><div class="cat-icon"><i class="fas fa-couch"></i></div><span>Kursi</span></div>
+                <div class="cat-card" data-cat="Meja" onclick="filterByCategory('Meja')"><div class="cat-icon"><i class="fas fa-table"></i></div><span>Meja</span></div>
+                <div class="cat-card" data-cat="Sofa" onclick="filterByCategory('Sofa')"><div class="cat-icon"><i class="fas fa-couch"></i></div><span>Sofa</span></div>
+                <div class="cat-card" data-cat="Lemari" onclick="filterByCategory('Lemari')"><div class="cat-icon"><i class="fas fa-archive"></i></div><span>Lemari</span></div>
+                <div class="cat-card" data-cat="Tempat Tidur" onclick="filterByCategory('Tempat Tidur')"><div class="cat-icon"><i class="fas fa-bed"></i></div><span>Tempat Tidur</span></div>
+            </div>
+        </div>
+
+        <!-- Carousel Iklan Section -->
+        <div class="promo-section" id="carouselSection">
+            <span class="section-eyebrow">✦ Promo Spesial ✦</span>
+            <h2 class="section-title">Penawaran <em>Terbatas</em></h2>
+            <div class="carousel-container">
+                <div class="carousel-wrapper">
+                    <div class="carousel-slides-ads" id="carouselSlides">
+                        <div class="carousel-slide-ad active">
+                            <div class="carousel-content">
+                                <div class="carousel-badge">🔥 HOT DEAL</div>
+                                <h3>Diskon 30% untuk Sofa Premium</h3>
+                                <p>Koleksi sofa terbaru dengan pilihan warna hangat dan bahan lembut untuk ruang tamu elegan.</p>
+                                <button class="btn-primary" onclick="scrollToProducts()">Lihat Promo <i class="fas fa-arrow-right"></i></button>
+                            </div>
+                            <div class="carousel-image"><img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&h=300&fit=crop" alt="Sofa Promo"></div>
+                        </div>
+                        <div class="carousel-slide-ad">
+                            <div class="carousel-content">
+                                <div class="carousel-badge">🚚 GRATIS ONGKIR</div>
+                                <h3>Gratis Antar & Pasang</h3>
+                                <p>Nikmati layanan antar dan pemasangan gratis untuk setiap pembelian di atas Rp 2.000.000.</p>
+                                <button class="btn-primary" onclick="scrollToProducts()">Belanja Sekarang <i class="fas fa-arrow-right"></i></button>
+                            </div>
+                            <div class="carousel-image"><img src="https://images.unsplash.com/photo-1618220179428-22790b461013?w=400&h=300&fit=crop" alt="Free Delivery"></div>
+                        </div>
+                        <div class="carousel-slide-ad">
+                            <div class="carousel-content">
+                                <div class="carousel-badge">🎨 DESAIN EKSKLUSIF</div>
+                                <h3>Interior Styling Gratis</h3>
+                                <p>Dapatkan konsultasi desain interior gratis untuk membuat rumah Anda lebih hidup dan berkelas.</p>
+                                <button class="btn-primary" onclick="scrollToProducts()">Konsultasi <i class="fas fa-arrow-right"></i></button>
+                            </div>
+                            <div class="carousel-image"><img src="https://wallpaperaccess.com/full/2594902.jpg" alt="Interior Design"></div>
+                        </div>
+                        <div class="carousel-slide-ad">
+                            <div class="carousel-content">
+                                <div class="carousel-badge">🪑 KOLEKSI BARU</div>
+                                <h3>Meja & Kursi Premium</h3>
+                                <p>Kombinasi meja elegan dan kursi nyaman untuk ruang makan impian Anda.</p>
+                                <button class="btn-primary" onclick="scrollToProducts()">Jelajahi <i class="fas fa-arrow-right"></i></button>
+                            </div>
+                            <div class="carousel-image"><img src="https://images.unsplash.com/photo-1533090481720-856c6e3c1fdc?w=400&h=300&fit=crop" alt="Dining Set"></div>
+                        </div>
+                        <div class="carousel-slide-ad">
+                            <div class="carousel-content">
+                                <div class="carousel-badge">⭐ 4.9★ RATING</div>
+                                <h3>Kepuasan Pelanggan #1</h3>
+                                <p>Bergabung dengan 500+ pelanggan puas yang telah mempercayakan furnitur impian mereka.</p>
+                                <button class="btn-primary" onclick="scrollToProducts()">Lihat Testimoni <i class="fas fa-arrow-right"></i></button>
+                            </div>
+                            <div class="carousel-image"><img src="https://images.unsplash.com/photo-1505693314120-0d443867891c?w=400&h=300&fit=crop" alt="Customer Review"></div>
+                        </div>
+                    </div>
+                    <button class="carousel-prev-ad" onclick="prevSlideAd()">❮</button>
+                    <button class="carousel-next-ad" onclick="nextSlideAd()">❯</button>
+                    <div class="carousel-dots-ad" id="carouselDotsAd">
+                        <span class="dot-ad active" onclick="goToSlideAd(0)"></span>
+                        <span class="dot-ad" onclick="goToSlideAd(1)"></span>
+                        <span class="dot-ad" onclick="goToSlideAd(2)"></span>
+                        <span class="dot-ad" onclick="goToSlideAd(3)"></span>
+                        <span class="dot-ad" onclick="goToSlideAd(4)"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Products Section -->
+        <div class="products-section" id="productsSection">
+            <span class="section-eyebrow">Koleksi Lengkap</span>
+            <h2 class="section-title">Semua Produk Furniture</h2>
+            <div class="layout-dual">
+                <aside class="filter-sidebar">
+                    <div class="filter-group">
+                        <div class="filter-label">Cari Produk</div>
+                        <input type="text" id="searchInput" class="search-input" placeholder="Cari furniture...">
+                    </div>
+                    <hr class="divider">
+                    <div class="filter-group">
+                        <div class="filter-label">Kategori <span class="reset-link" id="resetCategory">reset</span></div>
+                        <div class="cat-filter-list" id="categoryFilter">
+                            <label class="cat-filter-item"><input type="checkbox" value="Kursi"> Kursi</label>
+                            <label class="cat-filter-item"><input type="checkbox" value="Meja"> Meja</label>
+                            <label class="cat-filter-item"><input type="checkbox" value="Sofa"> Sofa</label>
+                            <label class="cat-filter-item"><input type="checkbox" value="Lemari"> Lemari</label>
+                            <label class="cat-filter-item"><input type="checkbox" value="Tempat Tidur"> Tempat Tidur</label>
+                        </div>
+                    </div>
+                    <hr class="divider">
+                    <div class="filter-group">
+                        <div class="filter-label">Harga <span class="reset-link" id="resetPrice">reset</span></div>
+                        <input type="range" id="priceSlider" class="price-slider" min="0" max="25000000" step="500000" value="25000000">
+                        <div class="price-values"><span>Rp 0</span><span id="maxPriceLabel">Rp 25.000.000+</span></div>
+                    </div>
+                    <hr class="divider">
+                    <div class="filter-group">
+                        <div class="filter-label">Warna</div>
+                        <div class="swatch-group" id="swatchContainer">
+                            <div class="swatch" data-color="Natural" style="background: #D9C5B2;" onclick="filterByColor('Natural')" title="Natural"></div>
+                            <div class="swatch" data-color="Walnut" style="background: #6B4F3C;" onclick="filterByColor('Walnut')" title="Walnut"></div>
+                            <div class="swatch" data-color="Olive" style="background: #8F9E7C;" onclick="filterByColor('Olive')" title="Olive"></div>
+                            <div class="swatch" data-color="Beige" style="background: #F2E3D5;" onclick="filterByColor('Beige')" title="Beige"></div>
+                            <div class="swatch" data-color="Charcoal" style="background: #4A4A48;" onclick="filterByColor('Charcoal')" title="Charcoal"></div>
+                        </div>
+                    </div>
+                    <hr class="divider">
+                    <div class="filter-group">
+                        <div class="filter-label">Bahan</div>
+                        <div class="material-options" id="materialFilter">
+                            <label class="material-opt"><input type="checkbox" value="Kayu"> Kayu</label>
+                            <label class="material-opt"><input type="checkbox" value="Metal"> Metal</label>
+                            <label class="material-opt"><input type="checkbox" value="Fabric"> Fabric</label>
+                        </div>
+                    </div>
+                </aside>
+                <div class="product-grid" id="productGrid"></div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="footer" id="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-col"><h4>FurniNest</h4><p>Furniture premium dengan kualitas terbaik dan desain timeless untuk hunian impian Anda.</p></div>
+            <div class="footer-col"><h4>Navigasi</h4><a href="/home">Beranda</a><a href="#productsSection">Produk</a><a href="#categorySection">Kategori</a><a href="#footer">Kontak</a></div>
+            <div class="footer-col"><h4>Kontak</h4><p>📞 +62 812 3456 7890</p><p>✉️ hello@furninest.com</p><p>📍 Jakarta, Indonesia</p></div>
+            <div class="footer-col"><h4>Ikuti Kami</h4><div class="social-icons"><i class="fab fa-instagram" onclick="showSocialNotification('Instagram')"></i><i class="fab fa-pinterest" onclick="showSocialNotification('Pinterest')"></i><i class="fab fa-facebook-f" onclick="showSocialNotification('Facebook')"></i></div></div>
+        </div>
+        <div class="copyright">© 2025 FurniNest — Premium Furniture for Spaces with Character</div>
+    </div>
+</footer>
+
+<div id="toastMsg" class="toast-notif">Ditambahkan ke keranjang</div>
+
+<script>
+    // ============ CAROUSEL IKLAN (OTOMATIS + MANUAL) ============
+    let currentSlideAd = 0;
+    let slidesAd = [];
+    let dotsAd = [];
+    let slideIntervalAd;
+    let isTransitioning = false;
+
+    function initCarousel() {
+        slidesAd = document.querySelectorAll('.carousel-slide-ad');
+        dotsAd = document.querySelectorAll('.dot-ad');
+        if (!slidesAd.length) return;
+        showSlideAd(0);
+        startAutoSlide();
+    }
+
+    function showSlideAd(index) {
+        if (isTransitioning || !slidesAd.length) return;
+        if (index >= slidesAd.length) index = 0;
+        if (index < 0) index = slidesAd.length - 1;
+        
+        isTransitioning = true;
+        currentSlideAd = index;
+        
+        const offset = -currentSlideAd * 100;
+        const slidesContainer = document.querySelector('.carousel-slides-ads');
+        if (slidesContainer) slidesContainer.style.transform = `translateX(${offset}%)`;
+        
+        slidesAd.forEach((slide, i) => slide.classList.toggle('active', i === currentSlideAd));
+        dotsAd.forEach((dot, i) => dot.classList.toggle('active', i === currentSlideAd));
+        
+        setTimeout(() => { isTransitioning = false; }, 500);
+    }
+
+    function nextSlideAd() {
+        if (isTransitioning) return;
+        currentSlideAd++;
+        if (currentSlideAd >= slidesAd.length) currentSlideAd = 0;
+        showSlideAd(currentSlideAd);
+        resetAutoSlide();
+    }
+
+    function prevSlideAd() {
+        if (isTransitioning) return;
+        currentSlideAd--;
+        if (currentSlideAd < 0) currentSlideAd = slidesAd.length - 1;
+        showSlideAd(currentSlideAd);
+        resetAutoSlide();
+    }
+
+    function goToSlideAd(index) {
+        if (isTransitioning || index === currentSlideAd) return;
+        currentSlideAd = index;
+        showSlideAd(currentSlideAd);
+        resetAutoSlide();
+    }
+
+    function startAutoSlide() {
+        if (slideIntervalAd) clearInterval(slideIntervalAd);
+        slideIntervalAd = setInterval(() => {
+            if (!isTransitioning) {
+                currentSlideAd++;
+                if (currentSlideAd >= slidesAd.length) currentSlideAd = 0;
+                showSlideAd(currentSlideAd);
+            }
+        }, 5000);
+    }
+
+    function resetAutoSlide() {
+        if (slideIntervalAd) { clearInterval(slideIntervalAd); startAutoSlide(); }
+    }
+
+    // Sample Products
+    const sampleProducts = [
+        { id: 1, name: 'Kursi Rektor Oak', category: 'Kursi', price: 2800000, material: 'Kayu', color: 'Natural', badge: 'Terlaris', img: 'https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=500&h=400&fit=crop' },
+        { id: 2, name: 'Meja Vittoria Marble', category: 'Meja', price: 6500000, material: 'Metal', color: 'Charcoal', badge: 'Baru', img: 'https://images.unsplash.com/photo-1533090481720-856c6e3c1fdc?w=500&h=400&fit=crop' },
+        { id: 3, name: 'Sofa Velours Sage', category: 'Sofa', price: 12500000, material: 'Fabric', color: 'Olive', badge: '', img: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=500&h=400&fit=crop' },
+        { id: 4, name: 'Lemari Walnut Series', category: 'Lemari', price: 8900000, material: 'Kayu', color: 'Walnut', badge: '', img: 'https://images.unsplash.com/photo-1595428774223-ef52624120d2?w=500&h=400&fit=crop' },
+        { id: 5, name: 'Tempat Tidur Arco', category: 'Tempat Tidur', price: 15000000, material: 'Kayu', color: 'Natural', badge: 'Premium', img: 'https://images.unsplash.com/photo-1505693314120-0d443867891c?w=500&h=400&fit=crop' },
+        { id: 6, name: 'Kursi Laris Rotan', category: 'Kursi', price: 1200000, material: 'Kayu', color: 'Beige', badge: '', img: 'https://nagamas-furniture.com/wp-content/uploads/2025/10/2-Kursi-Rotan-Natural-Tipe-Banten-Banten-Type-Natural-Rattan-Chair.jpg' },
+        { id: 7, name: 'Meja Kopi Hex', category: 'Meja', price: 3400000, material: 'Metal', color: 'Charcoal', badge: '', img: 'https://images.unsplash.com/photo-1532372320572-cda25653a26d?w=500&h=400&fit=crop' },
+        { id: 8, name: 'Sofa Curve Beige', category: 'Sofa', price: 9800000, material: 'Fabric', color: 'Beige', badge: 'Baru', img: 'https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?w=500&h=400&fit=crop' },
+    ];
+
+    let activeColor = null;
+    let activeCategoryTop = null;
+
+    function formatRp(n) { return 'Rp ' + n.toLocaleString('id-ID'); }
+
+    function renderProducts(list) {
+        const grid = document.getElementById('productGrid');
+        if (!list.length) { grid.innerHTML = '<div class="no-products"><i class="fas fa-box-open"></i><p>Tidak ada produk ditemukan</p></div>'; return; }
+        grid.innerHTML = list.map(p => `
+            <div class="product-card" onclick="window.location.href='/product/${p.id}'">
+                <div class="product-img-wrap"><img src="${p.img}" alt="${p.name}" loading="lazy">${p.badge ? `<div class="product-badge">${p.badge}</div>` : ''}</div>
+                <div class="product-info">
+                    <div class="product-category">${p.category}</div>
+                    <div class="product-name">${p.name}</div>
+                    <div class="product-meta">${p.material} • ${p.color}</div>
+                    <div class="product-footer">
+                        <div class="product-price">${formatRp(p.price)}</div>
+                        <div class="product-actions">
+                            <div class="btn-wishlist" onclick="event.stopPropagation();addToWishlist(${p.id})"><i class="far fa-heart"></i></div>
+                            <div class="btn-cart" onclick="event.stopPropagation();addToCart(${p.id})"><i class="fas fa-shopping-bag"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function getFiltered() {
+        const search = document.getElementById('searchInput').value.toLowerCase();
+        const maxPrice = parseInt(document.getElementById('priceSlider').value);
+        const checkedCats = [...document.querySelectorAll('#categoryFilter input:checked')].map(c => c.value);
+        const checkedMats = [...document.querySelectorAll('#materialFilter input:checked')].map(c => c.value);
+        return sampleProducts.filter(p => {
+            if (search && !p.name.toLowerCase().includes(search)) return false;
+            if (p.price > maxPrice) return false;
+            if (checkedCats.length && !checkedCats.includes(p.category)) return false;
+            if (checkedMats.length && !checkedMats.includes(p.material)) return false;
+            if (activeColor && p.color !== activeColor) return false;
+            return true;
+        });
+    }
+
+    function applyFilters() { renderProducts(getFiltered()); }
+    function filterByCategory(cat) {
+        activeCategoryTop = cat;
+        document.querySelectorAll('#categoryFilter input').forEach(cb => cb.checked = cb.value === cat);
+        document.querySelectorAll('.cat-card').forEach(c => c.classList.toggle('active', c.dataset.cat === cat));
+        applyFilters();
+        document.getElementById('productsSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    function filterByColor(col) { activeColor = (activeColor === col) ? null : col; document.querySelectorAll('.swatch').forEach(s => s.classList.toggle('active', s.dataset.color === activeColor)); applyFilters(); }
+    function scrollToProducts() { document.getElementById('productsSection').scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+    function showToast(msg) { const toast = document.getElementById('toastMsg'); toast.textContent = msg; toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 2500); }
+    function showSocialNotification(name) { showToast(`Menuju halaman ${name}`); }
+    function toggleSearchBar() { const bar = document.getElementById('navbarSearchBar'); bar.style.display = bar.style.display === 'none' ? 'block' : 'none'; }
+
+    // Event Listeners
+    document.getElementById('searchInput').addEventListener('input', applyFilters);
+    document.getElementById('priceSlider').addEventListener('input', function() { const val = parseInt(this.value); document.getElementById('maxPriceLabel').textContent = val >= 25000000 ? 'Rp 25.000.000+' : formatRp(val); applyFilters(); });
+    document.querySelectorAll('#categoryFilter input, #materialFilter input').forEach(cb => cb.addEventListener('change', applyFilters));
+    document.getElementById('resetCategory').addEventListener('click', () => { document.querySelectorAll('#categoryFilter input').forEach(cb => cb.checked = false); document.querySelectorAll('.cat-card').forEach(c => c.classList.remove('active')); activeCategoryTop = null; applyFilters(); });
+    document.getElementById('resetPrice').addEventListener('click', () => { const slider = document.getElementById('priceSlider'); slider.value = 25000000; document.getElementById('maxPriceLabel').textContent = 'Rp 25.000.000+'; applyFilters(); });
+
+    // Navbar search sync
+    const navbarSearch = document.getElementById('navbarSearchInput');
+    const sidebarSearch = document.getElementById('searchInput');
+    if (navbarSearch) navbarSearch.addEventListener('input', function(e) { sidebarSearch.value = e.target.value; sidebarSearch.dispatchEvent(new Event('input')); });
+
+    // Cart functions
+    let isLoggedIn = false;
+    async function updateCartBadge() {
+        try {
+            const response = await fetch('/api/cart');
+            const data = await response.json();
+            let count = data.loggedIn ? (data.count || 0) : JSON.parse(localStorage.getItem('cart') || '[]').reduce((sum, item) => sum + (item.quantity || 1), 0);
+            const badge = document.getElementById('cartBadge');
+            if (count > 0) { badge.textContent = count; badge.style.display = 'flex'; } else { badge.style.display = 'none'; }
+        } catch (error) { const count = JSON.parse(localStorage.getItem('cart') || '[]').reduce((sum, item) => sum + (item.quantity || 1), 0); const badge = document.getElementById('cartBadge'); if (count > 0) { badge.textContent = count; badge.style.display = 'flex'; } else { badge.style.display = 'none'; } }
+    }
+    window.addToCart = async function(productId) {
+        const product = sampleProducts.find(p => p.id === productId);
+        if (!product) return;
+        try {
+            const cartResponse = await fetch('/api/cart');
+            const cartData = await cartResponse.json();
+            if (cartData.loggedIn) { await fetch('/api/cart/add', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: product.id, name: product.name, price: product.price }) }); showToast(`✅ ${product.name} ditambahkan ke keranjang`); }
+            else { let localCart = JSON.parse(localStorage.getItem('cart') || '[]'); const existing = localCart.find(item => item.id === product.id); if (existing) existing.quantity = (existing.quantity || 1) + 1; else localCart.push({ id: product.id, name: product.name, price: product.price, quantity: 1, img: product.img }); localStorage.setItem('cart', JSON.stringify(localCart)); showToast(`✅ ${product.name} ditambahkan ke keranjang`); }
+            updateCartBadge();
+        } catch (error) { let localCart = JSON.parse(localStorage.getItem('cart') || '[]'); const existing = localCart.find(item => item.id === product.id); if (existing) existing.quantity = (existing.quantity || 1) + 1; else localCart.push({ id: product.id, name: product.name, price: product.price, quantity: 1 }); localStorage.setItem('cart', JSON.stringify(localCart)); showToast(`✅ ${product.name} ditambahkan ke keranjang`); updateCartBadge(); }
+    };
+    window.addToWishlist = function(productId) { if (!isLoggedIn) { showToast('Silakan login untuk menambahkan ke wishlist'); return; } showToast('❤️ Ditambahkan ke wishlist'); };
+
+    // Dropdown function
+    function toggleDropdown() {
+        const dropdown = document.getElementById('profileDropdown');
+        if (dropdown) {
+            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+        }
+    }
+
+    // Close dropdown when clicking outside
+    window.addEventListener('click', function(event) {
+        const dropdown = document.getElementById('profileDropdown');
+        const trigger = document.querySelector('.nav-user-name');
+        if (dropdown && trigger && !trigger.contains(event.target) && !dropdown.contains(event.target)) {
+            dropdown.style.display = 'none';
+        }
+    });
+
+    // Initial render
+    renderProducts(sampleProducts);
+    updateCartBadge();
+    initCarousel();
+</script>
+</body>
+</html>

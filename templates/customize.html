@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="id" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Customizer Lemari - FurniNest</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <style>
+        :root {
+            --primary: #a855f7;
+            --primary-dark: #7c3aed;
+            --bg-dark: #0f172a;
+            --glass: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-dark);
+            color: white;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        .customizer-container {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            min-height: 100vh;
+            gap: 20px;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        /* Viewport 3D */
+        .preview-area {
+            position: sticky;
+            top: 20px;
+            height: calc(100vh - 40px);
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #canvas-container {
+            width: 100%;
+            height: 100%;
+            cursor: grab;
+        }
+
+        .viewer-controls {
+            position: absolute;
+            bottom: 20px;
+            background: rgba(0,0,0,0.5);
+            padding: 10px 20px;
+            border-radius: 40px;
+            font-size: 12px;
+            pointer-events: none;
+        }
+
+        /* Options Area */
+        .options-area {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        .option-group {
+            margin-bottom: 30px;
+            animation: fadeIn 0.5s ease-out both;
+        }
+
+        .option-group h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .grid-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 10px;
+        }
+
+        .option-btn {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--glass-border);
+            padding: 12px 10px;
+            border-radius: 12px;
+            color: #94a3b8;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 13px;
+            text-align: center;
+        }
+
+        .option-btn:hover {
+            background: rgba(255,255,255,0.1);
+            transform: translateY(-2px);
+        }
+
+        .option-btn.selected {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            box-shadow: 0 10px 15px -3px rgba(168, 85, 247, 0.4);
+        }
+
+        /* Sticky Pricing */
+        .sticky-footer {
+            position: sticky;
+            bottom: 0;
+            background: #1e293b;
+            margin: 0 -30px -30px -30px;
+            padding: 25px 30px;
+            border-top: 1px solid var(--glass-border);
+            border-radius: 0 0 30px 30px;
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .total-price {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .btn-add-custom {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #a855f7, #7c3aed);
+            border: none;
+            border-radius: 15px;
+            color: white;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-add-custom:hover {
+            filter: brightness(1.1);
+            transform: scale(1.02);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 968px) {
+            .customizer-container {
+                grid-template-columns: 1fr;
+            }
+            .preview-area {
+                height: 300px;
+                position: relative;
+                top: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="customizer-container">
+    <div class="preview-area">
+        <div id="canvas-container"></div>
+        <div class="viewer-controls">Gunakan Mouse untuk Putar Balik Lemari</div>
+    </div>
+    
+    <div class="options-area">
+        <h2 style="font-size: 28px; margin-bottom: 5px;">Build Your Nest</h2>
+        <p style="color: #94a3b8; margin-bottom: 30px;">Sesuaikan setiap detail lemari impian Anda</p>
+        
+        <div class="option-group" style="animation-delay: 0.1s;">
+            <h3>🎨 Pilihan Warna</h3>
+            <div class="grid-options">
+                <button class="option-btn selected" data-color="white" onclick="updateConfig('color', 'white', 0)">⚪ Putih</button>
+                <button class="option-btn" data-color="brown" onclick="updateConfig('color', 'brown', 500000)">🟤 Coklat</button>
+                <button class="option-btn" data-color="black" onclick="updateConfig('color', 'black', 750000)">⚫ Hitam</button>
+                <button class="option-btn" data-color="natural" onclick="updateConfig('color', 'natural', 300000)">🪵 Oak</button>
+            </div>
+        </div>
+        
+        <div class="option-group" style="animation-delay: 0.2s;">
+            <h3>📏 Kapasitas (Ukuran)</h3>
+            <div class="grid-options">
+                <button class="option-btn selected" data-size="1" onclick="updateConfig('size', '1', 0)">1 Pintu</button>
+                <button class="option-btn" data-size="2" onclick="updateConfig('size', '2', 1200000)">2 Pintu</button>
+                <button class="option-btn" data-size="3" onclick="updateConfig('size', '3', 2800000)">3 Pintu</button>
+            </div>
+        </div>
+        
+        <div class="option-group" style="animation-delay: 0.3s;">
+            <h3>🪵 Material Kayu</h3>
+            <div class="grid-options">
+                <button class="option-btn selected" data-material="jati" onclick="updateConfig('material', 'jati', 0)">Kayu Jati</button>
+                <button class="option-btn" data-material="mahoni" onclick="updateConfig('material', 'mahoni', 850000)">Mahoni</button>
+                <button class="option-btn" data-material="multiplek" onclick="updateConfig('material', 'multiplek', 450000)">Multiplek</button>
+            </div>
+        </div>
+
+        <div class="option-group" style="animation-delay: 0.4s;">
+            <h3>🔧 Jenis Handle</h3>
+            <div class="grid-options">
+                <button class="option-btn selected" data-handle="silver" onclick="updateConfig('handle', 'silver', 0)">Modern Silver</button>
+                <button class="option-btn" data-handle="gold" onclick="updateConfig('handle', 'gold', 250000)">Royal Gold</button>
+            </div>
+        </div>
+
+        <div class="sticky-footer">
+            <div class="price-row">
+                <span style="color: #94a3b8;">Estimasi Total</span>
+                <span id="totalPrice" class="total-price">Rp 5.000.000</span>
+            </div>
+            <button class="btn-add-custom" onclick="saveAndAdd()">
+                Confirm & Add to Cart
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // --- 3D ENGINE (Three.js) ---
+    let scene, camera, renderer, cabinet;
+    const container = document.getElementById('canvas-container');
+
+    function init3D() {
+        scene = new THREE.Scene();
+        camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+        camera.position.set(3, 2, 5);
+
+        renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(container.clientWidth, container.clientHeight);
+        container.appendChild(renderer.domElement);
+
+        // Lights
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+        scene.add(ambientLight);
+        const dirLight = new THREE.DirectionLight(0xffffff, 0.8);
+        dirLight.position.set(5, 5, 5);
+        scene.add(dirLight);
+
+        // Cabinet Model (Basic Box Geometry as Representative)
+        createCabinet(1, 0xffffff); // Default state
+
+        animate();
+    }
+
+    function createCabinet(doors, hexColor) {
+        if (cabinet) scene.remove(cabinet);
+        
+        cabinet = new THREE.Group();
+        const width = doors * 0.8;
+        const geometry = new THREE.BoxGeometry(width, 2.5, 0.6);
+        const material = new THREE.MeshStandardMaterial({ color: hexColor, roughness: 0.5 });
+        const body = new THREE.Mesh(geometry, material);
+        cabinet.add(body);
+
+        // Add Door Lines
+        for(let i=1; i<doors; i++) {
+            const lineGeo = new THREE.BoxGeometry(0.01, 2.5, 0.61);
+            const lineMat = new THREE.MeshBasicMaterial({color: 0x000000});
+            const line = new THREE.Mesh(lineGeo, lineMat);
+            line.position.x = (-width/2) + (i * 0.8);
+            cabinet.add(line);
+        }
+
+        scene.add(cabinet);
+    }
+
+    function animate() {
+        requestAnimationFrame(animate);
+        if (cabinet) cabinet.rotation.y += 0.005;
+        renderer.render(scene, camera);
+    }
+
+    window.addEventListener('resize', () => {
+        camera.aspect = container.clientWidth / container.clientHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(container.clientWidth, container.clientHeight);
+    });
+
+    // --- LOGIC & INTERACTION ---
+    let basePrice = 5000000;
+    let config = { color: 'white', size: '1', material: 'jati', handle: 'silver' };
+    let extras = { color: 0, size: 0, material: 0, handle: 0 };
+
+    const colorMap = {
+        white: 0xffffff,
+        brown: 0x5d4037,
+        black: 0x1a1a1a,
+        natural: 0xd2b48c
+    };
+
+    function updateConfig(type, val, price) {
+        config[type] = val;
+        extras[type] = price;
+
+        // Update UI Selected Class
+        document.querySelectorAll(`[data-${type}]`).forEach(btn => btn.classList.remove('selected'));
+        document.querySelector(`[data-${type}="${val}"]`).classList.add('selected');
+
+        // Update 3D Model
+        createCabinet(parseInt(config.size), colorMap[config.color]);
+
+        // Update Price
+        const total = basePrice + Object.values(extras).reduce((a, b) => a + b, 0);
+        document.getElementById('totalPrice').textContent = new Intl.NumberFormat('id-ID', {
+            style: 'currency', currency: 'IDR', minimumFractionDigits: 0
+        }).format(total);
+    }
+
+    function saveAndAdd() {
+        const total = basePrice + Object.values(extras).reduce((a, b) => a + b, 0);
+        const item = {
+            id: 'CUSTOM-' + Date.now(),
+            name: `Lemari Custom ${config.size} Pintu`,
+            variant: `${config.color}, ${config.material}, Handle ${config.handle}`,
+            price: total,
+            quantity: 1,
+            image: '/images/custom-icon.png'
+        };
+
+        // GUEST LOGIC (LocalStorage)
+        let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+        cart.push(item);
+        localStorage.setItem('cart', JSON.stringify(cart));
+
+        // API LOGIC (User Login) - Optional
+        // fetch('/api/cart/add', { method: 'POST', body: JSON.stringify(item) });
+
+        alert("Lemari kustom ditambahkan ke keranjang!");
+        window.location.href = "/checkout"; // Redirect ke checkout
+    }
+
+    // Initialize on Load
+    init3D();
+</script>
+
+</body>
+</html>

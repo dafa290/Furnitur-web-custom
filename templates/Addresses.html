@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="id" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alamat Saya - FurniNest</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --cream: #F5F0E8;
+            --warm-white: #FAF7F2;
+            --brown: #5C3D2E;
+            --brown-light: #8B6352;
+            --gold: #C6A15B;
+            --gold-dark: #A27C3E;
+            --text-dark: #3A2C1F;
+            --text-light: #7A6B5D;
+            --border-light: #E8DFD5;
+            --shadow: 0 20px 40px rgba(0,0,0,0.05);
+            --shadow-hover: 0 30px 50px rgba(0,0,0,0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--cream);
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(250, 247, 242, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-light);
+            padding: 16px 0;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 32px;
+        }
+
+        .nav-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--brown);
+            letter-spacing: 1px;
+            cursor: pointer;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 36px;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-dark);
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: var(--gold);
+        }
+
+        .nav-icons {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-icons i {
+            font-size: 18px;
+            color: var(--text-dark);
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .nav-icons i:hover {
+            color: var(--gold);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -12px;
+            background: var(--gold);
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Main Content */
+        .address-container {
+            max-width: 1200px;
+            margin: 100px auto 60px;
+            padding: 0 20px;
+        }
+
+        .page-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 36px;
+            font-weight: 600;
+            color: var(--brown);
+            margin-bottom: 32px;
+        }
+
+        .page-title i {
+            color: var(--gold);
+            margin-right: 12px;
+        }
+
+        /* Address Grid */
+        .address-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .address-card {
+            background: white;
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-light);
+            position: relative;
+        }
+
+        .address-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .address-card.default {
+            border-left: 4px solid var(--gold);
+        }
+
+        .address-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--brown);
+        }
+
+        .badge-default {
+            background: var(--gold);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .address-detail {
+            color: var(--text-light);
+            font-size: 14px;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .address-detail strong {
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+
+        .address-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn-sm {
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            border: none;
+        }
+
+        .btn-primary-sm {
+            background: var(--gold);
+            color: white;
+        }
+
+        .btn-primary-sm:hover {
+            background: var(--gold-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-edit-sm {
+            background: rgba(92, 61, 46, 0.1);
+            color: var(--brown);
+            border: 1px solid var(--border-light);
+        }
+
+        .btn-edit-sm:hover {
+            background: var(--brown);
+            color: white;
+        }
+
+        .btn-danger-sm {
+            background: rgba(239, 68, 68, 0.1);
+            color: #dc2626;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .btn-danger-sm:hover {
+            background: #dc2626;
+            color: white;
+        }
+
+        /* Add Card */
+        .add-card {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: 2px dashed var(--border-light);
+            background: rgba(255,255,255,0.5);
+            min-height: 280px;
+        }
+
+        .add-card:hover {
+            border-color: var(--gold);
+            background: white;
+        }
+
+        .add-card-content {
+            text-align: center;
+        }
+
+        .add-card-content i {
+            font-size: 48px;
+            color: var(--gold);
+            margin-bottom: 12px;
+        }
+
+        .add-card-content p {
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        /* Form Card */
+        .form-card {
+            background: white;
+            border-radius: 24px;
+            padding: 32px;
+            box-shadow: var(--shadow);
+            margin-top: 20px;
+            border: 1px solid var(--border-light);
+        }
+
+        .form-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            color: var(--brown);
+            margin-bottom: 24px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--brown);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            background: var(--warm-white);
+            border: 1px solid var(--border-light);
+            border-radius: 16px;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(198, 161, 91, 0.1);
+        }
+
+        .full-width {
+            grid-column: span 2;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 8px;
+        }
+
+        .checkbox-group input {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--gold);
+        }
+
+        .btn-submit {
+            background: var(--brown);
+            color: white;
+            padding: 12px 28px;
+            border: none;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 8px;
+        }
+
+        .btn-submit:hover {
+            background: var(--gold);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(198, 161, 91, 0.2);
+        }
+
+        .btn-cancel {
+            background: transparent;
+            border: 1px solid var(--border-light);
+            color: var(--text-light);
+            padding: 12px 28px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-cancel:hover {
+            background: var(--border-light);
+            color: var(--text-dark);
+        }
+
+        /* Toast */
+        .toast-notif {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--brown);
+            color: white;
+            padding: 12px 28px;
+            border-radius: 40px;
+            font-size: 14px;
+            z-index: 9999;
+            transition: all 0.3s;
+            opacity: 0;
+        }
+
+        .toast-notif.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--brown);
+            color: white;
+            padding: 48px 0 24px;
+            margin-top: 60px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            margin-bottom: 32px;
+        }
+
+        .footer-col h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+            margin-bottom: 16px;
+            color: var(--gold);
+        }
+
+        .footer-col p, .footer-col a {
+            font-size: 13px;
+            color: rgba(255,255,255,0.7);
+            line-height: 1.8;
+            text-decoration: none;
+            display: block;
+        }
+
+        .footer-col a:hover { color: var(--gold); }
+
+        .copyright {
+            text-align: center;
+            padding-top: 24px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 12px;
+            color: rgba(255,255,255,0.5);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container { padding: 0 20px; }
+            .nav-menu { display: none; }
+            .form-grid { grid-template-columns: 1fr; }
+            .full-width { grid-column: span 1; }
+            .address-grid { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<div class="navbar">
+    <div class="container nav-inner">
+        <div class="logo" onclick="window.location.href='/home'">
+            <h1>FurniNest</h1>
+        </div>
+        <div class="nav-menu">
+            <a href="/home">Beranda</a>
+            <a href="/home#productsSection">Produk</a>
+            <a href="/home#categorySection">Kategori</a>
+            <a href="/home#footer">Kontak</a>
+            <a href="/profile">👤 [[${session.currentUser.fullName}]]</a>
+            <a href="/logout">Logout</a>
+        </div>
+        <div class="nav-icons">
+            <div style="position: relative;">
+                <i class="fas fa-shopping-bag" onclick="window.location.href='/checkout'"></i>
+                <span class="cart-badge" id="cartBadge" style="display: none;">0</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<main>
+    <div class="container">
+        <div class="address-container">
+            <h1 class="page-title"><i class="fas fa-map-pin"></i> Alamat Saya</h1>
+            
+            <div class="address-grid">
+                <!-- Loop Addresses -->
+                <div th:each="addr : ${addresses}" class="address-card" th:classappend="${addr.default} ? 'default' : ''">
+                    <div class="address-label">
+                        <span><i class="fas fa-tag"></i> [[${addr.label}]]</span>
+                        <span th:if="${addr.default}" class="badge-default">Utama</span>
+                    </div>
+                    <div class="address-detail">
+                        <strong>[[${addr.recipientName}]]</strong><br>
+                        📞 [[${addr.phone}]]<br>
+                        📍 [[${addr.addressLine}]]<br>
+                        [[${addr.city}]], [[${addr.province}]]<br>
+                        ✉️ [[${addr.postalCode}]]
+                    </div>
+                    <div class="address-actions">
+                        <a th:href="@{/alamat/edit/{id}(id=${addr.id})}" class="btn-sm btn-edit-sm">
+                            <i class="fas fa-edit"></i> Edit
+                        </a>
+                        <a th:href="@{/alamat/set-default/{id}(id=${addr.id})}" th:unless="${addr.default}" class="btn-sm btn-primary-sm">
+                            <i class="fas fa-star"></i> Jadikan Utama
+                        </a>
+                        <a th:href="@{/alamat/delete/{id}(id=${addr.id})}" class="btn-sm btn-danger-sm" onclick="return confirm('Hapus alamat ini?')">
+                            <i class="fas fa-trash"></i> Hapus
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Card Tambah Alamat -->
+                <div class="address-card add-card" onclick="toggleForm()">
+                    <div class="add-card-content">
+                        <i class="fas fa-plus-circle"></i>
+                        <p>Tambah Alamat Baru</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Form Tambah Alamat -->
+            <div id="addAddressForm" style="display: none;">
+                <div class="form-card">
+                    <h3><i class="fas fa-plus-circle" style="color: var(--gold);"></i> Tambah Alamat Baru</h3>
+                    <form method="post" action="/alamat/add">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Label</label>
+                                <input type="text" name="label" required placeholder="Contoh: Rumah, Kantor">
+                            </div>
+                            <div class="form-group">
+                                <label>Nama Penerima</label>
+                                <input type="text" name="recipientName" required placeholder="Nama lengkap">
+                            </div>
+                            <div class="form-group">
+                                <label>No. Telepon</label>
+                                <input type="tel" name="phone" required placeholder="08123456789">
+                            </div>
+                            <div class="form-group">
+                                <label>Kode Pos</label>
+                                <input type="text" name="postalCode" required placeholder="12345">
+                            </div>
+                            <div class="form-group full-width">
+                                <label>Alamat Lengkap</label>
+                                <textarea name="addressLine" rows="2" required placeholder="Jl. Contoh No. 123, RT/RW"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Kota</label>
+                                <input type="text" name="city" required placeholder="Contoh: Jakarta Selatan">
+                            </div>
+                            <div class="form-group">
+                                <label>Provinsi</label>
+                                <input type="text" name="province" required placeholder="Contoh: DKI Jakarta">
+                            </div>
+                            <div class="form-group full-width">
+                                <div class="checkbox-group">
+                                    <input type="checkbox" name="isDefault" value="true">
+                                    <label>Jadikan alamat utama</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 12px; margin-top: 20px;">
+                            <button type="submit" class="btn-submit"><i class="fas fa-save"></i> Simpan Alamat</button>
+                            <button type="button" onclick="toggleForm()" class="btn-cancel">Batal</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Form Edit Alamat -->
+            <div id="editAddressForm" th:if="${editAddress != null}" style="display: block;">
+                <div class="form-card">
+                    <h3><i class="fas fa-edit" style="color: var(--gold);"></i> Edit Alamat</h3>
+                    <form method="post" th:action="@{/alamat/update/{id}(id=${editAddress.id})}">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Label</label>
+                                <input type="text" name="label" th:value="${editAddress.label}" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Nama Penerima</label>
+                                <input type="text" name="recipientName" th:value="${editAddress.recipientName}" required>
+                            </div>
+                            <div class="form-group">
+                                <label>No. Telepon</label>
+                                <input type="tel" name="phone" th:value="${editAddress.phone}" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Kode Pos</label>
+                                <input type="text" name="postalCode" th:value="${editAddress.postalCode}" required>
+                            </div>
+                            <div class="form-group full-width">
+                                <label>Alamat Lengkap</label>
+                                <textarea name="addressLine" rows="2" required th:text="${editAddress.addressLine}"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Kota</label>
+                                <input type="text" name="city" th:value="${editAddress.city}" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Provinsi</label>
+                                <input type="text" name="province" th:value="${editAddress.province}" required>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 12px; margin-top: 20px;">
+                            <button type="submit" class="btn-submit"><i class="fas fa-save"></i> Update Alamat</button>
+                            <a href="/alamat/manage" class="btn-cancel">Batal</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>FurniNest</h4>
+                <p>Furniture premium dengan kualitas terbaik dan desain timeless untuk hunian impian Anda.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Navigasi</h4>
+                <a href="/home">Beranda</a>
+                <a href="/home#productsSection">Produk</a>
+                <a href="/home#categorySection">Kategori</a>
+                <a href="/home#footer">Kontak</a>
+            </div>
+            <div class="footer-col">
+                <h4>Kontak</h4>
+                <p>📞 +62 812 3456 7890</p>
+                <p>✉️ hello@furninest.com</p>
+                <p>📍 Jakarta, Indonesia</p>
+            </div>
+            <div class="footer-col">
+                <h4>Ikuti Kami</h4>
+                <div class="social-icons">
+                    <i class="fab fa-instagram"></i>
+                    <i class="fab fa-pinterest"></i>
+                    <i class="fab fa-facebook-f"></i>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">© 2025 FurniNest — Premium Furniture for Spaces with Character</div>
+    </div>
+</footer>
+
+<div id="toastMsg" class="toast-notif"></div>
+
+<script>
+    function toggleForm() {
+        const form = document.getElementById('addAddressForm');
+        if (form.style.display === 'none' || form.style.display === '') {
+            form.style.display = 'block';
+            form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+            form.style.display = 'none';
+        }
+    }
+    
+    function showToast(text) {
+        const toast = document.getElementById('toastMsg');
+        toast.textContent = text;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+
+    async function updateCartBadge() {
+        try {
+            const response = await fetch('/api/cart');
+            const data = await response.json();
+            let count = data.loggedIn ? (data.count || 0) : JSON.parse(localStorage.getItem('cart') || '[]').reduce((sum, item) => sum + (item.quantity || 1), 0);
+            const badge = document.getElementById('cartBadge');
+            if (count > 0) { badge.textContent = count; badge.style.display = 'flex'; } 
+            else { badge.style.display = 'none'; }
+        } catch (error) {
+            const count = JSON.parse(localStorage.getItem('cart') || '[]').reduce((sum, item) => sum + (item.quantity || 1), 0);
+            const badge = document.getElementById('cartBadge');
+            if (count > 0) { badge.textContent = count; badge.style.display = 'flex'; } 
+            else { badge.style.display = 'none'; }
+        }
+    }
+    
+    updateCartBadge();
+</script>
+</body>
+</html>

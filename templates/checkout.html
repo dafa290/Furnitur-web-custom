@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="id" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - FurniNest</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --cream: #F5F0E8;
+            --warm-white: #FAF7F2;
+            --brown: #5C3D2E;
+            --brown-light: #8B6352;
+            --gold: #C6A15B;
+            --gold-dark: #A27C3E;
+            --sage: #8F9E7C;
+            --terracotta: #C87A5A;
+            --text-dark: #3A2C1F;
+            --text-light: #7A6B5D;
+            --border-light: #E8DFD5;
+            --shadow: 0 20px 40px rgba(0,0,0,0.05);
+            --shadow-hover: 0 30px 50px rgba(0,0,0,0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--cream);
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(250, 247, 242, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-light);
+            padding: 16px 0;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 32px;
+        }
+
+        .nav-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--brown);
+            letter-spacing: 1px;
+            cursor: pointer;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 36px;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-dark);
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: var(--gold);
+        }
+
+        .nav-user-name {
+            color: var(--gold);
+            font-weight: 600;
+        }
+
+        .nav-icons {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-icons i {
+            font-size: 18px;
+            color: var(--text-dark);
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .nav-icons i:hover {
+            color: var(--gold);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -12px;
+            background: var(--gold);
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Checkout Container */
+        .checkout-container {
+            max-width: 1200px;
+            margin: 100px auto 60px;
+            padding: 0 20px;
+        }
+
+        .page-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 36px;
+            font-weight: 600;
+            color: var(--brown);
+            margin-bottom: 32px;
+        }
+
+        .page-title i {
+            color: var(--gold);
+            margin-right: 12px;
+        }
+
+        .checkout-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        /* Form & Summary Cards */
+        .checkout-form, .order-summary {
+            background: white;
+            border-radius: 28px;
+            padding: 32px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-light);
+        }
+
+        .checkout-form h3, .order-summary h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 22px;
+            color: var(--brown);
+            margin-bottom: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 13px;
+            color: var(--brown);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group select, 
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            background: var(--warm-white);
+            border: 1px solid var(--border-light);
+            border-radius: 16px;
+            color: var(--text-dark);
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(198, 161, 91, 0.1);
+        }
+
+        .form-group select option {
+            background: white;
+            color: var(--text-dark);
+        }
+
+        /* Selected Address Card */
+        .address-card-selected {
+            background: linear-gradient(135deg, rgba(198, 161, 91, 0.08), rgba(162, 124, 62, 0.04));
+            border: 1px solid var(--gold);
+            border-radius: 20px;
+            padding: 20px;
+            margin-top: 16px;
+            margin-bottom: 24px;
+        }
+
+        .address-card-selected strong {
+            color: var(--gold-dark);
+            font-size: 15px;
+        }
+
+        .address-card-selected div {
+            color: var(--text-light);
+            font-size: 14px;
+            line-height: 1.6;
+            margin-top: 8px;
+        }
+
+        /* Cart Items */
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 14px 0;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .cart-item strong {
+            color: var(--text-dark);
+        }
+
+        .cart-item small {
+            color: var(--text-light);
+            font-size: 12px;
+        }
+
+        /* Summary Row */
+        .summary-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .badge-default {
+            background: var(--gold);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+        .summary-row.total {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--gold-dark);
+            border-top: 1px solid var(--border-light);
+            margin-top: 8px;
+            padding-top: 16px;
+        }
+
+        /* Button */
+        .btn-pay {
+            width: 100%;
+            padding: 16px;
+            background: var(--brown);
+            border: none;
+            border-radius: 40px;
+            color: white;
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-pay:hover {
+            background: var(--gold);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(198, 161, 91, 0.2);
+        }
+
+        .btn-pay:disabled {
+            background: var(--border-light);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .checkout-note {
+            margin-top: 20px;
+            color: var(--text-light);
+            font-size: 12px;
+            line-height: 1.5;
+            text-align: center;
+        }
+
+        .login-warning {
+            background: rgba(198, 161, 91, 0.1);
+            border-left: 3px solid var(--gold);
+            padding: 16px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+        }
+
+        .login-warning p {
+            color: var(--gold-dark);
+            font-size: 14px;
+        }
+
+        /* Toast */
+        .toast-notif {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--brown);
+            color: white;
+            padding: 12px 28px;
+            border-radius: 40px;
+            font-size: 14px;
+            z-index: 9999;
+            transition: all 0.3s;
+            opacity: 0;
+        }
+
+        .toast-notif.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--brown);
+            color: white;
+            padding: 48px 0 24px;
+            margin-top: 60px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            margin-bottom: 32px;
+        }
+
+        .footer-col h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+            margin-bottom: 16px;
+            color: var(--gold);
+        }
+
+        .footer-col p, .footer-col a {
+            font-size: 13px;
+            color: rgba(255,255,255,0.7);
+            line-height: 1.8;
+            text-decoration: none;
+            display: block;
+        }
+
+        .footer-col a:hover { color: var(--gold); }
+
+        .copyright {
+            text-align: center;
+            padding-top: 24px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 12px;
+            color: rgba(255,255,255,0.5);
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .checkout-grid { grid-template-columns: 1fr; }
+            .container { padding: 0 20px; }
+            .nav-menu { display: none; }
+            .footer-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 600px) {
+            .footer-grid { grid-template-columns: 1fr; text-align: center; }
+            .checkout-form, .order-summary { padding: 24px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<div class="navbar">
+    <div class="container nav-inner">
+        <div class="logo" onclick="window.location.href='/home'">
+            <h1>FurniNest</h1>
+        </div>
+        <div class="nav-menu">
+            <a href="/home">Beranda</a>
+            <a href="/home#productsSection">Produk</a>
+            <a href="/home#categorySection">Kategori</a>
+            <a href="/home#footer">Kontak</a>
+            <div th:if="${session.currentUser == null}">
+                <a href="/">Login</a>
+                <a href="/register">Daftar</a>
+            </div>
+            <div th:if="${session.currentUser != null}">
+                <span class="nav-user-name">👤 [[${session.currentUser.fullName}]]</span>
+                <a href="/logout">Logout</a>
+            </div>
+        </div>
+        <div class="nav-icons">
+            <div style="position: relative;">
+                <i class="fas fa-shopping-bag" onclick="window.location.href='/checkout'"></i>
+                <span class="cart-badge" id="cartBadge" style="display: none;">0</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<main>
+    <div class="container">
+        <div class="checkout-container">
+            <h1 class="page-title"><i class="fas fa-shopping-cart"></i> Checkout</h1>
+            
+            <div class="checkout-grid">
+                <!-- Left: Checkout Form -->
+                <div class="checkout-form">
+                    <h3>📦 Alamat Pengiriman</h3>
+                    
+                    <div th:if="${session.currentUser != null}">
+                        <div class="form-group">
+                            <label>Pilih Alamat Tersimpan</label>
+                            <select id="addressSelect" onchange="selectAddress(this.value)">
+                                <option value="">-- Pilih alamat --</option>
+                            </select>
+                        </div>
+                        
+                        <div id="selectedAddressDisplay" style="display: none;" class="address-card-selected">
+                            <div id="selectedAddressDetail"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Catatan Pesanan (Opsional)</label>
+                            <textarea id="orderNote" rows="2" placeholder="Contoh: Tolong masukkan ke dalam kantong kertas atau hubungi sebelum dikirim."></textarea>
+                        </div>
+                    </div>
+                    
+                    <div th:if="${session.currentUser == null}">
+                        <div class="login-warning">
+                            <p>⚠️ Silakan login terlebih dahulu untuk melanjutkan checkout</p>
+                        </div>
+                        <a href="/login" class="btn-pay" style="display:block; text-align:center; text-decoration:none;">
+                            <i class="fas fa-sign-in-alt"></i> Login Sekarang
+                        </a>
+                    </div>
+                    
+                    <button class="btn-pay" id="payButton" onclick="processPayment()" th:if="${session.currentUser != null}">
+                        <i class="fas fa-check-circle"></i> Konfirmasi Pesanan
+                    </button>
+                </div>
+
+                <!-- Right: Order Summary -->
+                <div class="order-summary">
+                    <div class="summary-header">
+                        <h3>🛍️ Ringkasan Order</h3>
+                        <span class="badge-default">Premium</span>
+                    </div>
+                    <div id="cartItems"></div>
+                    <div id="orderTotals"></div>
+                    <div class="checkout-note">
+                        <i class="fas fa-truck"></i> Estimasi tiba dalam 2–4 hari kerja setelah pesanan dikonfirmasi
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>FurniNest</h4>
+                <p>Furniture premium dengan kualitas terbaik dan desain timeless untuk hunian impian Anda.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Navigasi</h4>
+                <a href="/home">Beranda</a>
+                <a href="/home#productsSection">Produk</a>
+                <a href="/home#categorySection">Kategori</a>
+                <a href="/home#footer">Kontak</a>
+            </div>
+            <div class="footer-col">
+                <h4>Kontak</h4>
+                <p>📞 +62 812 3456 7890</p>
+                <p>✉️ hello@furninest.com</p>
+                <p>📍 Jakarta, Indonesia</p>
+            </div>
+            <div class="footer-col">
+                <h4>Ikuti Kami</h4>
+                <div class="social-icons">
+                    <i class="fab fa-instagram"></i>
+                    <i class="fab fa-pinterest"></i>
+                    <i class="fab fa-facebook-f"></i>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">© 2025 FurniNest — Premium Furniture for Spaces with Character</div>
+    </div>
+</footer>
+
+<div id="toastMsg" class="toast-notif"></div>
+
+<script>
+    let cart = [];
+    let selectedAddressId = null;
+    let userAddresses = [];
+    let deliveryFee = 15000;
+    let discount = 0;
+
+    async function loadCartFromServer() {
+        try {
+            const response = await fetch('/api/cart');
+            if (response.ok) {
+                const data = await response.json();
+                cart = data.items || [];
+            } else {
+                cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            }
+        } catch (error) {
+            cart = JSON.parse(localStorage.getItem('cart') || '[]');
+        }
+        displayCart();
+        updateCartBadge();
+    }
+
+    async function loadAddresses() {
+        try {
+            const response = await fetch('/api/addresses');
+            if (response.ok) {
+                userAddresses = await response.json();
+                const select = document.getElementById('addressSelect');
+                if (select) {
+                    select.innerHTML = '<option value="">-- Pilih alamat --</option>';
+                    userAddresses.forEach(addr => {
+                        const option = document.createElement('option');
+                        option.value = addr.id;
+                        option.textContent = `${addr.label} - ${addr.recipientName} - ${addr.addressLine}, ${addr.city}`;
+                        if (addr.default) option.selected = true;
+                        select.appendChild(option);
+                    });
+                    
+                    const defaultAddr = userAddresses.find(addr => addr.default);
+                    if (defaultAddr) {
+                        selectAddress(defaultAddr.id);
+                    }
+                }
+            }
+        } catch (error) {
+            console.error('Error loading addresses:', error);
+        }
+    }
+
+    function selectAddress(addressId) {
+        if (!addressId) {
+            document.getElementById('selectedAddressDisplay').style.display = 'none';
+            selectedAddressId = null;
+            return;
+        }
+        
+        const address = userAddresses.find(addr => addr.id == addressId);
+        if (address) {
+            selectedAddressId = address.id;
+            const detailHtml = `
+                <strong>🏠 ${address.label}</strong><br>
+                <i class="fas fa-user"></i> ${address.recipientName}<br>
+                <i class="fas fa-phone"></i> ${address.phone}<br>
+                <i class="fas fa-location-dot"></i> ${address.addressLine}<br>
+                ${address.city}, ${address.province} - ${address.postalCode}
+            `;
+            document.getElementById('selectedAddressDetail').innerHTML = detailHtml;
+            document.getElementById('selectedAddressDisplay').style.display = 'block';
+        }
+    }
+
+    function formatIDR(val) {
+        return 'Rp ' + val.toLocaleString('id-ID');
+    }
+
+    function showToast(text) {
+        const toast = document.getElementById('toastMsg');
+        toast.textContent = text;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    function displayCart() {
+        const cartContainer = document.getElementById('cartItems');
+        const orderTotals = document.getElementById('orderTotals');
+        let subtotal = 0;
+
+        if (!cart || cart.length === 0) {
+            cartContainer.innerHTML = '<div style="text-align:center;padding:40px;color:var(--text-light);"><i class="fas fa-shopping-bag" style="font-size:48px;margin-bottom:16px;display:block;"></i>Keranjang kosong</div>';
+            orderTotals.innerHTML = '';
+            const payBtn = document.getElementById('payButton');
+            if (payBtn) payBtn.disabled = true;
+            return;
+        }
+
+        let html = '';
+        cart.forEach((item) => {
+            const price = item.price || item.productPrice || 0;
+            const quantity = item.quantity || 1;
+            const itemTotal = price * quantity;
+            subtotal += itemTotal;
+            html += `
+                <div class="cart-item">
+                    <div>
+                        <strong>${item.name || item.productName}</strong><br>
+                        <small>${formatIDR(price)} x ${quantity}</small>
+                    </div>
+                    <div>${formatIDR(itemTotal)}</div>
+                </div>
+            `;
+        });
+
+        cartContainer.innerHTML = html;
+        orderTotals.innerHTML = `
+            <div class="summary-row"><span>Subtotal</span><span>${formatIDR(subtotal)}</span></div>
+            <div class="summary-row"><span>Biaya Pengiriman</span><span>${formatIDR(deliveryFee)}</span></div>
+            <div class="summary-row total"><span>Total Pembayaran</span><span>${formatIDR(subtotal + deliveryFee - discount)}</span></div>
+        `;
+        const payBtn = document.getElementById('payButton');
+        if (payBtn) payBtn.disabled = false;
+    }
+
+    function updateCartBadge() {
+        const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 0), 0);
+        const badge = document.getElementById('cartBadge');
+        if (badge) {
+            if (totalItems > 0) {
+                badge.textContent = totalItems;
+                badge.style.display = 'flex';
+            } else {
+                badge.style.display = 'none';
+            }
+        }
+    }
+
+    async function processPayment() {
+        if (!selectedAddressId) {
+            showToast('❌ Pilih alamat pengiriman terlebih dahulu!');
+            return;
+        }
+
+        if (!cart || cart.length === 0) {
+            showToast('❌ Keranjang belanja kosong!');
+            return;
+        }
+
+        const subtotal = cart.reduce((sum, item) => {
+            const price = item.price || item.productPrice || 0;
+            const quantity = item.quantity || 1;
+            return sum + (price * quantity);
+        }, 0);
+        const totalAmount = subtotal + deliveryFee - discount;
+
+        const paymentData = {
+            items: cart.map(item => ({
+                id: item.id || item.productId,
+                name: item.name || item.productName,
+                price: Number(item.price || item.productPrice || 0),
+                quantity: Number(item.quantity || 1)
+            })),
+            addressId: selectedAddressId,
+            totalAmount: Number(totalAmount)
+        };
+
+        const payBtn = document.getElementById('payButton');
+        const originalText = payBtn.innerHTML;
+        payBtn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Memproses...';
+        payBtn.disabled = true;
+
+        try {
+            const response = await fetch('/api/payments/create', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(paymentData)
+            });
+
+            const result = await response.json();
+
+            if (result.status === 'SUCCESS' && result.redirectUrl) {
+                localStorage.setItem('lastTransactionId', result.orderId || 'ORDER-' + Date.now());
+                localStorage.setItem('lastAmount', totalAmount.toString());
+                window.location.href = result.redirectUrl;
+            } else if (result.status === 'SUCCESS' && result.transactionId) {
+                localStorage.removeItem('cart');
+                window.location.href = '/payment-success?transactionId=' + encodeURIComponent(result.transactionId) + '&amount=' + encodeURIComponent(result.amount);
+            } else {
+                showToast('❌ Pembayaran gagal');
+                window.location.href = '/payment-failed?message=' + encodeURIComponent(result.message || 'Pembayaran gagal');
+            }
+        } catch (error) {
+            showToast('❌ Terjadi kesalahan');
+            window.location.href = '/payment-failed?message=' + encodeURIComponent(error.message);
+        } finally {
+            payBtn.innerHTML = originalText;
+            payBtn.disabled = false;
+        }
+    }
+
+    // Initial load
+    loadCartFromServer();
+    loadAddresses();
+</script>
+</body>
+</html>

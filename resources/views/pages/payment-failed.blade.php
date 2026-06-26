@@ -1,0 +1,54 @@
+@extends('layouts.app')
+
+@section('title', 'Pembayaran Gagal - FurniNest')
+
+@section('content')
+<div class="failed-container">
+    <div class="failed-icon">
+        <i class="fas fa-times-circle"></i>
+    </div>
+    <h1>Pembayaran Gagal</h1>
+    <div class="error-message" id="errorMessage">
+        <i class="fas fa-exclamation-triangle" style="margin-right: 8px;"></i>
+        Silakan coba lagi
+    </div>
+    <p>Mohon maaf, transaksi Anda tidak dapat diproses.</p>
+    <p>Silakan periksa kembali metode pembayaran Anda atau coba beberapa saat lagi.</p>
+    
+    <div class="button-group">
+        <button class="btn-home" onclick="window.location.href='/home'">
+            <i class="fas fa-home"></i> Kembali ke Beranda
+        </button>
+        <button class="btn-retry" onclick="window.location.href='/checkout'">
+            <i class="fas fa-redo-alt"></i> Coba Lagi
+        </button>
+    </div>
+    
+    <div class="help-text">
+        <i class="fas fa-headset"></i> Butuh bantuan? 
+        <a href="/home#footer">Hubungi Customer Service</a>
+    </div>
+</div>
+
+<style>
+    .failed-container { max-width: 500px; margin: 40px auto 60px; text-align: center; background: white; border-radius: 32px; padding: 48px 40px; box-shadow: var(--shadow); border: 1px solid var(--border-light); }
+    .failed-icon { width: 100px; height: 100px; background: rgba(220, 38, 38, 0.08); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; }
+    .failed-icon i { font-size: 52px; color: #dc2626; }
+    .failed-container h1 { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; color: var(--brown); margin-bottom: 12px; }
+    .error-message { color: #dc2626; background: rgba(220, 38, 38, 0.08); padding: 12px 20px; border-radius: 16px; font-size: 14px; margin: 20px 0; display: inline-block; }
+    .button-group { display: flex; gap: 16px; justify-content: center; margin-top: 32px; flex-wrap: wrap; }
+    .btn-home { background: var(--brown); border: none; padding: 14px 32px; border-radius: 40px; color: white; font-weight: 600; cursor: pointer; font-size: 14px; display: inline-flex; align-items: center; gap: 8px; }
+    .btn-home:hover { background: var(--gold); transform: translateY(-2px); box-shadow: 0 10px 20px rgba(198, 161, 91, 0.2); }
+    .btn-retry { background: transparent; border: 1.5px solid var(--gold); padding: 14px 32px; border-radius: 40px; color: var(--gold-dark); font-weight: 600; cursor: pointer; font-size: 14px; display: inline-flex; align-items: center; gap: 8px; }
+    .btn-retry:hover { background: var(--gold); color: white; transform: translateY(-2px); }
+    .help-text { margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--border-light); font-size: 12px; color: var(--text-light); }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        let msg = urlParams.get('message') || 'Pembayaran gagal, silakan coba lagi';
+        document.getElementById('errorMessage').innerHTML = `<i class="fas fa-exclamation-triangle" style="margin-right: 8px;"></i> ${msg}`;
+    });
+</script>
+@endsection
