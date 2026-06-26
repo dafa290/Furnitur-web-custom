@@ -7,11 +7,11 @@ fi
 
 # Modify .env to use SQLite
 sed -i 's/DB_CONNECTION=mysql/DB_CONNECTION=sqlite/' .env
-sed -i 's/DB_HOST=127.0.0.1/#DB_HOST=127.0.0.1/' .env
-sed -i 's/DB_PORT=3307/#DB_PORT=3307/' .env
-sed -i 's/DB_DATABASE=furninest/#DB_DATABASE=furninest/' .env
-sed -i 's/DB_USERNAME=root/#DB_USERNAME=root/' .env
-sed -i 's/DB_PASSWORD=/#DB_PASSWORD=/' .env
+sed -i 's/DB_HOST=.*/#DB_HOST=127.0.0.1/' .env
+sed -i 's/DB_PORT=.*/#DB_PORT=3306/' .env
+sed -i 's/DB_DATABASE=.*/DB_DATABASE=\/app\/database\/database.sqlite/' .env
+sed -i 's/DB_USERNAME=.*/#DB_USERNAME=root/' .env
+sed -i 's/DB_PASSWORD=.*/#DB_PASSWORD=/' .env
 
 # Create SQLite database file
 touch database/database.sqlite

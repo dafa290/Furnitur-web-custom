@@ -8,10 +8,15 @@ RUN apt-get update -y && apt-get install -y \
     git \
     sqlite3 \
     libsqlite3-dev \
-    nodejs \
-    npm
+    curl \
+    && rm -rf /var/lib/apt/lists/*
 
 RUN docker-php-ext-install pdo_mysql pdo_sqlite zip
+
+# Install Node.js 20 from NodeSource (Vite 5 needs Node 18+)
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y nodejs \
+    && rm -rf /var/lib/apt/lists/*
 
 # Get latest Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -22,8 +27,11 @@ WORKDIR /app
 # Copy project files
 COPY . /app
 
+# Create .env from .env.example so composer & artisan work during build
+RUN cp .env.example .env
+
 # Install PHP dependencies
-RUN composer install --no-dev --optimize-autoloader
+RUN composer install --no-dev --optimize-autoloader --no-interaction
 
 # Install Node dependencies and build assets
 RUN npm install

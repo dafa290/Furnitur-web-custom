@@ -19,3 +19,5 @@ yarn-error.log
 /.vscode
 
 public/videos/furniture-preview.mp4
+
+*.mp4
