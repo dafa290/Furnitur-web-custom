@@ -15,13 +15,15 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(ProductSeeder::class);
 
-        User::create([
-            'name' => 'Admin FurniNest',
-            'email' => 'admin@furninest.test',
-            'password' => Hash::make('password'),
-            'phone' => '081234567890',
-            'role' => 'ADMIN',
-            'active' => true,
-        ]);
+        User::firstOrCreate(
+            ['email' => 'admin@furninest.test'],
+            [
+                'name' => 'Admin FurniNest',
+                'password' => Hash::make('password'),
+                'phone' => '081234567890',
+                'role' => 'ADMIN',
+                'active' => true,
+            ]
+        );
     }
 }

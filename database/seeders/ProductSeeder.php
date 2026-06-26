@@ -27,7 +27,10 @@ class ProductSeeder extends Seeder
         ];
 
         foreach ($products as $product) {
-            Product::create(array_merge($product, ['rating' => 4.5, 'customizable' => false, 'base_price' => $product['price']]));
+            Product::updateOrCreate(
+                ['name' => $product['name']],
+                array_merge($product, ['rating' => 4.5, 'customizable' => false, 'base_price' => $product['price']])
+            );
         }
     }
 }

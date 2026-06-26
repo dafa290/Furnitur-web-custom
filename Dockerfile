@@ -11,12 +11,7 @@ RUN apt-get update -y && apt-get install -y \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
-RUN docker-php-ext-install pdo_mysql pdo_sqlite zip
-
-# Install Node.js 20 from NodeSource (Vite 5 needs Node 18+)
-RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
-    && apt-get install -y nodejs \
-    && rm -rf /var/lib/apt/lists/*
+RUN docker-php-ext-install pdo_mysql zip
 
 # Get latest Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -31,14 +26,10 @@ COPY . /app
 RUN cp .env.example .env
 
 # Install PHP dependencies
-RUN composer install --no-dev --optimize-autoloader --no-interaction
+RUN composer install --no-dev --optimize-autoloader --no-interaction --ignore-platform-reqs
 
-# Install Node dependencies and build assets
-RUN npm install
-RUN npm run build
-
-# Make startup script executable
-RUN chmod +x start.sh
+# Fix Windows CRLF line endings in start.sh and make it executable
+RUN sed -i 's/\r$//' start.sh && chmod +x start.sh
 
 # Expose the port Hugging Face uses
 EXPOSE 7860
