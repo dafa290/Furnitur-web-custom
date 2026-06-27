@@ -18,7 +18,7 @@
             </div>
         </div>
         <div class="hero-image">
-            <video autoplay muted loop playsinline>
+            <video autoplay muted loop playsinline referrerpolicy="no-referrer">
                 <source src="https://assets.mixkit.co/videos/preview/mixkit-living-room-with-modern-furniture-and-decor-44379-large.mp4" type="video/mp4">
                 Browser tidak mendukung video.
             </video>
