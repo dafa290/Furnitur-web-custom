@@ -297,30 +297,21 @@
 
     async function processPayment() {
         const addressId = document.getElementById('addressSelect').value;
-        if (!addressId) {
-            showToast('❌ Pilih alamat pengiriman terlebih dahulu!');
-            return;
-        }
+        if (!addressId) { showToast('❌ Pilih alamat pengiriman terlebih dahulu!'); return; }
+        if (selectedIds.length === 0) { showToast('❌ Pilih minimal satu barang!'); return; }
 
-        if (selectedIds.length === 0) {
-            showToast('❌ Pilih minimal satu barang untuk dibeli!');
-            return;
-        }
-        
         const payBtn = document.getElementById('payButton');
         const originalHtml = payBtn.innerHTML;
-        payBtn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Memproses Pesanan...';
+        payBtn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Memproses...';
         payBtn.disabled = true;
 
         const selectedItems = allItems.filter(item => selectedIds.includes(item.id));
-        
         try {
             const response = await fetch('/api/payments/create', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
                 body: JSON.stringify({
-                    items: selectedItems,
-                    addressId: addressId,
+                    items: selectedItems, addressId,
                     customerName: "{{ session('currentUser')->name ?? 'Guest' }}",
                     customerEmail: "{{ session('currentUser')->email ?? '' }}",
                     customerPhone: "{{ session('currentUser')->phone ?? '' }}",
@@ -329,25 +320,63 @@
             });
 
             const result = await response.json();
-            if (result.status === 'SUCCESS' || result.status === 'PENDING') {
-                // Save selected IDs to clear them specifically on success page
+            if (result.status === 'SUCCESS' && result.redirectUrl) {
                 localStorage.setItem('purchased_ids', JSON.stringify(selectedIds));
-                
-                showToast('🚀 Mengalihkan ke halaman pembayaran...');
-                setTimeout(() => {
-                    window.location.href = result.redirectUrl || '/payment-success';
-                }, 1500);
+                showToast('🚀 Mengalihkan ke DOKU Payment...');
+                setTimeout(() => { window.location.href = result.redirectUrl; }, 1500);
+            } else if (result.orderId) {
+                // Order saved, DOKU redirect unavailable → go to success page
+                localStorage.setItem('purchased_ids', JSON.stringify(selectedIds));
+                showToast('✅ Pesanan berhasil! Mengarahkan...');
+                setTimeout(() => { window.location.href = '/payment-success?orderId=' + result.orderId; }, 1500);
             } else {
-                showToast('❌ Gagal: ' + (result.message || 'Terjadi kesalahan'));
                 payBtn.innerHTML = originalHtml;
                 payBtn.disabled = false;
+                showPaymentError(result.message || 'Layanan pembayaran tidak tersedia.', selectedItems, addressId);
             }
         } catch (error) {
             console.error(error);
-            showToast('❌ Terjadi kesalahan sistem');
             payBtn.innerHTML = originalHtml;
             payBtn.disabled = false;
+            showToast('❌ Koneksi bermasalah. Silakan coba lagi.');
         }
+    }
+
+    function showPaymentError(msg, items, addressId) {
+        const existing = document.getElementById('paymentErrorBox');
+        if (existing) existing.remove();
+        const box = document.createElement('div');
+        box.id = 'paymentErrorBox';
+        box.style.cssText = 'background:#fff3cd;border:1px solid #ffc107;border-radius:16px;padding:20px;margin-top:16px;font-size:14px;';
+        box.innerHTML = `
+            <div style="font-weight:700;color:#856404;margin-bottom:8px;">⚠️ Pembayaran online tidak tersedia saat ini</div>
+            <div style="color:#666;margin-bottom:14px;font-size:13px;">${msg}</div>
+            <button onclick="processCOD()" style="background:#5C3D2E;color:white;border:none;padding:12px 24px;border-radius:30px;font-weight:700;cursor:pointer;width:100%;font-size:15px;">
+                📦 Lanjutkan dengan Bayar di Tempat (COD)
+            </button>`;
+        document.getElementById('payButton').insertAdjacentElement('afterend', box);
+    }
+
+    async function processCOD() {
+        const addressId = document.getElementById('addressSelect').value;
+        const selectedItems = allItems.filter(item => selectedIds.includes(item.id));
+        try {
+            const r = await fetch('/api/payments/create', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+                body: JSON.stringify({
+                    items: selectedItems, addressId,
+                    customerName: "{{ session('currentUser')->name ?? 'Guest' }}",
+                    customerEmail: "{{ session('currentUser')->email ?? '' }}",
+                    customerPhone: "{{ session('currentUser')->phone ?? '' }}",
+                    note: 'COD - ' + (document.getElementById('orderNote').value || '')
+                })
+            });
+            const result = await r.json();
+            localStorage.setItem('purchased_ids', JSON.stringify(selectedIds));
+            showToast('✅ Pesanan COD berhasil dibuat!');
+            setTimeout(() => { window.location.href = '/payment-success?orderId=' + (result.orderId || ''); }, 1500);
+        } catch(e) { showToast('❌ Gagal membuat pesanan. Coba lagi.'); }
     }
 
     function showToast(msg) {
