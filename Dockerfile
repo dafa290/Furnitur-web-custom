@@ -11,7 +11,7 @@ RUN apt-get update -y && apt-get install -y \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
-RUN docker-php-ext-install pdo_mysql zip
+RUN docker-php-ext-install pdo_mysql pdo_sqlite zip opcache
 
 # Get latest Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
