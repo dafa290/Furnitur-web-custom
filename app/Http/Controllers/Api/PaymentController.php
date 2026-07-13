@@ -80,10 +80,12 @@ class PaymentController extends Controller
             ]);
         }
 
+        // DOKU failed but order was saved — return orderId so front-end can still redirect
         return response()->json([
             'status' => 'FAILED',
+            'orderId' => $orderId,
             'message' => $result['message']
-        ], 400);
+        ], 200); // 200 so JS receives the body
     }
 
     public function updateStatus(Request $request): JsonResponse
