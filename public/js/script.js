@@ -410,11 +410,21 @@ window.addToWishlist = async function(productId) {
     }
 };
 
-// Dropdown function
+// Profile dropdown toggle
 window.toggleDropdown = function() {
     const dropdown = document.getElementById('profileDropdown');
     if (dropdown) {
-        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+        dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+    }
+}
+
+// Mobile sidebar toggle
+window.toggleMobileSidebar = function() {
+    const sidebar = document.getElementById('mobileSidebar');
+    const overlay = document.getElementById('mobileSidebarOverlay');
+    if (sidebar && overlay) {
+        sidebar.classList.toggle('show');
+        overlay.classList.toggle('show');
     }
 }
 

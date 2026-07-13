@@ -52,10 +52,40 @@
                 <i class="fas fa-shopping-bag" onclick="window.location.href='/checkout'"></i>
                 <span class="cart-badge" id="cartBadge" style="display: none;">0</span>
             </div>
+            <i class="fas fa-bars mobile-menu-btn" onclick="toggleMobileSidebar()" style="display: none;"></i>
         </div>
     </div>
     <div id="navbarSearchBar" style="display: none; padding: 12px 32px 20px;">
         <input type="text" id="navbarSearchInput" class="search-input" placeholder="Cari furniture...">
+    </div>
+</div>
+
+<!-- Mobile Sidebar Overlay -->
+<div class="mobile-sidebar-overlay" id="mobileSidebarOverlay" onclick="toggleMobileSidebar()"></div>
+<div class="mobile-sidebar" id="mobileSidebar">
+    <div class="mobile-sidebar-header">
+        <h2>FurniNest</h2>
+        <i class="fas fa-times" onclick="toggleMobileSidebar()"></i>
+    </div>
+    <div class="mobile-sidebar-content">
+        <a href="/home"><i class="fas fa-home"></i> Beranda</a>
+        <a href="/custom"><i class="fas fa-hammer"></i> Custom</a>
+        <a href="/home#productsSection" onclick="toggleMobileSidebar()"><i class="fas fa-couch"></i> Produk</a>
+        <a href="/home#categorySection" onclick="toggleMobileSidebar()"><i class="fas fa-th-large"></i> Kategori</a>
+        <a href="#footer" onclick="toggleMobileSidebar()"><i class="fas fa-phone"></i> Kontak</a>
+        <hr>
+        @if(!session('currentUser'))
+            <a href="/login"><i class="fas fa-sign-in-alt"></i> Login</a>
+            <a href="/register"><i class="fas fa-user-plus"></i> Daftar</a>
+        @else
+            <a href="/profile?tab=profile" style="color: var(--gold);"><i class="fas fa-user-circle"></i> {{ session('currentUser')->name }}</a>
+            @if(session('currentUser')->role === 'ADMIN')
+                <a href="/admin/dashboard"><i class="fas fa-chart-line"></i> Dashboard Admin</a>
+            @endif
+            <a href="/alamat/manage"><i class="fas fa-map-marker-alt"></i> Alamat Saya</a>
+            <a href="/profile?tab=orders"><i class="fas fa-box"></i> Riwayat Pesanan</a>
+            <a href="/logout" style="color: #dc2626;"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        @endif
     </div>
 </div>
 
