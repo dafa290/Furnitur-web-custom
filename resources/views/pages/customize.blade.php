@@ -119,6 +119,24 @@
         0% { transform: rotate(0deg); }
         100% { transform: rotate(360deg); }
     }
+    
+    @media (max-width: 768px) {
+        .customizer-container {
+            flex-direction: column;
+            overflow-y: auto;
+        }
+        #canvas-container {
+            flex: none;
+            height: 40vh;
+            width: 100%;
+        }
+        .controls-panel {
+            width: 100%;
+            height: auto;
+            flex: none;
+            overflow-y: visible;
+        }
+    }
 </style>
 
 <div class="customizer-container">
@@ -219,14 +237,15 @@
         scene.background = new THREE.Color(0xf8f9fa);
 
         // Camera setup
-        camera = new THREE.PerspectiveCamera(45, (window.innerWidth - 350) / (window.innerHeight - 80), 0.1, 1000);
+        const container = document.getElementById('canvas-container');
+        camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
         camera.position.set(3, 2, 4);
 
         // Renderer setup
         renderer = new THREE.WebGLRenderer({ antialias: true });
-        renderer.setSize(window.innerWidth - 350, window.innerHeight - 80);
+        renderer.setSize(container.clientWidth, container.clientHeight);
         renderer.shadowMap.enabled = true;
-        document.getElementById('canvas-container').appendChild(renderer.domElement);
+        container.appendChild(renderer.domElement);
 
         // Controls (Ensure THREE namespace is used)
         if (typeof THREE.OrbitControls === 'undefined') {
@@ -522,9 +541,12 @@
     }
 
     window.addEventListener('resize', () => {
-        camera.aspect = (window.innerWidth - 350) / (window.innerHeight - 80);
-        camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth - 350, window.innerHeight - 80);
+        const container = document.getElementById('canvas-container');
+        if(container && camera && renderer) {
+            camera.aspect = container.clientWidth / container.clientHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(container.clientWidth, container.clientHeight);
+        }
     });
 
     window.onload = init;
