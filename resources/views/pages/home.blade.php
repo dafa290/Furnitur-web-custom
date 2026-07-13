@@ -18,11 +18,30 @@
             </div>
         </div>
         <div class="hero-image">
-            <video autoplay muted loop playsinline referrerpolicy="no-referrer">
-                <source src="{{ asset('videos/furniture-preview.mp4') }}" type="video/mp4">
-                Browser tidak mendukung video.
+            {{-- Video dengan preload=none agar tidak lag saat halaman pertama buka --}}
+            <video id="heroVideo"
+                   muted loop playsinline
+                   preload="none"
+                   poster="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=700&fit=crop&q=80"
+                   style="border-radius:32px; width:100%; object-fit:cover;">
+                <source data-src="{{ asset('videos/furniture-preview.mp4') }}" type="video/mp4">
             </video>
         </div>
+        {{-- Load & play video hanya setelah seluruh halaman selesai render --}}
+        <script>
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                const v = document.getElementById('heroVideo');
+                if (!v) return;
+                const src = v.querySelector('source[data-src]');
+                if (src) {
+                    src.setAttribute('src', src.getAttribute('data-src'));
+                    v.load();
+                    v.play().catch(() => {});
+                }
+            }, 800);
+        });
+        </script>
     </div>
 
     <!-- Category Section -->
