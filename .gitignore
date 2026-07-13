@@ -24,3 +24,6 @@ public/videos/furniture-preview.mp4
 laporan-folder1/
 laporan-folder2/
 laporan-folder1.zip
+database.sqlite
+database/database.sqlite
+*.sqlite
