@@ -63,18 +63,19 @@ class DokuService
             $requestId = (string) Str::uuid();
             $requestTimestamp = $this->getCurrentTimestamp();
 
+            $appUrl = rtrim(config('app.url', env('APP_URL', 'https://ajeg-furnitur-web.hf.space')), '/');
+
             $body = [
                 "order" => [
                     "invoice_number" => $orderId,
                     "amount" => $amount,
                     "currency" => "IDR",
-                    "callback_url" => env('APP_URL', 'http://localhost:8000') . "/payment-success?orderId=" . $orderId,
-                    "callback_url_cancel" => env('APP_URL', 'http://localhost:8000') . "/checkout?orderId=" . $orderId,
+                    "callback_url" => $appUrl . "/payment-success?orderId=" . $orderId,
+                    "callback_url_cancel" => $appUrl . "/checkout?orderId=" . $orderId,
                     "auto_redirect" => true
                 ],
                 "payment" => [
-                    "payment_due_date" => 60,
-                    "payment_method_types" => ["VIRTUAL_ACCOUNT_BCA"]
+                    "payment_due_date" => 1440, // 24 jam
                 ],
                 "customer" => [
                     "name" => $customerName,
@@ -117,8 +118,12 @@ class DokuService
                 $data = $response->json();
                 Log::info("DOKU Success Response", $data);
 
-                // DOKU structure can vary, try common paths
-                $redirectUrl = $data['response']['payment']['url'] ?? $data['payment_url'] ?? null;
+                // Try all known DOKU response structures
+                $redirectUrl = $data['response']['payment']['url']
+                    ?? $data['payment']['url']
+                    ?? $data['payment_url']
+                    ?? $data['redirect_url']
+                    ?? null;
 
                 if ($redirectUrl) {
                     return [
@@ -127,6 +132,9 @@ class DokuService
                         'paymentId' => $requestId
                     ];
                 }
+
+                // Log the full response to help debug
+                Log::warning('DOKU no redirect URL found in response', $data);
             }
 
             Log::error("DOKU Error Response", [
