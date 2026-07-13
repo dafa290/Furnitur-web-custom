@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - FurniNest</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="admin-dashboard.css">
+</head>
+<body>
+
+<!-- ===== SIDEBAR ===== -->
+<div class="sidebar">
+    <div class="sidebar-header">
+        <h2>FurniNest</h2>
+        <p>Admin Panel</p>
+    </div>
+    <nav class="sidebar-menu">
+        <a class="menu-item active" href="#">
+            <i class="fas fa-chart-pie"></i><span>Dashboard</span>
+        </a>
+        <a class="menu-item" href="#">
+            <i class="fas fa-couch"></i><span>Produk</span>
+        </a>
+        <a class="menu-item" href="#">
+            <i class="fas fa-shopping-cart"></i><span>Pesanan</span>
+        </a>
+        <a class="menu-item" href="#">
+            <i class="fas fa-users"></i><span>Pelanggan</span>
+        </a>
+        <a class="menu-item" href="#">
+            <i class="fas fa-eye"></i><span>Lihat Website</span>
+        </a>
+    </nav>
+    <div class="sidebar-footer">
+        <a class="logout-btn" href="#">
+            <i class="fas fa-sign-out-alt"></i><span>Logout</span>
+        </a>
+    </div>
+</div>
+
+<!-- ===== MAIN CONTENT ===== -->
+<div class="main-container">
+
+    <!-- HEADER -->
+    <header class="header">
+        <h1>Dashboard Overview</h1>
+        <div class="user-info">
+            <div class="user-avatar">A</div>
+            <div style="font-size: 14px; font-weight: 600;">Admin</div>
+        </div>
+    </header>
+
+    <!-- STATS CARDS -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon" style="background: rgba(198,161,91,0.1); color: var(--admin-gold);">
+                <i class="fas fa-wallet"></i>
+            </div>
+            <div class="stat-label">Total Penjualan</div>
+            <div class="stat-value">Rp 124.500.000</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon" style="background: rgba(24,144,255,0.1); color: #1890ff;">
+                <i class="fas fa-shopping-bag"></i>
+            </div>
+            <div class="stat-label">Total Pesanan</div>
+            <div class="stat-value">87</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon" style="background: rgba(0,168,84,0.1); color: #00a854;">
+                <i class="fas fa-box"></i>
+            </div>
+            <div class="stat-label">Total Produk</div>
+            <div class="stat-value">42</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon" style="background: rgba(255,77,79,0.1); color: #ff4d4f;">
+                <i class="fas fa-users"></i>
+            </div>
+            <div class="stat-label">Total Pelanggan</div>
+            <div class="stat-value">156</div>
+        </div>
+    </div>
+
+    <!-- TABEL PESANAN + STOK MENIPIS -->
+    <div class="two-col">
+
+        <!-- PESANAN TERBARU -->
+        <div class="content-card">
+            <div class="card-header">
+                <h3>Pesanan Terbaru</h3>
+                <a href="#" class="btn btn-outline btn-sm">Lihat Semua</a>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Pelanggan</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="font-weight: 600;">#ORD-001</td>
+                        <td>Budi Santoso</td>
+                        <td>Rp 4.500.000</td>
+                        <td><span class="badge badge-success">SELESAI</span></td>
+                        <td><a href="#" class="btn btn-sm btn-outline"><i class="fas fa-eye"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: 600;">#ORD-002</td>
+                        <td>Siti Rahayu</td>
+                        <td>Rp 2.100.000</td>
+                        <td><span class="badge badge-info">MENUNGGU BAYAR</span></td>
+                        <td><a href="#" class="btn btn-sm btn-outline"><i class="fas fa-eye"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: 600;">#ORD-003</td>
+                        <td>Ahmad Fauzi</td>
+                        <td>Rp 8.750.000</td>
+                        <td><span class="badge badge-warning">DIKIRIM</span></td>
+                        <td><a href="#" class="btn btn-sm btn-outline"><i class="fas fa-eye"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: 600;">#ORD-004</td>
+                        <td>Dewi Lestari</td>
+                        <td>Rp 1.200.000</td>
+                        <td><span class="badge badge-danger">BATAL</span></td>
+                        <td><a href="#" class="btn btn-sm btn-outline"><i class="fas fa-eye"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: 600;">#ORD-005</td>
+                        <td>Rizky Pratama</td>
+                        <td>Rp 3.300.000</td>
+                        <td><span class="badge badge-success">PAID</span></td>
+                        <td><a href="#" class="btn btn-sm btn-outline"><i class="fas fa-eye"></i></a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- STOK MENIPIS -->
+        <div class="content-card">
+            <div class="card-header">
+                <h3>Stok Menipis</h3>
+            </div>
+            <div class="stock-item">
+                <img class="stock-img" src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=100&fit=crop" alt="Sofa Cream">
+                <div class="stock-info">
+                    <div class="stock-name">Sofa Cream Premium</div>
+                    <div class="stock-qty">Tersisa: 3 unit</div>
+                </div>
+                <a href="#" class="btn btn-sm btn-outline"><i class="fas fa-edit"></i></a>
+            </div>
+            <div class="stock-item">
+                <img class="stock-img" src="https://images.unsplash.com/photo-1538688525198-9b88f6f53126?w=100&fit=crop" alt="Meja Makan">
+                <div class="stock-info">
+                    <div class="stock-name">Meja Makan Jati</div>
+                    <div class="stock-qty">Tersisa: 5 unit</div>
+                </div>
+                <a href="#" class="btn btn-sm btn-outline"><i class="fas fa-edit"></i></a>
+            </div>
+            <div class="stock-item">
+                <img class="stock-img" src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=100&fit=crop" alt="Kursi Rotan">
+                <div class="stock-info">
+                    <div class="stock-name">Kursi Rotan Santai</div>
+                    <div class="stock-qty">Tersisa: 2 unit</div>
+                </div>
+                <a href="#" class="btn btn-sm btn-outline"><i class="fas fa-edit"></i></a>
+            </div>
+            <div class="stock-item">
+                <img class="stock-img" src="https://images.unsplash.com/photo-1505693314120-0d443867891c?w=100&fit=crop" alt="Lemari">
+                <div class="stock-info">
+                    <div class="stock-name">Lemari Sliding Mirror</div>
+                    <div class="stock-qty">Tersisa: 7 unit</div>
+                </div>
+                <a href="#" class="btn btn-sm btn-outline"><i class="fas fa-edit"></i></a>
+            </div>
+        </div>
+
+    </div><!-- end two-col -->
+
+</div><!-- end main-container -->
+
+<script src="admin-dashboard.js"></script>
+
+</body>
+</html>
