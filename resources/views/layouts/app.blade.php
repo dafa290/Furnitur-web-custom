@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <script defer src="{{ asset('js/script.js') }}"></script>
+    @yield('extra_css')
 </head>
 <body>
 
@@ -76,5 +77,6 @@
 
 <div id="toastMsg" class="toast-notif">Ditambahkan ke keranjang</div>
 
+@yield('extra_js')
 </body>
 </html>
