@@ -2,145 +2,99 @@
 
 @section('title', 'FurniNest | Detail Produk')
 
+@section('extra_css')
+    <!-- Bootstrap CSS for Product Detail Page -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Override Bootstrap defaults to match theme slightly */
+        .btn-primary-custom { background-color: #5C3D2E; color: white; border: none; }
+        .btn-primary-custom:hover { background-color: #C6A15B; color: white; transform: translateY(-2px); transition: all 0.2s;}
+        .text-brown { color: #5C3D2E !important; }
+        .text-gold { color: #C6A15B !important; }
+        .bg-cream { background-color: #F5F0E8 !important; }
+        .bg-warm-white { background-color: #FAF7F2 !important; }
+        /* Fix for conflicting styles on navbar/footer */
+        .navbar a, .footer a { text-decoration: none; }
+        /* Back button */
+        .back-link { color: #8B6352; text-decoration: none; font-weight: 500; transition: color 0.2s; }
+        .back-link:hover { color: #C6A15B; }
+    </style>
+@endsection
+
 @section('content')
-<div class="container">
-    <a href="/home" class="back-button">
-        <i class="fas fa-arrow-left"></i> Kembali
-    </a>
+<div class="container py-5 mt-5">
+    <div class="mb-4">
+        <a href="/home" class="back-link d-inline-flex align-items-center gap-2">
+            <i class="fas fa-arrow-left"></i> Kembali
+        </a>
+    </div>
     
-    <div class="product-detail-card" id="productDetailCard">
-        <div class="product-gallery">
-            <img id="productImage" src="{{ $product->img ?? 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&fit=crop' }}" alt="{{ $product->name ?? 'Product Image' }}">
-        </div>
-        <div class="product-info">
-            <span class="product-category" id="productCategory">{{ $product->category ?? 'Furniture' }}</span>
-            <h1 id="productName">{{ $product->name ?? 'Memuat...' }}</h1>
-            <div class="product-rating">
-                <span class="stars" id="productStars">★★★★½</span>
-                <span class="rating-text" id="productRatingText">4.7 / 5 (24 ulasan)</span>
+    <div class="card border-0 shadow-lg" style="border-radius: 24px; overflow: hidden;">
+        <div class="row g-0">
+            <div class="col-md-6 bg-warm-white p-4 p-md-5 d-flex align-items-center justify-content-center">
+                <img id="productImage" src="{{ $product->img ?? 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&fit=crop' }}" class="img-fluid rounded-4 shadow-sm" alt="{{ $product->name ?? 'Product Image' }}" style="max-height: 500px; object-fit: cover; width: 100%;">
             </div>
-            <div class="product-price" id="productPrice">Rp {{ number_format($product->price ?? 0, 0, ',', '.') }}</div>
-            <div class="product-description" id="productDescription">
-                {{ $product->description ?? 'Produk furnitur berkualitas tinggi dengan desain eksklusif yang akan mempercantik setiap sudut ruangan Anda. Dibuat dengan material pilihan untuk ketahanan maksimal.' }}
-            </div>
-            
-            <div class="specs-grid">
-                <div class="spec-row">
-                    <span class="spec-label">Warna</span>
-                    <span class="spec-value" id="productColor">{{ $product->color ?? '-' }}</span>
+            <div class="col-md-6 p-4 p-md-5">
+                <span class="badge bg-cream text-gold rounded-pill px-3 py-2 mb-3" id="productCategory" style="font-weight: 600; letter-spacing: 1px;">{{ $product->category ?? 'Furniture' }}</span>
+                <h1 id="productName" class="display-5 fw-bold text-brown mb-3" style="font-family: 'Playfair Display', serif;">{{ $product->name ?? 'Memuat...' }}</h1>
+                
+                <div class="d-flex align-items-center gap-2 mb-4">
+                    <span class="text-warning" id="productStars" style="letter-spacing: 2px;">★★★★½</span>
+                    <span class="text-muted small" id="productRatingText">4.7 / 5 (24 ulasan)</span>
                 </div>
-                <div class="spec-row">
-                    <span class="spec-label">Bahan</span>
-                    <span class="spec-value" id="productMaterial">{{ $product->material ?? '-' }}</span>
+                
+                <div class="fs-1 fw-bolder text-gold mb-4" id="productPrice">Rp {{ number_format($product->price ?? 0, 0, ',', '.') }}</div>
+                
+                <div class="product-description text-secondary mb-4 border-start border-3 border-light ps-3 lh-lg" id="productDescription">
+                    {{ $product->description ?? 'Produk furnitur berkualitas tinggi dengan desain eksklusif yang akan mempercantik setiap sudut ruangan Anda. Dibuat dengan material pilihan untuk ketahanan maksimal.' }}
                 </div>
-                <div class="spec-row">
-                    <span class="spec-label">Dimensi</span>
-                    <span class="spec-value" id="productDimensions">80cm x 60cm x 45cm</span>
+                
+                <div class="card bg-warm-white border-light mb-4" style="border-radius: 16px;">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between py-2 border-bottom border-light">
+                            <span class="fw-semibold text-brown">Warna</span>
+                            <span class="text-muted" id="productColor">{{ $product->color ?? '-' }}</span>
+                        </div>
+                        <div class="d-flex justify-content-between py-2 border-bottom border-light">
+                            <span class="fw-semibold text-brown">Bahan</span>
+                            <span class="text-muted" id="productMaterial">{{ $product->material ?? '-' }}</span>
+                        </div>
+                        <div class="d-flex justify-content-between py-2">
+                            <span class="fw-semibold text-brown">Dimensi</span>
+                            <span class="text-muted" id="productDimensions">80cm x 60cm x 45cm</span>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            
-            <div id="stockStatus">
-                @if(($product->stock ?? 0) > 10)
-                    <div class="stock-status in-stock"><i class="fas fa-check-circle"></i> Stok tersedia ({{ $product->stock }} pcs)</div>
-                @elseif(($product->stock ?? 0) > 0)
-                    <div class="stock-status low-stock"><i class="fas fa-exclamation-triangle"></i> Stok terbatas ({{ $product->stock }} pcs)</div>
-                @else
-                    <div class="stock-status out-stock"><i class="fas fa-times-circle"></i> Stok habis</div>
-                @endif
-            </div>
-            
-            <div class="cart-section">
-                <div class="quantity-wrapper">
-                    <button class="qty-btn" onclick="decrementQty()">−</button>
-                    <input type="number" id="quantity" class="qty-input" value="1" min="1" max="99" readonly>
-                    <button class="qty-btn" onclick="incrementQty()">+</button>
+                
+                <div class="mb-4" id="stockStatus">
+                    @if(($product->stock ?? 0) > 10)
+                        <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-3 py-2 fw-medium"><i class="fas fa-check-circle me-1"></i> Stok tersedia ({{ $product->stock }} pcs)</span>
+                    @elseif(($product->stock ?? 0) > 0)
+                        <span class="badge bg-warning bg-opacity-10 text-warning rounded-pill px-3 py-2 fw-medium"><i class="fas fa-exclamation-triangle me-1"></i> Stok terbatas ({{ $product->stock }} pcs)</span>
+                    @else
+                        <span class="badge bg-danger bg-opacity-10 text-danger rounded-pill px-3 py-2 fw-medium"><i class="fas fa-times-circle me-1"></i> Stok habis</span>
+                    @endif
                 </div>
-                <button class="btn-add-cart" onclick="addToCartDetailPage()">
-                    <i class="fas fa-shopping-cart"></i> Tambah ke Keranjang
-                </button>
+                
+                <div class="d-flex align-items-center gap-3 flex-wrap">
+                    <div class="input-group border rounded-pill overflow-hidden" style="width: 130px; height: 50px;">
+                        <button class="btn btn-light border-0 text-gold fw-bold px-3" type="button" onclick="decrementQty()">−</button>
+                        <input type="number" id="quantity" class="form-control border-0 text-center fw-bold bg-white" value="1" min="1" max="99" readonly>
+                        <button class="btn btn-light border-0 text-gold fw-bold px-3" type="button" onclick="incrementQty()">+</button>
+                    </div>
+                    <button class="btn btn-primary-custom flex-grow-1 rounded-pill fw-bold" style="height: 50px;" onclick="addToCartDetailPage()">
+                        <i class="fas fa-shopping-cart me-2"></i> Tambah ke Keranjang
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 </div>
+@endsection
 
-<style>
-    /* Specific styles for product detail since they differ slightly from main home page */
-    .back-button {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        margin: 32px 0 24px;
-        text-decoration: none;
-        color: var(--brown-light);
-        font-weight: 500;
-        transition: gap 0.2s;
-    }
-    .back-button:hover { gap: 12px; color: var(--gold); }
-    
-    .product-detail-card {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 48px;
-        background: white;
-        border-radius: 32px;
-        overflow: hidden;
-        box-shadow: var(--shadow);
-        margin-bottom: 60px;
-    }
-    .product-gallery {
-        background: var(--warm-white);
-        padding: 32px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    .product-gallery img {
-        width: 100%;
-        max-width: 400px;
-        border-radius: 24px;
-        object-fit: cover;
-        transition: transform 0.3s;
-    }
-    .product-info { padding: 48px 48px 48px 0; }
-    .product-category {
-        display: inline-block;
-        background: var(--cream);
-        color: var(--gold-dark);
-        padding: 6px 14px;
-        border-radius: 30px;
-        font-size: 13px;
-        font-weight: 600;
-        margin-bottom: 16px;
-    }
-    .product-info h1 { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 700; color: var(--brown); margin-bottom: 12px; }
-    .product-rating { display: flex; align-items: center; gap: 8px; margin-bottom: 20px; }
-    .stars { color: #f5b042; letter-spacing: 2px; }
-    .rating-text { color: var(--text-light); font-size: 14px; }
-    .product-price { font-size: 32px; font-weight: 800; color: var(--gold-dark); margin-bottom: 24px; }
-    .product-description { color: var(--text-dark); line-height: 1.7; margin-bottom: 28px; border-left: 3px solid var(--border-light); padding-left: 20px; }
-    .specs-grid { background: var(--warm-white); border-radius: 20px; padding: 20px; margin-bottom: 28px; border: 1px solid var(--border-light); }
-    .spec-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border-light); }
-    .spec-row:last-child { border-bottom: none; }
-    .spec-label { font-weight: 600; color: var(--brown); }
-    .spec-value { color: var(--text-light); }
-    .stock-status { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 30px; font-size: 13px; font-weight: 500; margin-bottom: 24px; }
-    .in-stock { background: #e8f3ec; color: #2e7d32; }
-    .low-stock { background: #fff3e0; color: #ed6c02; }
-    .out-stock { background: #ffebee; color: #d32f2f; }
-    .cart-section { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
-    .quantity-wrapper { display: flex; align-items: center; border: 1px solid var(--border-light); border-radius: 60px; overflow: hidden; }
-    .qty-btn { width: 44px; height: 44px; background: white; border: none; font-size: 20px; cursor: pointer; color: var(--gold); transition: background 0.2s; }
-    .qty-btn:hover { background: var(--warm-white); }
-    .qty-input { width: 60px; text-align: center; border: none; font-size: 16px; font-weight: 500; background: white; padding: 10px 0; }
-    .btn-add-cart { flex: 1; background: var(--brown); border: none; padding: 14px 28px; border-radius: 60px; color: white; font-weight: 700; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: all 0.2s; }
-    .btn-add-cart:hover { background: var(--gold); transform: translateY(-2px); }
-
-    @media (max-width: 768px) {
-        .product-detail-card { grid-template-columns: 1fr; gap: 0; }
-        .product-info { padding: 32px; }
-    }
-</style>
-
+@section('extra_js')
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     function incrementQty() {
         const input = document.getElementById('quantity');
