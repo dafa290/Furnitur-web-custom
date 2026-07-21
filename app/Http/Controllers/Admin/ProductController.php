@@ -30,7 +30,7 @@ class ProductController extends Controller
             'price' => 'required|numeric',
             'stock' => 'required|integer',
             'description' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|file|max:2048',
             'material' => 'nullable|string',
             'dimensions' => 'nullable|string',
             'color' => 'nullable|string',
@@ -39,7 +39,11 @@ class ProductController extends Controller
         $data = $request->all();
 
         if ($request->hasFile('image')) {
-            $imageName = time().'.'.$request->image->extension();
+            $ext = strtolower($request->image->getClientOriginalExtension());
+            if (!in_array($ext, ['jpg', 'jpeg', 'png', 'gif'])) {
+                return back()->withErrors(['image' => 'Harus berupa gambar (jpeg, png, jpg, gif).'])->withInput();
+            }
+            $imageName = time().'.'.$ext;
             $request->image->move(public_path('images/products'), $imageName);
             $data['img'] = '/images/products/'.$imageName;
         }
@@ -69,7 +73,11 @@ class ProductController extends Controller
         $data = $request->all();
 
         if ($request->hasFile('image')) {
-            $imageName = time().'.'.$request->image->extension();
+            $ext = strtolower($request->image->getClientOriginalExtension());
+            if (!in_array($ext, ['jpg', 'jpeg', 'png', 'gif'])) {
+                return back()->withErrors(['image' => 'Harus berupa gambar (jpeg, png, jpg, gif).'])->withInput();
+            }
+            $imageName = time().'.'.$ext;
             $request->image->move(public_path('images/products'), $imageName);
             $data['img'] = '/images/products/'.$imageName;
         }
