@@ -8,20 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        body { font-family: 'Inter', sans-serif; background-color: #f8f9fa; }
-        .sidebar { width: 280px; min-height: 100vh; background-color: #242424; }
-        .sidebar-brand { font-family: 'Playfair Display', serif; color: #C6A15B; font-size: 24px; text-align: center; }
-        .nav-link { color: rgba(255,255,255,0.7); font-weight: 500; border-left: 4px solid transparent; }
-        .nav-link:hover, .nav-link.active { color: #fff; background-color: rgba(255,255,255,0.05); border-left-color: #C6A15B; }
-        .nav-link i { width: 24px; text-align: center; margin-right: 10px; }
-        .admin-content { flex-grow: 1; padding: 2rem; }
-        .user-avatar { width: 40px; height: 40px; background-color: #C6A15B; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; }
-        .btn-gold { background-color: #C6A15B; color: white; border: none; }
-        .btn-gold:hover { background-color: #b08e4d; color: white; }
-        .btn-outline-gold { border-color: #C6A15B; color: #C6A15B; }
-        .btn-outline-gold:hover { background-color: #C6A15B; color: white; }
-    </style>
+    <link rel="stylesheet" href="{{ asset('css/pages/admin.css') }}">
     @yield('extra_css')
 </head>
 <body class="d-flex">
