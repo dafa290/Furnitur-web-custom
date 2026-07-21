@@ -39,7 +39,8 @@
             <div class="checkout-note">
                 <i class="fas fa-truck"></i> Estimasi tiba dalam 2–4 hari kerja setelah pesanan dikonfirmasi
             </div>
-        </div>
+            </div> <!-- End order-summary -->
+        </div> <!-- End col-lg-7 -->
 
         <!-- Right: Checkout Form -->
         <div class="col-lg-5 order-1 order-lg-2">
@@ -90,9 +91,10 @@
                     <i class="fas fa-sign-in-alt"></i> Login Sekarang
                 </a>
             @endif
-        </div>
-    </div>
-</div>
+            </div> <!-- End checkout-form -->
+        </div> <!-- End col-lg-5 -->
+    </div> <!-- End row -->
+</div> <!-- End container -->
 
 @section('extra_js')
 <script>

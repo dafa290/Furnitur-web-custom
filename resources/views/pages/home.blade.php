@@ -16,15 +16,15 @@
         <div class="hero-text" data-aos="fade-up" data-aos-duration="1000">
             <span class="hero-badge">✦ Limited Edition ✦</span>
             <h1>Elevate Your<br>Living Space</h1>
-            <p>Discover luxury furniture that combines timeless elegance with modern comfort. Crafted for those who appreciate the finer things in life.</p>
+            <p style="color: white !important;">Discover luxury furniture that combines timeless elegance with modern comfort. Crafted for those who appreciate the finer things in life.</p>
             <div class="hero-buttons">
                 <button class="btn-primary" onclick="window.location.href='/home#productsSection'">Shop Collection →</button>
                 <button class="btn-outline" onclick="document.getElementById('featured').scrollIntoView({behavior: 'smooth'})">Explore Now</button>
             </div>
-            <div class="hero-stats">
-                <div><span>500+</span><br>Premium Products</div>
-                <div><span>15k+</span><br>Happy Customers</div>
-                <div><span>4.9</span><br>Rating</div>
+            <div class="hero-stats" style="color: white !important;">
+                <div><span style="color: white !important;">500+</span><br>Premium Products</div>
+                <div><span style="color: white !important;">15k+</span><br>Happy Customers</div>
+                <div><span style="color: white !important;">4.9</span><br>Rating</div>
             </div>
         </div>
         <div class="hero-gallery" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200">
