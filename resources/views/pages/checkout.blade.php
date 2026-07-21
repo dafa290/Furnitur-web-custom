@@ -7,12 +7,15 @@
 @endsection
 
 @section('content')
-<div class="checkout-container">
-    <h1 class="page-title"><i class="fas fa-shopping-cart"></i> Keranjang & Checkout</h1>
+<div class="container py-5 my-5">
+    <h1 class="mb-5 d-flex align-items-center gap-3" style="font-family: 'Playfair Display', serif; font-weight: 700; color: var(--brown);">
+        <i class="fas fa-shopping-cart" style="color: var(--gold);"></i> Keranjang & Checkout
+    </h1>
     
-    <div class="checkout-grid">
+    <div class="row g-5">
         <!-- Left: Cart Items & Selection -->
-        <div class="order-summary" style="order: 1;">
+        <div class="col-lg-7 order-2 order-lg-1">
+            <div class="order-summary bg-white p-4 p-md-5 rounded-4 shadow-sm border" style="border-color: var(--border-light) !important;">
             <div class="summary-header" style="margin-bottom: 30px;">
                 <div style="display: flex; flex-direction: column; gap: 8px;">
                     <h3>🛍️ Barang yang dibeli</h3>
@@ -39,8 +42,9 @@
         </div>
 
         <!-- Right: Checkout Form -->
-        <div class="checkout-form" style="order: 2;">
-            <h3>📦 Detail Pengiriman</h3>
+        <div class="col-lg-5 order-1 order-lg-2">
+            <div class="checkout-form bg-white p-4 p-md-5 rounded-4 shadow-sm border" style="border-color: var(--border-light) !important;">
+                <h3 class="mb-4" style="font-family: 'Playfair Display', serif; color: var(--brown); font-weight: 700;">📦 Detail Pengiriman</h3>
             
             @if(session('currentUser'))
                 <div class="form-group">

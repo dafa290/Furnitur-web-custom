@@ -1,10 +1,6 @@
-    .checkout-container { max-width: 1200px; margin: 40px auto 80px; padding: 0 24px; }
     .page-title { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 700; color: var(--brown); margin-bottom: 40px; display: flex; align-items: center; gap: 15px; }
     .page-title i { color: var(--gold); }
     
-    .checkout-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 32px; align-items: start; }
-    
-    .checkout-form, .order-summary { background: white; border-radius: 24px; padding: 32px; box-shadow: var(--shadow); border: 1px solid var(--border-light); }
     .checkout-form h3, .order-summary h3 { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--brown); margin-bottom: 24px; font-weight: 700; }
     
     .select-all-wrap { display: flex; justify-content: space-between; align-items: center; padding-bottom: 16px; border-bottom: 1px solid var(--border-light); margin-bottom: 8px; }
@@ -55,4 +51,4 @@
 
     .badge-premium { background: linear-gradient(135deg, var(--gold), var(--gold-dark)); color: white; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 700; text-transform: uppercase; }
 
-    @media (max-width: 900px) { .checkout-grid { grid-template-columns: 1fr; } .order-summary { order: 2 !important; } .checkout-form { order: 1 !important; } }
+
