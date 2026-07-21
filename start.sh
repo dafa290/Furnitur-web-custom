@@ -8,4 +8,6 @@ php artisan config:clear
 php artisan route:clear
 php artisan cache:clear
 
-php artisan serve --host=0.0.0.0 --port=${PORT:-8080}
+PORT_TO_USE="${PORT:-7860}"
+
+php artisan serve --host=0.0.0.0 --port="$PORT_TO_USE"
