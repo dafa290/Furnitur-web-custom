@@ -2,179 +2,206 @@
 
 @section('title', 'FurniNest | Premium Furniture')
 
+@section('extra_css')
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<link rel="stylesheet" href="{{ asset('css/home-lama.css') }}">
+<style>
+    /* Hide the global layout's footer and padding so the old homepage design takes over */
+    #footer { display: none !important; }
+    .main-content { padding-top: 0 !important; }
+    
+    /* Make sure our navbar from layout stays on top */
+    .navbar { z-index: 9999 !important; }
+
+    /* Override some defaults from home-lama that might mess with layout */
+    body { overflow-x: hidden; }
+</style>
+@endsection
+
 @section('content')
-<div class="container">
-    <!-- Hero Section dengan Video -->
-    <div class="hero">
-        <div class="hero-content">
-            <div class="hero-badge">✦ Koleksi 2025 ✦</div>
-            <h1 class="hero-title">Temukan Furniture<br><em>Impian Anda</em></h1>
-            <p class="hero-desc">Koleksi eksklusif dengan sentuhan hangat kayu natural dan desain kontemporer untuk ruang yang penuh karakter.</p>
-            <button class="btn-primary" onclick="scrollToProducts()">Belanja Sekarang <i class="fas fa-arrow-right"></i></button>
+<!-- ========== HERO SECTION ========== -->
+<section class="hero" id="home-page">
+    <div class="hero-bg" style="background-image: url('{{ asset('assets/images/hero/bg-hero.jpg') }}');"></div>
+    <div class="hero-content">
+        <div class="hero-text" data-aos="fade-up" data-aos-duration="1000">
+            <span class="hero-badge">✦ Limited Edition ✦</span>
+            <h1>Elevate Your<br>Living Space</h1>
+            <p>Discover luxury furniture that combines timeless elegance with modern comfort. Crafted for those who appreciate the finer things in life.</p>
+            <div class="hero-buttons">
+                <button class="btn-primary" onclick="window.location.href='/home#productsSection'">Shop Collection →</button>
+                <button class="btn-outline" onclick="document.getElementById('featured').scrollIntoView({behavior: 'smooth'})">Explore Now</button>
+            </div>
             <div class="hero-stats">
-                <div class="stat-item"><div class="stat-number">500+</div><div class="stat-label">Produk Premium</div></div>
-                <div class="stat-item"><div class="stat-number">4.9★</div><div class="stat-label">Rating Pelanggan</div></div>
-                <div class="stat-item"><div class="stat-number">Gratis</div><div class="stat-label">Ongkir JKT</div></div>
+                <div><span>500+</span><br>Premium Products</div>
+                <div><span>15k+</span><br>Happy Customers</div>
+                <div><span>4.9</span><br>Rating</div>
             </div>
         </div>
-        <div class="hero-image">
-            {{-- Video dengan preload=none agar tidak lag saat halaman pertama buka --}}
-            <video id="heroVideo"
-                   muted loop playsinline
-                   controlsList="nodownload"
-                   disablePictureInPicture
-                   preload="none"
-                   poster="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=700&fit=crop&q=80"
-                   style="border-radius:32px; width:100%; object-fit:cover; pointer-events:none;">
-                <source data-src="{{ asset('videos/furniture-preview.mp4') }}" type="video/mp4">
-            </video>
-        </div>
-        {{-- Load & play video hanya setelah seluruh halaman selesai render --}}
-        <script>
-        window.addEventListener('load', function() {
-            setTimeout(function() {
-                const v = document.getElementById('heroVideo');
-                if (!v) return;
-                const src = v.querySelector('source[data-src]');
-                if (src) {
-                    src.setAttribute('src', src.getAttribute('data-src'));
-                    v.load();
-                    v.play().catch(() => {});
-                }
-            }, 800);
-        });
-        </script>
-    </div>
-
-    <!-- Category Section -->
-    <div class="category-section" id="categorySection">
-        <span class="section-eyebrow">Jelajahi</span>
-        <h2 class="section-title">Koleksi Unggulan</h2>
-        <div class="category-scroll" id="categoryScroll">
-            <div class="cat-card" data-cat="Kursi" onclick="filterByCategory('Kursi')"><div class="cat-icon"><i class="fas fa-couch"></i></div><span>Kursi</span></div>
-            <div class="cat-card" data-cat="Meja" onclick="filterByCategory('Meja')"><div class="cat-icon"><i class="fas fa-table"></i></div><span>Meja</span></div>
-            <div class="cat-card" data-cat="Sofa" onclick="filterByCategory('Sofa')"><div class="cat-icon"><i class="fas fa-couch"></i></div><span>Sofa</span></div>
-            <div class="cat-card" data-cat="Lemari" onclick="filterByCategory('Lemari')"><div class="cat-icon"><i class="fas fa-archive"></i></div><span>Lemari</span></div>
-            <div class="cat-card" data-cat="Tempat Tidur" onclick="filterByCategory('Tempat Tidur')"><div class="cat-icon"><i class="fas fa-bed"></i></div><span>Tempat Tidur</span></div>
-        </div>
-    </div>
-
-    <!-- Carousel Iklan Section -->
-    <div class="promo-section" id="carouselSection">
-        <span class="section-eyebrow">✦ Promo Spesial ✦</span>
-        <h2 class="section-title">Penawaran <em>Terbatas</em></h2>
-        <div class="carousel-container">
-            <div class="carousel-wrapper">
-                <div class="carousel-slides-ads" id="carouselSlides">
-                    <div class="carousel-slide-ad active">
-                        <div class="carousel-content">
-                            <div class="carousel-badge">🔥 HOT DEAL</div>
-                            <h3>Diskon 30% untuk Sofa Premium</h3>
-                            <p>Koleksi sofa terbaru dengan pilihan warna hangat dan bahan lembut untuk ruang tamu elegan.</p>
-                            <button class="btn-primary" onclick="scrollToProducts()">Lihat Promo <i class="fas fa-arrow-right"></i></button>
-                        </div>
-                        <div class="carousel-image"><img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&h=300&fit=crop" alt="Sofa Promo"></div>
+        <div class="hero-gallery" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200">
+            <div class="hero-card hero-card-1">
+                <img src="{{ asset('assets/images/hero/hero-1.jpg') }}" alt="Luxury Sofa" onerror="this.src='https://placehold.co/400x500?text=Hero+1'">
+                <div class="hero-card-label">Nordic Sofa</div>
+            </div>
+            <div class="hero-card hero-card-2">
+                <img src="{{ asset('assets/images/hero/hero-2.jpg') }}" alt="Designer Chair" onerror="this.src='https://placehold.co/400x500?text=Hero+2'">
+                <div class="hero-card-label">Eames Chair</div>
+            </div>
+            <div class="hero-card hero-card-3">
+                <img src="{{ asset('assets/images/hero/hero-3.jpg') }}" alt="Modern Cabinet" onerror="this.src='https://placehold.co/400x500?text=Hero+3'">
+                <div class="hero-card-label">Statement Piece</div>
+            </div>
+            <div class="promo-banner">
+                <div class="promo-content">
+                    <div class="promo-text">
+                        <span class="promo-badge">Limited Offer</span>
+                        <h2>Luxury</h2>
+                        <h3>-40% OFF</h3>
                     </div>
-                    <div class="carousel-slide-ad">
-                        <div class="carousel-content">
-                            <div class="carousel-badge">🚚 GRATIS ONGKIR</div>
-                            <h3>Gratis Antar & Pasang</h3>
-                            <p>Nikmati layanan antar dan pemasangan gratis untuk setiap pembelian di atas Rp 2.000.000.</p>
-                            <button class="btn-primary" onclick="scrollToProducts()">Belanja Sekarang <i class="fas fa-arrow-right"></i></button>
+                    <div class="promo-image-wrapper">
+                        <div class="promo-image">
+                            <img src="{{ asset('assets/images/promo/promo.jpg') }}" alt="Promo" onerror="this.src='https://placehold.co/100x100?text=Promo'">
                         </div>
-                        <div class="carousel-image"><img src="https://images.unsplash.com/photo-1618220179428-22790b461013?w=400&h=300&fit=crop" alt="Free Delivery"></div>
+                        <div class="promo-discount-badge">-40%</div>
                     </div>
-                    <div class="carousel-slide-ad">
-                        <div class="carousel-content">
-                            <div class="carousel-badge">🎨 DESAIN EKSKLUSIF</div>
-                            <h3>Interior Styling Gratis</h3>
-                            <p>Dapatkan konsultasi desain interior gratis untuk membuat rumah Anda lebih hidup dan berkelas.</p>
-                            <button class="btn-primary" onclick="scrollToProducts()">Konsultasi <i class="fas fa-arrow-right"></i></button>
-                        </div>
-                        <div class="carousel-image"><img src="https://wallpaperaccess.com/full/2594902.jpg" alt="Interior Design"></div>
-                    </div>
-                    <div class="carousel-slide-ad">
-                        <div class="carousel-content">
-                            <div class="carousel-badge">🪑 KOLEKSI BARU</div>
-                            <h3>Meja & Kursi Premium</h3>
-                            <p>Kombinasi meja elegan dan kursi nyaman untuk ruang makan impian Anda.</p>
-                            <button class="btn-primary" onclick="scrollToProducts()">Jelajahi <i class="fas fa-arrow-right"></i></button>
-                        </div>
-                        <div class="carousel-image"><img src="https://images.unsplash.com/photo-1533090481720-856c6e3c1fdc?w=400&h=300&fit=crop" alt="Dining Set"></div>
-                    </div>
-                    <div class="carousel-slide-ad">
-                        <div class="carousel-content">
-                            <div class="carousel-badge">⭐ 4.9★ RATING</div>
-                            <h3>Kepuasan Pelanggan #1</h3>
-                            <p>Bergabung dengan 500+ pelanggan puas yang telah mempercayakan furnitur impian mereka.</p>
-                            <button class="btn-primary" onclick="scrollToProducts()">Lihat Testimoni <i class="fas fa-arrow-right"></i></button>
-                        </div>
-                        <div class="carousel-image"><img src="https://images.unsplash.com/photo-1505693314120-0d443867891c?w=400&h=300&fit=crop" alt="Customer Review"></div>
-                    </div>
-                </div>
-                <button class="carousel-prev-ad" onclick="prevSlideAd()">❮</button>
-                <button class="carousel-next-ad" onclick="nextSlideAd()">❯</button>
-                <div class="carousel-dots-ad" id="carouselDotsAd">
-                    <span class="dot-ad active" onclick="goToSlideAd(0)"></span>
-                    <span class="dot-ad" onclick="goToSlideAd(1)"></span>
-                    <span class="dot-ad" onclick="goToSlideAd(2)"></span>
-                    <span class="dot-ad" onclick="goToSlideAd(3)"></span>
-                    <span class="dot-ad" onclick="goToSlideAd(4)"></span>
                 </div>
             </div>
         </div>
     </div>
+</section>
 
-    <!-- Products Section -->
-    <div class="products-section" id="productsSection">
-        <span class="section-eyebrow">Koleksi Lengkap</span>
-        <h2 class="section-title">Semua Produk Furniture</h2>
-        <div class="layout-dual">
-            <aside class="filter-sidebar">
-                <div class="filter-group">
-                    <div class="filter-label">Cari Produk</div>
-                    <input type="text" id="searchInput" class="search-input" placeholder="Cari furniture...">
+<!-- ========== CATEGORIES SECTION ========== -->
+<section class="categories" data-aos="fade-up" id="categorySection">
+    <div class="section-header">
+        <span class="section-subtitle">Koleksi</span>
+        <h2 class="section-title">Shop by Category</h2>
+        <div class="section-line"></div>
+    </div>
+    <div class="category-grid" id="categoryGrid">
+        <div class="category-item" onclick="window.location.href='/home#productsSection'">
+            <div class="category-icon"><i class="fas fa-couch"></i></div>
+            <h3>Sofa & Kursi</h3>
+        </div>
+        <div class="category-item" onclick="window.location.href='/home#productsSection'">
+            <div class="category-icon"><i class="fas fa-bed"></i></div>
+            <h3>Tempat Tidur</h3>
+        </div>
+        <div class="category-item" onclick="window.location.href='/home#productsSection'">
+            <div class="category-icon"><i class="fas fa-table"></i></div>
+            <h3>Meja</h3>
+        </div>
+        <div class="category-item" onclick="window.location.href='/home#productsSection'">
+            <div class="category-icon"><i class="fas fa-archive"></i></div>
+            <h3>Lemari & Rak</h3>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========== PRODUCTS SECTION (Koleksi Lengkap dari DB Project) ========== -->
+<div class="products-section" id="productsSection" style="max-width: 1280px; margin: 4rem auto 2rem; padding: 0 6%;">
+    <div class="section-header" style="margin-bottom: 2rem;">
+        <span class="section-subtitle" style="color: var(--gold); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 3px; font-weight: 600;">Koleksi Lengkap</span>
+        <h2 class="section-title" style="font-size: 2.5rem; font-weight: 700; margin-bottom: 0.5rem;">Semua Produk Furniture</h2>
+        <div class="section-line" style="width: 60px; height: 3px; background: var(--gold); margin: 1rem 0 0; border-radius: 3px;"></div>
+    </div>
+    
+    <div class="layout-dual" style="display: grid; grid-template-columns: 260px 1fr; gap: 40px; align-items: start;">
+        <aside class="filter-sidebar" style="background: white; border-radius: 24px; padding: 28px 24px; position: sticky; top: 92px; box-shadow: 0 20px 40px rgba(0,0,0,0.05); align-self: start;">
+            <div class="filter-group">
+                <div class="filter-label" style="font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px;">Cari Produk</div>
+                <input type="text" id="searchInput" class="search-input" placeholder="Cari furniture..." style="width: 100%; padding: 12px 16px; border: 1px solid #E8DFD5; border-radius: 16px; background: #FAF7F2; outline: none;">
+            </div>
+            <hr class="divider" style="border: none; border-top: 1px solid #E8DFD5; margin: 20px 0;">
+            <div class="filter-group">
+                <div class="filter-label" style="font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px; display: flex; justify-content: space-between;">Kategori <span class="reset-link" id="resetCategory" style="font-size: 10px; color: #7A6B5D; cursor: pointer;">reset</span></div>
+                <div class="cat-filter-list" id="categoryFilter" style="display: flex; flex-direction: column; gap: 12px;">
+                    <label class="cat-filter-item" style="display: flex; align-items: center; gap: 10px; font-size: 14px; cursor: pointer;"><input type="checkbox" value="Kursi" style="accent-color: #C6A15B; width: 16px; height: 16px;"> Kursi</label>
+                    <label class="cat-filter-item" style="display: flex; align-items: center; gap: 10px; font-size: 14px; cursor: pointer;"><input type="checkbox" value="Meja" style="accent-color: #C6A15B; width: 16px; height: 16px;"> Meja</label>
+                    <label class="cat-filter-item" style="display: flex; align-items: center; gap: 10px; font-size: 14px; cursor: pointer;"><input type="checkbox" value="Sofa" style="accent-color: #C6A15B; width: 16px; height: 16px;"> Sofa</label>
+                    <label class="cat-filter-item" style="display: flex; align-items: center; gap: 10px; font-size: 14px; cursor: pointer;"><input type="checkbox" value="Lemari" style="accent-color: #C6A15B; width: 16px; height: 16px;"> Lemari</label>
+                    <label class="cat-filter-item" style="display: flex; align-items: center; gap: 10px; font-size: 14px; cursor: pointer;"><input type="checkbox" value="Tempat Tidur" style="accent-color: #C6A15B; width: 16px; height: 16px;"> Tempat Tidur</label>
                 </div>
-                <hr class="divider">
-                <div class="filter-group">
-                    <div class="filter-label">Kategori <span class="reset-link" id="resetCategory">reset</span></div>
-                    <div class="cat-filter-list" id="categoryFilter">
-                        <label class="cat-filter-item"><input type="checkbox" value="Kursi"> Kursi</label>
-                        <label class="cat-filter-item"><input type="checkbox" value="Meja"> Meja</label>
-                        <label class="cat-filter-item"><input type="checkbox" value="Sofa"> Sofa</label>
-                        <label class="cat-filter-item"><input type="checkbox" value="Lemari"> Lemari</label>
-                        <label class="cat-filter-item"><input type="checkbox" value="Tempat Tidur"> Tempat Tidur</label>
-                    </div>
+            </div>
+            <hr class="divider" style="border: none; border-top: 1px solid #E8DFD5; margin: 20px 0;">
+            <div class="filter-group">
+                <div class="filter-label" style="font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px; display: flex; justify-content: space-between;">Harga <span class="reset-link" id="resetPrice" style="font-size: 10px; color: #7A6B5D; cursor: pointer;">reset</span></div>
+                <input type="range" id="priceSlider" class="price-slider" min="0" max="25000000" step="500000" value="25000000" style="width: 100%; accent-color: #C6A15B; cursor: pointer;">
+                <div class="price-values" style="display: flex; justify-content: space-between; font-size: 12px; color: #7A6B5D; margin-top: 8px;"><span>Rp 0</span><span id="maxPriceLabel">Rp 25.000.000+</span></div>
+            </div>
+            <hr class="divider" style="border: none; border-top: 1px solid #E8DFD5; margin: 20px 0;">
+            <div class="filter-group">
+                <div class="filter-label" style="font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px;">Warna</div>
+                <div class="swatch-group" id="swatchContainer" style="display: flex; gap: 12px; flex-wrap: wrap;">
+                    <div class="swatch" data-color="Natural" style="background: #D9C5B2; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; border: 2px solid transparent;" onclick="filterByColor('Natural')" title="Natural"></div>
+                    <div class="swatch" data-color="Walnut" style="background: #6B4F3C; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; border: 2px solid transparent;" onclick="filterByColor('Walnut')" title="Walnut"></div>
+                    <div class="swatch" data-color="Olive" style="background: #8F9E7C; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; border: 2px solid transparent;" onclick="filterByColor('Olive')" title="Olive"></div>
+                    <div class="swatch" data-color="Beige" style="background: #F2E3D5; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; border: 2px solid transparent;" onclick="filterByColor('Beige')" title="Beige"></div>
+                    <div class="swatch" data-color="Charcoal" style="background: #4A4A48; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; border: 2px solid transparent;" onclick="filterByColor('Charcoal')" title="Charcoal"></div>
                 </div>
-                <hr class="divider">
-                <div class="filter-group">
-                    <div class="filter-label">Harga <span class="reset-link" id="resetPrice">reset</span></div>
-                    <input type="range" id="priceSlider" class="price-slider" min="0" max="25000000" step="500000" value="25000000">
-                    <div class="price-values"><span>Rp 0</span><span id="maxPriceLabel">Rp 25.000.000+</span></div>
+            </div>
+            <hr class="divider" style="border: none; border-top: 1px solid #E8DFD5; margin: 20px 0;">
+            <div class="filter-group">
+                <div class="filter-label" style="font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px;">Bahan</div>
+                <div class="material-options" id="materialFilter" style="display: flex; flex-direction: column; gap: 10px;">
+                    <label class="material-opt" style="display: flex; align-items: center; gap: 10px; font-size: 14px; cursor: pointer;"><input type="checkbox" value="Kayu" style="accent-color: #C6A15B;"> Kayu</label>
+                    <label class="material-opt" style="display: flex; align-items: center; gap: 10px; font-size: 14px; cursor: pointer;"><input type="checkbox" value="Metal" style="accent-color: #C6A15B;"> Metal</label>
+                    <label class="material-opt" style="display: flex; align-items: center; gap: 10px; font-size: 14px; cursor: pointer;"><input type="checkbox" value="Fabric" style="accent-color: #C6A15B;"> Fabric</label>
                 </div>
-                <hr class="divider">
-                <div class="filter-group">
-                    <div class="filter-label">Warna</div>
-                    <div class="swatch-group" id="swatchContainer">
-                        <div class="swatch" data-color="Natural" style="background: #D9C5B2;" onclick="filterByColor('Natural')" title="Natural"></div>
-                        <div class="swatch" data-color="Walnut" style="background: #6B4F3C;" onclick="filterByColor('Walnut')" title="Walnut"></div>
-                        <div class="swatch" data-color="Olive" style="background: #8F9E7C;" onclick="filterByColor('Olive')" title="Olive"></div>
-                        <div class="swatch" data-color="Beige" style="background: #F2E3D5;" onclick="filterByColor('Beige')" title="Beige"></div>
-                        <div class="swatch" data-color="Charcoal" style="background: #4A4A48;" onclick="filterByColor('Charcoal')" title="Charcoal"></div>
-                    </div>
-                </div>
-                <hr class="divider">
-                <div class="filter-group">
-                    <div class="filter-label">Bahan</div>
-                    <div class="material-options" id="materialFilter">
-                        <label class="material-opt"><input type="checkbox" value="Kayu"> Kayu</label>
-                        <label class="material-opt"><input type="checkbox" value="Metal"> Metal</label>
-                        <label class="material-opt"><input type="checkbox" value="Fabric"> Fabric</label>
-                    </div>
-                </div>
-            </aside>
-            <div class="product-grid" id="productGrid"></div>
+            </div>
+        </aside>
+        
+        <div class="product-grid" id="productGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 28px;">
+            <!-- Render by script.js via API -->
         </div>
     </div>
 </div>
+
+<!-- ========== FOOTER (Lama) ========== -->
+<footer class="footer" style="background: var(--dark); color: white; padding: 60px 0 30px; margin-top: 60px;">
+    <div class="footer-container" style="max-width: 1200px; margin: 0 auto; padding: 0 6%;">
+        <div class="footer-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem;">
+            <div class="footer-col brand-col">
+                <div class="footer-logo" style="font-size: 1.5rem; font-weight: 800; margin-bottom: 1rem; color: #fff;">
+                    <i class="fas fa-crown" style="color: var(--gold);"></i>
+                    Furni<span style="color: var(--gold);">Rest</span>
+                </div>
+                <p class="footer-description" style="color: #aaa; margin-bottom: 1.5rem;">Premium luxury furniture that transforms your living space into a masterpiece of comfort and elegance.</p>
+                <div class="social-links" style="display: flex; gap: 1rem;">
+                    <a href="#" class="social-link" style="color: #fff; background: rgba(255,255,255,0.1); width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center;"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link" style="color: #fff; background: rgba(255,255,255,0.1); width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center;"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link" style="color: #fff; background: rgba(255,255,255,0.1); width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center;"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-col">
+                <h4 style="color: var(--gold); margin-bottom: 1rem; font-weight: 700;">Quick Links</h4>
+                <ul class="footer-links" style="list-style: none; padding: 0; color: #aaa;">
+                    <li style="margin-bottom: 0.5rem;"><a href="/home" style="color: #aaa; text-decoration: none;">Home</a></li>
+                    <li style="margin-bottom: 0.5rem;"><a href="/custom" style="color: #aaa; text-decoration: none;">Custom</a></li>
+                    <li style="margin-bottom: 0.5rem;"><a href="/profile" style="color: #aaa; text-decoration: none;">My Account</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-col">
+                <h4 style="color: var(--gold); margin-bottom: 1rem; font-weight: 700;">Contact Us</h4>
+                <ul class="footer-contact" style="list-style: none; padding: 0; color: #aaa;">
+                    <li style="margin-bottom: 0.5rem;"><i class="fas fa-map-marker-alt" style="margin-right: 0.5rem;"></i> Jl. Furniture Indah No. 88, Jakarta</li>
+                    <li style="margin-bottom: 0.5rem;"><i class="fas fa-phone" style="margin-right: 0.5rem;"></i> +62 21 1234 5678</li>
+                    <li style="margin-bottom: 0.5rem;"><i class="fas fa-envelope" style="margin-right: 0.5rem;"></i> info@furirest.com</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom" style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); text-align: center; color: #aaa; font-size: 0.9rem;">
+            <p>&copy; 2025 FurniRest. All rights reserved. | Premium Luxury Furniture</p>
+        </div>
+    </div>
+</footer>
+@endsection
+
+@section('extra_js')
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init({ once: true, offset: 50, duration: 800 });
+</script>
 @endsection
