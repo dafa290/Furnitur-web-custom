@@ -31,8 +31,7 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction --ignore-pl
 # Fix Windows CRLF line endings in start.sh and make it executable
 RUN sed -i 's/\r$//' start.sh && chmod +x start.sh
 
-# Expose the port Hugging Face uses
-EXPOSE 7860
+# Expose the port Hugging Face uses (Removed to allow Railway dynamic PORT)
 
 # Run the startup script
 CMD ["./start.sh"]
