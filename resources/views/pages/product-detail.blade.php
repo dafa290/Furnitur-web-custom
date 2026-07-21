@@ -5,20 +5,7 @@
 @section('extra_css')
     <!-- Bootstrap CSS for Product Detail Page -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        /* Override Bootstrap defaults to match theme slightly */
-        .btn-primary-custom { background-color: #5C3D2E; color: white; border: none; }
-        .btn-primary-custom:hover { background-color: #C6A15B; color: white; transform: translateY(-2px); transition: all 0.2s;}
-        .text-brown { color: #5C3D2E !important; }
-        .text-gold { color: #C6A15B !important; }
-        .bg-cream { background-color: #F5F0E8 !important; }
-        .bg-warm-white { background-color: #FAF7F2 !important; }
-        /* Fix for conflicting styles on navbar/footer */
-        .navbar a, .footer a { text-decoration: none; }
-        /* Back button */
-        .back-link { color: #8B6352; text-decoration: none; font-weight: 500; transition: color 0.2s; }
-        .back-link:hover { color: #C6A15B; }
-    </style>
+    <link rel="stylesheet" href="{{ asset('css/pages/product-detail.css') }}">
 @endsection
 
 @section('content')
@@ -80,9 +67,9 @@
                     <div class="input-group border rounded-pill overflow-hidden" style="width: 130px; height: 50px;">
                         <button class="btn btn-light border-0 text-gold fw-bold px-3" type="button" onclick="decrementQty()">−</button>
                         <input type="number" id="quantity" class="form-control border-0 text-center fw-bold bg-white" value="1" min="1" max="99" readonly>
-                        <button class="btn btn-light border-0 text-gold fw-bold px-3" type="button" onclick="incrementQty()">+</button>
+                        <button class="btn btn-light border-0 text-gold fw-bold px-3" type="button" onclick="incrementQty({{ $product->stock ?? 99 }})">+</button>
                     </div>
-                    <button class="btn btn-primary-custom flex-grow-1 rounded-pill fw-bold" style="height: 50px;" onclick="addToCartDetailPage()">
+                    <button class="btn btn-primary-custom flex-grow-1 rounded-pill fw-bold" style="height: 50px;" onclick="addToCartDetailPage({{ $product->id ?? 0 }})">
                         <i class="fas fa-shopping-cart me-2"></i> Tambah ke Keranjang
                     </button>
                 </div>
@@ -95,25 +82,5 @@
 @section('extra_js')
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    function incrementQty() {
-        const input = document.getElementById('quantity');
-        let val = parseInt(input.value);
-        if (val < {{ $product->stock ?? 99 }}) input.value = val + 1;
-        else showToast('Stok tidak mencukupi');
-    }
-    function decrementQty() {
-        const input = document.getElementById('quantity');
-        let val = parseInt(input.value);
-        if (val > 1) input.value = val - 1;
-    }
-    function addToCartDetailPage() {
-        const qty = parseInt(document.getElementById('quantity').value);
-        const productId = {{ $product->id ?? 0 }};
-        if (productId === 0) return;
-        
-        // Pass quantity directly to addToCart
-        window.addToCart(productId, qty);
-    }
-</script>
+<script src="{{ asset('js/pages/product-detail.js') }}"></script>
 @endsection

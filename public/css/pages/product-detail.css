@@ -1,0 +1,12 @@
+/* Override Bootstrap defaults to match theme slightly */
+.btn-primary-custom { background-color: #5C3D2E; color: white; border: none; }
+.btn-primary-custom:hover { background-color: #C6A15B; color: white; transform: translateY(-2px); transition: all 0.2s;}
+.text-brown { color: #5C3D2E !important; }
+.text-gold { color: #C6A15B !important; }
+.bg-cream { background-color: #F5F0E8 !important; }
+.bg-warm-white { background-color: #FAF7F2 !important; }
+/* Fix for conflicting styles on navbar/footer */
+.navbar a, .footer a { text-decoration: none; }
+/* Back button */
+.back-link { color: #8B6352; text-decoration: none; font-weight: 500; transition: color 0.2s; }
+.back-link:hover { color: #C6A15B; }
