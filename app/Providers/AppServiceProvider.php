@@ -26,5 +26,7 @@ class AppServiceProvider extends ServiceProvider
         } elseif (str_contains(request()->getHost(), 'hf.space')) {
             URL::forceScheme('https');
         }
+
+        \Illuminate\Pagination\Paginator::useBootstrapFive();
     }
 }
