@@ -20,19 +20,19 @@
 
     <!-- Tabs -->
     <div class="d-flex flex-wrap gap-2 bg-white p-2 rounded-4 shadow-sm border mb-4">
-        <a class="btn rounded-pill px-4 fw-bold {{ $tab == 'profile' ? 'btn-warning text-white' : 'btn-light text-muted' }}" href="/profile?tab=profile">
+        <a class="btn rounded-pill px-4 fw-bold {{ $tab == 'profile' ? 'text-white' : 'btn-light text-muted' }}" style="{{ $tab == 'profile' ? 'background-color: var(--brown);' : '' }}" href="/profile?tab=profile">
             <i class="fas fa-user me-2"></i> Informasi Akun
         </a>
-        <a class="btn rounded-pill px-4 fw-bold {{ $tab == 'address' ? 'btn-warning text-white' : 'btn-light text-muted' }}" href="/profile?tab=address">
+        <a class="btn rounded-pill px-4 fw-bold {{ $tab == 'address' ? 'text-white' : 'btn-light text-muted' }}" style="{{ $tab == 'address' ? 'background-color: var(--brown);' : '' }}" href="/profile?tab=address">
             <i class="fas fa-map-marker-alt me-2"></i> Alamat Saya
         </a>
-        <a class="btn rounded-pill px-4 fw-bold {{ $tab == 'orders' ? 'btn-warning text-white' : 'btn-light text-muted' }}" href="/profile?tab=orders">
+        <a class="btn rounded-pill px-4 fw-bold {{ $tab == 'orders' ? 'text-white' : 'btn-light text-muted' }}" style="{{ $tab == 'orders' ? 'background-color: var(--brown);' : '' }}" href="/profile?tab=orders">
             <i class="fas fa-box me-2"></i> Riwayat Pesanan
         </a>
-        <a class="btn rounded-pill px-4 fw-bold {{ $tab == 'wishlist' ? 'btn-warning text-white' : 'btn-light text-muted' }}" href="/profile?tab=wishlist">
+        <a class="btn rounded-pill px-4 fw-bold {{ $tab == 'wishlist' ? 'text-white' : 'btn-light text-muted' }}" style="{{ $tab == 'wishlist' ? 'background-color: var(--brown);' : '' }}" href="/profile?tab=wishlist">
             <i class="fas fa-heart me-2"></i> Wishlist
         </a>
-        <a class="btn rounded-pill px-4 fw-bold {{ $tab == 'password' ? 'btn-warning text-white' : 'btn-light text-muted' }}" href="/profile?tab=password">
+        <a class="btn rounded-pill px-4 fw-bold {{ $tab == 'password' ? 'text-white' : 'btn-light text-muted' }}" style="{{ $tab == 'password' ? 'background-color: var(--brown);' : '' }}" href="/profile?tab=password">
             <i class="fas fa-lock me-2"></i> Ganti Password
         </a>
     </div>
@@ -130,16 +130,68 @@
                 <div class="row g-4">
                 @foreach($orders as $order)
                     <div class="col-12">
-                        <div class="card bg-light border-0 rounded-4 p-4">
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h3 class="h6 fw-bold mb-0">Order #{{ $order->order_id }}</h3>
-                                <span class="badge bg-warning bg-opacity-10 text-warning px-3 py-2 rounded-pill">
-                                    <i class="fas fa-clock me-1"></i> {{ $order->status }}
-                                </span>
+                        <div class="card border rounded-4 overflow-hidden shadow-sm bg-white">
+                            <!-- Card Header -->
+                            <div class="d-flex justify-content-between align-items-center p-3 px-4 bg-light border-bottom flex-wrap gap-2">
+                                <div>
+                                    <span class="fw-bold" style="color: var(--brown); font-size: 15px;">
+                                        <i class="fas fa-receipt me-2 text-gold"></i>Order #{{ $order->order_id }}
+                                    </span>
+                                    <span class="text-muted small ms-2">· {{ $order->created_at->format('d M Y, H:i') }}</span>
+                                </div>
+                                <div>
+                                    @php
+                                        $badgeBg = 'background: rgba(92, 61, 46, 0.1); color: var(--brown);';
+                                        if (str_contains(strtolower($order->status), 'batal') || str_contains(strtolower($order->status), 'fail')) {
+                                            $badgeBg = 'background: #FFEBEB; color: #DC3545;';
+                                        } elseif (str_contains(strtolower($order->status), 'selesai') || str_contains(strtolower($order->status), 'success')) {
+                                            $badgeBg = 'background: #E8F5E9; color: #2E7D32;';
+                                        }
+                                    @endphp
+                                    <span class="badge px-3 py-2 rounded-pill fw-bold" style="{{ $badgeBg }}">
+                                        <i class="fas fa-clock me-1"></i> {{ $order->status }}
+                                    </span>
+                                </div>
                             </div>
-                            <p class="text-muted small mb-3">{{ $order->created_at->format('d M Y, H:i') }}</p>
-                            <div class="d-inline-block badge bg-warning text-dark px-3 py-2 rounded-pill fw-bold">
-                                <i class="fas fa-credit-card me-1"></i> Total: Rp {{ number_format($order->total_amount, 0, ',', '.') }}
+
+                            <!-- Card Body: Item List -->
+                            <div class="p-4">
+                                @if(!empty($order->items_list) && count($order->items_list) > 0)
+                                    <div class="d-flex flex-column gap-3">
+                                        @foreach($order->items_list as $item)
+                                            <div class="d-flex align-items-center gap-3 pb-3 border-bottom last-border-0">
+                                                <img src="{{ $item['img'] }}" alt="{{ $item['name'] }}" class="rounded-3" style="width: 70px; height: 70px; object-fit: cover; border: 1px solid #eee;">
+                                                <div class="flex-grow-1">
+                                                    <h4 class="h6 fw-bold mb-1" style="color: #333;">{{ $item['name'] }}</h4>
+                                                    <div class="text-muted small">
+                                                        {{ $item['quantity'] }} x <span class="fw-semibold text-dark">Rp {{ number_format($item['price'], 0, ',', '.') }}</span>
+                                                    </div>
+                                                </div>
+                                                <div class="text-end fw-bold" style="color: var(--brown);">
+                                                    Rp {{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }}
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                @else
+                                    <div class="text-muted small">
+                                        <i class="fas fa-box-open me-2"></i> {{ is_string($order->items) ? $order->items : 'Detail pesanan tersimpan' }}
+                                    </div>
+                                @endif
+                            </div>
+
+                            <!-- Card Footer: Total Amount -->
+                            <div class="d-flex justify-content-between align-items-center p-3 px-4 border-top" style="background: #FDFBF7;">
+                                <div class="text-muted small">
+                                    <i class="fas fa-truck me-1 text-gold"></i> 
+                                    Estimasi: <span class="fw-semibold text-dark">{{ $order->estimated_arrival ? $order->estimated_arrival->format('d M Y') : '2-4 Hari Kerja' }}</span>
+                                </div>
+                                <div class="d-flex align-items-center gap-2">
+                                    <span class="text-muted small">Total Pesanan:</span>
+                                    <span class="fs-5 fw-bold" style="color: var(--brown);">
+                                        Rp {{ number_format($order->total_amount, 0, ',', '.') }}
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </div>

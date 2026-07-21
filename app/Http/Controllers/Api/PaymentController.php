@@ -86,7 +86,7 @@ class PaymentController extends Controller
                     'status' => 'Menunggu pembayaran (DOKU)',
                     'estimated_arrival' => now()->addDays(3),
                     'order_date' => now(),
-                    'items' => $itemString,
+                    'items' => $data['items'],
                 ]);
             }
 

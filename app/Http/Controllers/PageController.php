@@ -114,11 +114,48 @@ class PageController extends Controller
 
         $tab = $request->query('tab', 'profile');
         
+        $orders = OrderHistory::where('user_id', $user->id)->orderBy('created_at', 'desc')->get();
+        foreach ($orders as $order) {
+            $transaction = \App\Models\Transaction::where('order_id', $order->order_id)->first();
+            $items = null;
+            if ($transaction && !empty($transaction->items)) {
+                $items = is_string($transaction->items) ? json_decode($transaction->items, true) : $transaction->items;
+            } elseif (!empty($order->items)) {
+                $items = is_string($order->items) ? json_decode($order->items, true) : $order->items;
+            }
+            
+            // Format items list ensuring product images exist
+            $itemList = [];
+            if (is_array($items)) {
+                foreach ($items as $itm) {
+                    if (is_array($itm)) {
+                        $pId = $itm['id'] ?? null;
+                        $img = $itm['img'] ?? null;
+                        if (!$img && $pId) {
+                            $prod = Product::find($pId);
+                            $img = $prod ? $prod->img : null;
+                        }
+                        if ($img && !str_starts_with($img, 'http') && !str_starts_with($img, '/')) {
+                            $img = '/images/products/' . $img;
+                        }
+                        $itemList[] = [
+                            'id' => $pId,
+                            'name' => $itm['name'] ?? ($itm['product_name'] ?? 'Produk FurniNest'),
+                            'price' => $itm['price'] ?? 0,
+                            'quantity' => $itm['quantity'] ?? 1,
+                            'img' => $img ?: '/images/placeholder.jpg',
+                        ];
+                    }
+                }
+            }
+            $order->items_list = $itemList;
+        }
+
         return view('pages.profile', [
             'user' => $user,
             'tab' => $tab,
             'addresses' => Address::where('user_id', $user->id)->get(),
-            'orders' => OrderHistory::where('user_id', $user->id)->get(),
+            'orders' => $orders,
             'wishlists' => \App\Models\Wishlist::where('user_id', $user->id)->get(),
             'cartCount' => $this->cartCount(),
         ]);
