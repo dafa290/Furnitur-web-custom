@@ -3,51 +3,55 @@
 @section('title', 'Pembayaran Berhasil - FurniNest')
 
 @section('extra_css')
-<link rel="stylesheet" href="{{ asset('css/pages/payment-success.css') }}">
+<!-- Styles now handled by Bootstrap -->
 @endsection
 
 @section('content')
-<div class="success-container">
-    <div class="success-icon">
-        <i class="fas fa-check-circle"></i>
-    </div>
-    <h1>Pembayaran Berhasil!</h1>
-    <div class="success-message">
-        <i class="fas fa-check" style="margin-right: 6px;"></i> Transaksi Anda telah dikonfirmasi
-    </div>
-    
-    <div class="transaction-detail">
-        <div class="detail-row">
-            <span class="detail-label">ID Transaksi</span>
-            <span class="detail-value" id="transactionId">-</span>
+<div class="container py-5 my-5 d-flex justify-content-center">
+    <div class="card shadow-lg border-0 rounded-4" style="max-width: 500px; width: 100%;">
+        <div class="card-body p-5 text-center">
+            <div class="mb-4">
+                <i class="fas fa-check-circle text-success" style="font-size: 80px;"></i>
+            </div>
+            <h1 class="h3 fw-bold mb-3" style="font-family: 'Playfair Display', serif; color: var(--brown);">Pembayaran Berhasil!</h1>
+            <div class="badge bg-success bg-opacity-10 text-success rounded-pill px-3 py-2 mb-4 fw-medium">
+                <i class="fas fa-check me-1"></i> Transaksi Anda telah dikonfirmasi
+            </div>
+            
+            <div class="bg-light rounded-3 p-4 text-start mb-4">
+                <div class="d-flex justify-content-between mb-2">
+                    <span class="text-muted small">ID Transaksi</span>
+                    <span class="fw-bold" id="transactionId">-</span>
+                </div>
+                <div class="d-flex justify-content-between mb-2">
+                    <span class="text-muted small">Tanggal</span>
+                    <span class="fw-bold" id="transactionDate">-</span>
+                </div>
+                <div class="d-flex justify-content-between mb-2">
+                    <span class="text-muted small">Total Pembayaran</span>
+                    <span class="fw-bold text-success" id="amount">-</span>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <span class="text-muted small">Status</span>
+                    <span class="fw-bold text-success"><i class="fas fa-check-circle"></i> Lunas</span>
+                </div>
+            </div>
+            
+            <div class="d-flex align-items-start gap-3 text-start bg-light p-3 rounded-3 mb-3">
+                <i class="fas fa-truck text-muted mt-1"></i>
+                <p class="mb-0 small text-muted">Pesanan Anda sedang diproses. Kami akan mengirimkan notifikasi melalui email ketika pesanan sudah dikirim.</p>
+            </div>
+            
+            <div class="d-flex align-items-start gap-3 text-start bg-light p-3 rounded-3 mb-4">
+                <i class="fas fa-receipt text-muted mt-1"></i>
+                <p class="mb-0 small text-muted">Invoice dan detail pesanan telah dikirim ke email Anda. Simpan sebagai bukti pembayaran.</p>
+            </div>
+            
+            <button class="btn w-100 py-3 fw-bold rounded-pill text-white" style="background-color: var(--brown);" onclick="clearCartAndRedirect()">
+                <i class="fas fa-home me-2"></i> Kembali ke Beranda
+            </button>
         </div>
-        <div class="detail-row">
-            <span class="detail-label">Tanggal</span>
-            <span class="detail-value" id="transactionDate">-</span>
-        </div>
-        <div class="detail-row">
-            <span class="detail-label">Total Pembayaran</span>
-            <span class="detail-value amount" id="amount">-</span>
-        </div>
-        <div class="detail-row">
-            <span class="detail-label">Status</span>
-            <span class="detail-value" style="color: #2e7d32;"><i class="fas fa-check-circle"></i> Lunas</span>
-        </div>
     </div>
-    
-    <div class="info-text">
-        <i class="fas fa-truck"></i>
-        <p>Pesanan Anda sedang diproses. Kami akan mengirimkan notifikasi melalui email ketika pesanan sudah dikirim.</p>
-    </div>
-    
-    <div class="info-text">
-        <i class="fas fa-receipt"></i>
-        <p>Invoice dan detail pesanan telah dikirim ke email Anda. Simpan sebagai bukti pembayaran.</p>
-    </div>
-    
-    <button class="btn-home" onclick="clearCartAndRedirect()">
-        <i class="fas fa-home"></i> Kembali ke Beranda
-    </button>
 </div>
 
 @section('extra_js')
