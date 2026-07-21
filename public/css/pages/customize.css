@@ -1,12 +1,3 @@
-@extends('layouts.app')
-
-@section('title', 'Custom Furniture | FurniNest')
-
-@section('extra_css')
-<link rel="stylesheet" href="{{ asset('css/pages/customize.css') }}">
-@endsection
-
-@section('content')
     .customizer-container {
         display: flex;
         height: calc(100vh - 80px);
@@ -140,10 +131,3 @@
             overflow-y: visible;
         }
     }
-@section('extra_js')
-<!-- Three.js and OrbitControls from CDN -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-<script src="{{ asset('js/pages/customize.js') }}"></script>
-@endsection
-@endsection
