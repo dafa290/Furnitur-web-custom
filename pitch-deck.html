@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="utf-8">
+    <title>FurniNest Pitch Deck - Ultimate Edition</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reset.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* BASE THEME - CLEAN STARTUP INFOGRAPHIC STYLE */
+        :root {
+            --bg-color: #f8f9fa;
+            --text-dark: #111111;
+            --text-gray: #4b5563;
+            --accent-lime: #ccff00; /* Signature startup color */
+            --accent-mint: #c6f6d5;
+            --accent-blue: #bee3f8;
+            --accent-peach: #feebc8;
+            --white: #ffffff;
+            --border: #e2e8f0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .reveal {
+            color: var(--text-dark);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .reveal .slides section {
+            padding: 20px;
+            height: 100%;
+            box-sizing: border-box;
+        }
+
+        .reveal h1, .reveal h2, .reveal h3, .reveal h4 {
+            font-family: 'Inter', sans-serif;
+            font-weight: 900;
+            color: var(--text-dark);
+            text-transform: none;
+            margin: 0 0 15px 0;
+            letter-spacing: -0.03em;
+        }
+
+        .reveal h2 {
+            font-size: 2.5em;
+            text-align: left;
+            border-bottom: 4px solid var(--accent-lime);
+            display: inline-block;
+            padding-bottom: 5px;
+            margin-bottom: 25px;
+        }
+        
+        .reveal p {
+            font-size: 0.85em;
+            color: var(--text-gray);
+            line-height: 1.5;
+            text-align: left;
+            margin: 0 0 20px 0;
+        }
+
+        /* UTILITIES */
+        .flex { display: flex; }
+        .flex-col { display: flex; flex-direction: column; }
+        .items-center { align-items: center; }
+        .justify-center { justify-content: center; }
+        .justify-between { justify-content: space-between; }
+        .gap-2 { gap: 10px; }
+        .gap-4 { gap: 20px; }
+        .gap-6 { gap: 30px; }
+        .w-full { width: 100%; }
+        .text-left { text-align: left; }
+        .text-center { text-align: center; }
+        .font-bold { font-weight: 800; }
+        
+        .box-shadow { box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+
+        /* SPECIFIC LAYOUTS */
+        .bg-dark-glass {
+            background: rgba(18, 18, 18, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+        }
+
+        /* Why Now Section */
+        .momentum-card {
+            border-radius: 20px;
+            padding: 25px;
+            flex: 1;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            text-align: left;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        .momentum-card i { font-size: 2.5em; margin-bottom: 10px; }
+        .momentum-card h3 { font-size: 1.1em; margin-bottom: 5px; }
+        .momentum-card p { font-size: 0.6em; margin: 0; line-height: 1.4; color: #333; }
+
+        .kopdes-hub {
+            background-color: var(--accent-lime);
+            border-radius: 30px;
+            padding: 30px;
+            width: 80%;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        /* Flow Linear Section */
+        .linear-flow {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 40px;
+        }
+        .flow-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            width: 18%;
+        }
+        .flow-item img {
+            height: 100px;
+            object-fit: contain;
+            margin-bottom: 15px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .flow-item h4 { font-size: 0.9em; margin-bottom: 5px; }
+        .flow-item p { font-size: 0.55em; text-align: center; }
+        .flow-arrow-right {
+            color: var(--accent-lime);
+            font-size: 3em;
+            font-weight: 900;
+            filter: drop-shadow(2px 2px 0px #000);
+        }
+
+        /* Complex Proactive Flowchart */
+        .grid-complex {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 2fr 1fr 1.5fr;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .node-box {
+            background: var(--white);
+            border: 2px solid var(--border);
+            border-radius: 15px;
+            padding: 15px;
+            text-align: left;
+            position: relative;
+        }
+        .node-box.highlight {
+            background: var(--accent-lime);
+            border-color: #aadd00;
+        }
+        .node-box h4 { font-size: 0.85em; margin-bottom: 5px; }
+        .node-box p { font-size: 0.55em; margin: 0; line-height:1.4;}
+        
+        .list-analysis {
+            font-size: 0.55em;
+            color: var(--text-dark);
+            margin: 0; padding-left: 15px;
+            line-height: 1.6;
+        }
+        .mini-badge {
+            background: #f1f5f9;
+            border-radius: 5px;
+            padding: 4px 8px;
+            font-size: 0.5em;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 5px;
+            border: 1px solid #ddd;
+        }
+
+        /* Comparison Table */
+        .premium-table { width: 100%; border-collapse: collapse; font-size: 0.65em; margin-top: 30px; background: var(--white); border-radius: 15px; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        .premium-table th { background: #1a1a1a; padding: 15px; color: var(--white); border-bottom: 4px solid var(--accent-lime); }
+        .premium-table td { padding: 15px; border-bottom: 1px solid #f0f0f0; }
+        .premium-table tr:hover { background: #fafafa; }
+        .check { color: #16a34a; font-size: 1.2em; }
+        .cross { color: #dc2626; font-size: 1.2em; }
+
+        /* Roadmap Section */
+        .roadmap-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: stretch;
+            margin-top: 60px;
+            position: relative;
+        }
+        .roadmap-line {
+            position: absolute;
+            top: 60px;
+            left: 5%;
+            right: 25%;
+            height: 4px;
+            background: var(--text-dark);
+            z-index: 0;
+        }
+        .milestone {
+            flex: 1;
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0 10px;
+        }
+        .ms-title { font-size: 0.7em; font-weight: bold; margin-bottom: 10px; text-align:center;}
+        .ms-box {
+            background: var(--white);
+            border: 3px solid var(--text-dark);
+            border-radius: 20px;
+            width: 100px;
+            height: 100px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .ms-box i { font-size: 2em; color: var(--text-dark); }
+        .ms-desc {
+            font-size: 0.5em;
+            text-align: center;
+            margin-top: 15px;
+            color: var(--text-gray);
+        }
+
+        /* Circular Hub (Milestone 5) */
+        .hub-container {
+            position: relative;
+            width: 220px;
+            height: 220px;
+            margin-left: 20px;
+        }
+        .hub-center {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px; height: 80px;
+            background: var(--accent-lime);
+            border: 3px solid var(--text-dark);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+        .hub-node {
+            position: absolute;
+            width: 55px; height: 55px;
+            background: var(--white);
+            border: 2px solid var(--text-dark);
+            border-radius: 50%;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            font-size: 0.35em; font-weight: bold; text-align: center;
+        }
+        .node-1 { top: 0; left: 50%; transform: translate(-50%, -10px); }
+        .node-2 { top: 25%; right: -15px; transform: translateY(-50%); }
+        .node-3 { bottom: 25%; right: -15px; transform: translateY(50%); }
+        .node-4 { bottom: 0; left: 50%; transform: translate(-50%, 10px); }
+        .node-5 { bottom: 25%; left: -15px; transform: translateY(50%); }
+        .node-6 { top: 25%; left: -15px; transform: translateY(-50%); }
+
+        .giant-arrow {
+            position: absolute;
+            bottom: -30px;
+            right: 0;
+            width: 450px;
+            height: 140px;
+            background: var(--accent-lime);
+            clip-path: polygon(0 20%, 70% 20%, 70% 0, 100% 50%, 70% 100%, 70% 80%, 0 80%);
+            display: flex;
+            align-items: center;
+            padding-left: 20px;
+            z-index: -1;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- SLIDE 1: HERO -->
+            <section data-background-image="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?q=80&w=2000&auto=format&fit=crop" data-background-color="#000" data-background-opacity="0.4">
+                <div class="bg-dark-glass text-left" style="max-width: 800px; position:absolute; top:50%; transform:translateY(-50%);">
+                    <h4 style="color: var(--accent-lime); letter-spacing: 3px; font-size: 0.8em; text-transform: uppercase;">Infrastruktur Furnitur Kustom</h4>
+                    <h1 style="color: #fff; font-size: 4em; margin-bottom: 10px;">FurniNest.</h1>
+                    <p style="font-size: 1.1em; color: #ddd; line-height:1.5;">Platform 3D Interaktif yang menjembatani imajinasi pelanggan dengan presisi pengrajin lokal melalui rantai pasok digital tanpa friksi.</p>
+                </div>
+            </section>
+
+            <!-- SLIDE 2: THE PROBLEM (Visual Stats) -->
+            <section>
+                <h2>Jurang Pemisah Kustomisasi</h2>
+                <p>Ribuan pengrajin lokal memiliki kapasitas produksi, namun transaksi kustomisasi furnitur sangat lambat dan penuh keraguan.</p>
+                
+                <div class="flex gap-4" style="margin-top: 40px;">
+                    <div class="node-box box-shadow" style="flex: 1.5; padding: 30px;">
+                        <h1 style="font-size: 5em; color: #dc2626; margin:0; line-height:1;">80%</h1>
+                        <h4 style="font-size: 1.2em; margin-top: 10px;">Blind Spot Visual</h4>
+                        <p style="font-size: 0.7em;">Sketsa 2D membuat pembeli tidak bisa membayangkan hasil akhir, menyebabkan tingginya angka pembatalan (drop-off) sebelum produksi.</p>
+                    </div>
+                    
+                    <div class="flex-col gap-4" style="flex: 2;">
+                        <div class="node-box box-shadow flex items-center gap-4" style="padding: 20px;">
+                            <div style="background:#fee2e2; color:#dc2626; padding:15px; border-radius:15px;">
+                                <i class="fa-solid fa-calendar-xmark" style="font-size: 2em;"></i>
+                            </div>
+                            <div>
+                                <h4 style="margin:0;">Siklus Lambat (14-21 Hari)</h4>
+                                <p style="font-size:0.6em; margin-top:5px;">Waktu yang terbuang hanya untuk diskusi spesifikasi manual (WhatsApp/Email) dan revisi harga.</p>
+                            </div>
+                        </div>
+                        <div class="node-box box-shadow flex items-center gap-4" style="padding: 20px;">
+                            <div style="background:#fee2e2; color:#dc2626; padding:15px; border-radius:15px;">
+                                <i class="fa-solid fa-thumbs-down" style="font-size: 2em;"></i>
+                            </div>
+                            <div>
+                                <h4 style="margin:0;">Ekspektasi vs Realita</h4>
+                                <p style="font-size:0.6em; margin-top:5px;">Miskomunikasi material dan proporsi berujung pada komplain dan kerugian bengkel produksi.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 3: WHY NOW (MOMENTUM) -->
+            <section>
+                <h2>Why Now?</h2>
+                <p>Tiga momentum sedang bertemu dan membuka peluang transformasi industri furnitur.</p>
+                
+                <div class="flex gap-4 w-full" style="margin-top: 20px;">
+                    <div class="momentum-card" style="background: var(--accent-mint);">
+                        <div class="flex-col">
+                            <i class="fa-solid fa-user-tag" style="color:#2f855a;"></i>
+                            <h3>Tren Personalisasi</h3>
+                            <p class="font-bold" style="margin-bottom:5px;">Prioritas Konsumen</p>
+                            <p>Pembeli modern menolak barang massal; mereka menginginkan desain unik yang sesuai dimensi rumah mereka.</p>
+                        </div>
+                    </div>
+                    <div class="momentum-card" style="background: var(--accent-blue);">
+                        <div class="flex-col">
+                            <i class="fa-solid fa-cube" style="color:#2b6cb0;"></i>
+                            <h3>Revolusi WebGL 3D</h3>
+                            <p class="font-bold" style="margin-bottom:5px;">Infrastruktur Cloud</p>
+                            <p>Render 3D real-time kini super ringan, memungkinkan visualisasi instan di browser HP tanpa install aplikasi.</p>
+                        </div>
+                    </div>
+                    <div class="momentum-card" style="background: var(--accent-peach);">
+                        <div class="flex-col">
+                            <i class="fa-solid fa-hammer" style="color:#c05621;"></i>
+                            <h3>Potensi UMKM Lokal</h3>
+                            <p class="font-bold" style="margin-bottom:5px;">Standarisasi Kualitas</p>
+                            <p>Ribuan pengrajin butuh agregator digital untuk dapat menembus pasar premium dengan pesanan yang pasti.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-center" style="margin: 10px 0;">
+                    <i class="fa-solid fa-arrow-down" style="font-size: 2em; color: var(--text-dark);"></i>
+                </div>
+
+                <div class="kopdes-hub box-shadow">
+                    <h1 style="font-size: 3em; margin-bottom: 5px;">FURNINEST</h1>
+                    <p style="text-align: center; font-weight: bold; margin-bottom: 20px;">The Digital Infrastructure for Custom Furniture</p>
+                    <div class="flex justify-center items-center gap-6">
+                        <div class="text-center">
+                            <i class="fa-solid fa-mobile-screen" style="font-size: 2.5em;"></i>
+                            <p style="font-size:0.6em; font-weight:bold; margin-top:10px;">Pelanggan</p>
+                        </div>
+                        <i class="fa-solid fa-right-left" style="font-size: 1.5em;"></i>
+                        <div style="background: var(--white); padding: 15px 25px; border: 2px solid var(--text-dark); border-radius: 10px;">
+                            <i class="fa-solid fa-microchip" style="font-size: 2em;"></i>
+                            <p style="font-size:0.6em; font-weight:bold; margin-top:10px;">Platform FurniNest</p>
+                        </div>
+                        <i class="fa-solid fa-right-left" style="font-size: 1.5em;"></i>
+                        <div class="text-center">
+                            <i class="fa-solid fa-warehouse" style="font-size: 2.5em;"></i>
+                            <p style="font-size:0.6em; font-weight:bold; margin-top:10px;">Pengrajin</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 4: DIGITAL INCLUSION (LINEAR FLOW) -->
+            <section>
+                <h2>Inklusi Digital Tanpa Friksi</h2>
+                <p>Pelanggan cukup mendesain dari layar HP, seluruh proses rantai pasok sisanya dijalankan otomatis oleh mesin FurniNest.</p>
+                
+                <div class="linear-flow">
+                    <div class="flow-item">
+                        <img src="public/images/dashboard.png" alt="Dashboard">
+                        <h4>Dashboard 3D</h4>
+                        <p>Kustomisasi Ukuran & Warna</p>
+                    </div>
+                    <span class="flow-arrow-right">➔</span>
+                    
+                    <div class="flow-item">
+                        <img src="public/images/ai_chip.png" alt="AI Engine">
+                        <h4>AI Engine</h4>
+                        <p>Kalkulasi HPP & Material</p>
+                    </div>
+                    <span class="flow-arrow-right" style="color:var(--accent-mint);">➔</span>
+                    
+                    <div class="flow-item">
+                        <div style="background:var(--white); border:3px solid var(--text-dark); padding:15px; border-radius:15px; margin-bottom:15px; height:100px; display:flex; flex-direction:column; justify-content:center;">
+                            <i class="fa-solid fa-file-invoice" style="font-size:2em; color:var(--text-gray); margin-bottom:5px;"></i>
+                            <span class="mini-badge" style="margin:0;">Cetak Biru</span>
+                        </div>
+                        <h4>Notifikasi Sistem</h4>
+                        <p>Instruksi Cetak Biru</p>
+                    </div>
+                    <span class="flow-arrow-right" style="color:var(--accent-blue);">➔</span>
+                    
+                    <div class="flow-item">
+                        <div style="background:#fff7ed; border:3px solid #ea580c; padding:15px; border-radius:15px; margin-bottom:15px; height:100px; display:flex; flex-direction:column; justify-content:center;">
+                            <i class="fa-solid fa-hammer" style="font-size:2em; color:#ea580c; margin-bottom:5px;"></i>
+                        </div>
+                        <h4>Pengrajin Lokal</h4>
+                        <p>Produksi Tepat Presisi</p>
+                    </div>
+                    <span class="flow-arrow-right" style="color:var(--accent-peach);">➔</span>
+                    
+                    <div class="flow-item">
+                        <img src="public/images/phone_delivery.png" alt="Delivery">
+                        <h4>Pengiriman</h4>
+                        <p>Langsung ke Pelanggan</p>
+                    </div>
+                </div>
+
+                <div class="flex justify-between" style="margin-top: 40px;">
+                    <div class="flex gap-2 items-center box-shadow" style="width: 45%; background: var(--white); padding: 15px; border-radius: 15px; border: 1px solid var(--border);">
+                        <i class="fa-brands fa-html5" style="font-size: 2.5em; color: var(--text-gray);"></i>
+                        <div>
+                            <h4 style="font-size: 0.8em; margin:0;">Tanpa Aplikasi Baru</h4>
+                            <p style="font-size: 0.55em; margin:0;">100% interaksi pembeli dilakukan via Browser (Web-based).</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-2 items-center box-shadow" style="width: 45%; background: var(--white); padding: 15px; border-radius: 15px; border: 1px solid var(--border);">
+                        <i class="fa-solid fa-network-wired" style="font-size: 2.5em; color: var(--text-gray);"></i>
+                        <div>
+                            <h4 style="font-size: 0.8em; margin:0;">Data Agregation</h4>
+                            <p style="font-size: 0.55em; margin:0;">Pesanan diubah menjadi data terstruktur (ukuran, jenis kayu).</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 5: CORE TECH 1 -->
+            <section>
+                <h2>Core Tech 1: <span style="border-bottom: 3px solid var(--accent-lime);">Interaksi 3D WebGL</span></h2>
+                <div class="flex gap-6" style="margin-top:30px;">
+                    <div style="flex:1;">
+                        <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&fit=crop" style="width:100%; border-radius:20px; box-shadow: 0 15px 30px rgba(0,0,0,0.1);">
+                    </div>
+                    <div style="flex:1; display:flex; flex-direction:column; justify-content:center;">
+                        <h3 style="font-size: 1.5em; margin-bottom:10px;">Melihat Hasil Akhir Sebelum Produksi.</h3>
+                        <p>Berhenti meraba-raba sketsa kasar. Teknologi kami merender objek furnitur fotorealistik secara dinamis langsung dari browser pelanggan.</p>
+                        
+                        <div class="node-box" style="margin-bottom:15px; border-left: 4px solid var(--accent-lime);">
+                            <h4 style="margin:0;">Interaksi 360 Derajat</h4>
+                            <p>Pelanggan dapat memutar dan mem-zoom produk untuk mengecek detail struktur dan proporsi di segala sudut.</p>
+                        </div>
+                        <div class="node-box" style="border-left: 4px solid var(--text-dark);">
+                            <h4 style="margin:0;">Real-Time Customization</h4>
+                            <p>Perubahan warna kayu (Oak, Walnut) atau tekstur kain langsung mengubah visualisasi 3D dalam hitungan milidetik.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 6: CORE TECH 2 -->
+            <section>
+                <h2>Core Tech 2: <span style="border-bottom: 3px solid var(--accent-lime);">Dynamic Pricing Engine</span></h2>
+                <div class="flex gap-6" style="margin-top:30px;">
+                    <div style="flex:1.2; display:flex; flex-direction:column; justify-content:center;">
+                        <h3 style="font-size: 1.5em; margin-bottom:10px;">Harga Pasti, Tanpa Menunggu.</h3>
+                        <p>Perhitungan harga pintar di latar belakang menghilangkan proses "tunggu penawaran" yang memakan waktu berhari-hari pada bengkel konvensional.</p>
+                        
+                        <ul style="font-size:0.7em; line-height:2; list-style:none; padding:0; margin:0;">
+                            <li><i class="fa-solid fa-calculator" style="color:var(--text-dark); margin-right:10px;"></i> <b>Algoritma Volumetrik:</b> HPP dihitung langsung dari (P x L x T) dikali konstanta harga kayu.</li>
+                            <li><i class="fa-solid fa-tree" style="color:var(--text-dark); margin-right:10px;"></i> <b>Variabel Material:</b> Deteksi otomatis perbedaan harga Solid Wood vs Plywood.</li>
+                            <li><i class="fa-solid fa-eye" style="color:var(--text-dark); margin-right:10px;"></i> <b>Transparansi Penuh:</b> Pelanggan bebas mengotak-atik slider dimensi sesuai budget mereka.</li>
+                        </ul>
+                    </div>
+                    <div style="flex:1;">
+                        <div class="node-box box-shadow" style="background:#111; color:#fff; border:none; padding:30px;">
+                            <h3 style="font-size:1em; border-bottom:1px solid #333; padding-bottom:10px; color:var(--accent-lime); margin-bottom:20px;">Kalkulasi Sistem (Live)</h3>
+                            <div class="flex justify-between" style="font-size:0.75em; margin-bottom:15px; color:#aaa;">
+                                <span>Volume Lemari (2m x 1m x 0.6m)</span>
+                                <span>Rp 2.400.000</span>
+                            </div>
+                            <div class="flex justify-between" style="font-size:0.75em; margin-bottom:15px; color:#aaa;">
+                                <span>Material Utama (Kayu Jati)</span>
+                                <span>+ Rp 1.500.000</span>
+                            </div>
+                            <div class="flex justify-between" style="font-size:0.75em; margin-bottom:15px; color:#aaa;">
+                                <span>Finishing (Natural Oil)</span>
+                                <span>+ Rp 300.000</span>
+                            </div>
+                            <hr style="border-color:#333; margin:20px 0;">
+                            <div class="flex justify-between items-center">
+                                <span style="font-size:0.8em; font-weight:bold;">Total Transparan</span>
+                                <span style="font-size:1.8em; font-weight:900; color:var(--accent-lime);">Rp 4.200.000</span>
+                            </div>
+                            <button style="width:100%; padding:15px; background:var(--accent-lime); color:#000; border:none; border-radius:10px; font-weight:bold; margin-top:20px; font-family:'Inter', sans-serif;">Pesan Sekarang</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 7: COMPLEX PROACTIVE FLOWCHART -->
+            <section>
+                <h2>Sistem Menggerakkan Rantai Pasok <span style="border-bottom: 3px solid var(--accent-lime);">Secara Proaktif</span></h2>
+                <p>Saat pesanan masuk, Sistem langsung mengekstrak dimensi sekaligus mencocokkan dengan kapasitas pengrajin terdekat secara efisien.</p>
+
+                <div class="grid-complex">
+                    <!-- Col 1 -->
+                    <div class="flex-col">
+                        <div class="node-box" style="text-align:center;">
+                            <i class="fa-solid fa-user-circle" style="font-size:2em; color:var(--text-gray); margin-bottom:5px;"></i>
+                            <h4>Pelanggan A</h4>
+                            <p>Lemari Jati (2x2m)<br>Tujuan: Jaksel</p>
+                        </div>
+                        <div style="height:10px;"></div>
+                        <div class="node-box" style="text-align:center;">
+                            <i class="fa-solid fa-user-circle" style="font-size:2em; color:var(--text-gray); margin-bottom:5px;"></i>
+                            <h4>Pelanggan B</h4>
+                            <p>Meja Jati (1.5m)<br>Tujuan: Jaksel</p>
+                        </div>
+                    </div>
+
+                    <!-- Col 2: Arrow -->
+                    <div class="flex-col justify-center items-center">
+                        <i class="fa-solid fa-arrow-right" style="font-size:2em; color:var(--text-gray);"></i>
+                    </div>
+
+                    <!-- Col 3: Engine Analysis -->
+                    <div class="node-box highlight flex-col justify-center" style="padding:20px;">
+                        <div class="flex items-center gap-2" style="margin-bottom:10px;">
+                            <i class="fa-solid fa-microchip" style="font-size:2.5em; color:var(--text-dark);"></i>
+                            <h4 style="margin:0; font-size:1.1em;">Sistem Analisis:</h4>
+                        </div>
+                        <div style="background:var(--white); padding:10px; border-radius:10px; border:1px solid #aadd00;">
+                            <ul class="list-analysis">
+                                <li><i class="fa-solid fa-layer-group" style="width:15px;"></i> Material Kayu Jati</li>
+                                <li><i class="fa-solid fa-map-location-dot" style="width:15px;"></i> Kesamaan Rute (Jaksel)</li>
+                                <li><i class="fa-solid fa-boxes-stacked" style="width:15px;"></i> Kapasitas Pengrajin</li>
+                                <li><i class="fa-solid fa-clock" style="width:15px;"></i> Jadwal Pengiriman</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Col 4: Arrow -->
+                    <div class="flex-col justify-center items-center position-relative">
+                        <div class="mini-badge" style="background:var(--text-dark); color:#fff;">Auto-Match</div>
+                        <i class="fa-solid fa-arrow-right" style="font-size:2em; color:var(--text-dark);"></i>
+                    </div>
+
+                    <!-- Col 5: Output -->
+                    <div class="flex-col">
+                        <div class="node-box" style="border-color:var(--text-dark); border-width:2px;">
+                            <div class="flex gap-2 items-center">
+                                <i class="fa-solid fa-hammer" style="font-size:1.5em;"></i>
+                                <div>
+                                    <h4 style="margin:0;">Mitra Bengkel</h4>
+                                    <p>1 Bengkel menerima 2 pesanan material sama.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="height:15px; display:flex; justify-content:center;"><i class="fa-solid fa-arrow-down" style="font-size:1em; color:var(--text-gray);"></i></div>
+                        <div class="node-box" style="background:#e0f2fe; border-color:#bae6fd;">
+                            <div class="flex gap-2 items-center">
+                                <i class="fa-solid fa-truck" style="font-size:1.5em; color:#0284c7;"></i>
+                                <div>
+                                    <h4 style="margin:0;">Logistik Terpadu</h4>
+                                    <p>1 Truk ke Jaksel.<br><strong>Ongkir Hemat 50%</strong></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex gap-4" style="margin-top:20px;">
+                    <div class="node-box box-shadow" style="flex:1;">
+                        <span class="mini-badge">Rekomendasi Cerdas</span>
+                        <h4 style="margin-top:5px;">Penggabungan Material</h4>
+                        <p>Mengurangi limbah (waste) karena memproduksi pesanan dengan material sama dalam satu waktu.</p>
+                    </div>
+                    <div class="node-box box-shadow" style="flex:1;">
+                        <span class="mini-badge">Pencocokan Otomatis</span>
+                        <h4 style="margin-top:5px;">Distribusi Adil</h4>
+                        <p>Sistem membagi pesanan ke bengkel yang sedang kosong kapasitasnya untuk cegah *bottleneck*.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 8: BUSINESS MODEL -->
+            <section>
+                <h2>Model Bisnis: <span style="border-bottom: 3px solid var(--accent-lime);">D2C Ekonomi Sirkular</span></h2>
+                <p>Ekosistem transparan yang menyejahterakan pembuat dan menguntungkan pengguna.</p>
+                <div class="flex justify-between items-center" style="margin-top:40px;">
+                    
+                    <div style="flex:1; position:relative; height:350px;">
+                        <img src="https://images.unsplash.com/photo-1581428982868-e410dd047a90?w=600&fit=crop" style="width:100%; height:100%; object-fit:cover; border-radius:50%; filter:grayscale(80%); opacity:0.3; position:absolute; z-index:0;">
+                        <!-- The Circular Graphic -->
+                        <div style="position:absolute; top:10%; left:10%; right:10%; bottom:10%; border:5px dashed var(--accent-lime); border-radius:50%; animation: spin 20s linear infinite; z-index:1;"></div>
+                        
+                        <!-- Nodes -->
+                        <div style="position:absolute; top:0; left:50%; transform:translate(-50%, -50%); background:var(--white); padding:15px; border:2px solid var(--text-dark); border-radius:20px; z-index:2; text-align:center;">
+                            <i class="fa-solid fa-users" style="font-size:1.5em; color:var(--text-dark);"></i><br>
+                            <strong style="font-size:0.6em;">Pelanggan</strong>
+                        </div>
+                        <div style="position:absolute; bottom:0; left:0; transform:translate(-20%, 50%); background:var(--white); padding:15px; border:2px solid var(--text-dark); border-radius:20px; z-index:2; text-align:center;">
+                            <i class="fa-solid fa-laptop-code" style="font-size:1.5em; color:var(--text-dark);"></i><br>
+                            <strong style="font-size:0.6em;">FurniNest Platform</strong>
+                        </div>
+                        <div style="position:absolute; bottom:0; right:0; transform:translate(20%, 50%); background:var(--white); padding:15px; border:2px solid var(--text-dark); border-radius:20px; z-index:2; text-align:center;">
+                            <i class="fa-solid fa-hammer" style="font-size:1.5em; color:var(--text-dark);"></i><br>
+                            <strong style="font-size:0.6em;">Mitra Pengrajin</strong>
+                        </div>
+
+                        <div style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); z-index:2; text-align:center;">
+                            <h1 style="font-size:2em; margin:0;">10-15%</h1>
+                            <p style="font-size:0.6em; margin:0; font-weight:bold;">Platform<br>Take Rate</p>
+                        </div>
+                    </div>
+
+                    <div style="flex:1; padding-left:50px;">
+                        <div class="node-box box-shadow" style="margin-bottom:20px; background:var(--white);">
+                            <h3 style="font-size:1.1em; color:#16a34a;"><i class="fa-solid fa-tag"></i> Value Pelanggan</h3>
+                            <p style="font-size:0.7em;">Mendapatkan harga tangan pertama (langsung pabrik) tanpa *mark-up* sewa *showroom* dan perantara.</p>
+                        </div>
+                        <div class="node-box box-shadow" style="background:var(--white);">
+                            <h3 style="font-size:1.1em; color:#ea580c;"><i class="fa-solid fa-hand-holding-dollar"></i> Value Pengrajin</h3>
+                            <p style="font-size:0.7em;">Tidak perlu repot memasarkan atau melayani revisi chat berjam-jam. Mereka fokus pada satu hal: Memproduksi barang.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 9: COMPETITION MATRIX -->
+            <section>
+                <h2>Mengapa Kami <span style="border-bottom: 3px solid var(--accent-lime);">Dominan?</span></h2>
+                <table class="premium-table">
+                    <tr>
+                        <th>Aspek Layanan</th>
+                        <th>Toko Retail (IKEA, dsb)</th>
+                        <th>Bengkel Custom IG/WA</th>
+                        <th style="background:var(--accent-lime); color:var(--text-dark); font-size:1.2em;">FurniNest</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Kustomisasi Ukuran</strong></td>
+                        <td><i class="fa-solid fa-xmark cross"></i> Ukuran Baku Pabrik</td>
+                        <td><i class="fa-solid fa-check check"></i> Bisa (Tetapi Lambat)</td>
+                        <td style="background:#f4fcc1;"><i class="fa-solid fa-check-double check"></i> <strong>Instan via Slider Web</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Visualisasi Pra-Produksi</strong></td>
+                        <td><i class="fa-solid fa-check check"></i> Jelas (Bisa dipegang)</td>
+                        <td><i class="fa-solid fa-xmark cross"></i> Mengira-ngira / Sketsa Kasar</td>
+                        <td style="background:#f4fcc1;"><i class="fa-solid fa-cube check"></i> <strong>Real-Time 3D Render</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Kepastian Harga</strong></td>
+                        <td><i class="fa-solid fa-check check"></i> Tertera di Label</td>
+                        <td><i class="fa-solid fa-xmark cross"></i> Gaib (Tunggu Estimasi Admin)</td>
+                        <td style="background:#f4fcc1;"><i class="fa-solid fa-calculator check"></i> <strong>Kalkulasi Algoritma Akurat</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Keamanan Transaksi</strong></td>
+                        <td><i class="fa-solid fa-check check"></i> Sangat Aman</td>
+                        <td><i class="fa-solid fa-xmark cross"></i> Rawan Penipuan (Transfer Langsung)</td>
+                        <td style="background:#f4fcc1;"><i class="fa-solid fa-shield-halved check"></i> <strong>Payment Gateway Resmi</strong></td>
+                    </tr>
+                </table>
+            </section>
+
+            <!-- SLIDE 10: MEASURABLE IMPACT -->
+            <section>
+                <h2>Dampak <span style="border-bottom: 3px solid var(--accent-lime);">Terkurasi</span></h2>
+                <div class="flex items-center gap-6" style="margin-top: 40px;">
+                    <div class="node-box box-shadow text-center" style="flex:1; border-color:#cbd5e1;">
+                        <h4 style="color:var(--text-gray); font-size:0.8em; margin-bottom:15px;">SIKLUS KONVENSIONAL</h4>
+                        <div style="font-size:5em; font-weight:900; line-height:1; color:#dc2626;">14</div>
+                        <p style="font-size:1em; font-weight:bold; margin-top:10px;">HARI</p>
+                        <p style="font-size:0.6em;">Waktu rata-rata diskusi spek via WhatsApp.</p>
+                    </div>
+                    
+                    <i class="fa-solid fa-arrow-right" style="font-size:3em; color:var(--text-dark);"></i>
+                    
+                    <div class="node-box box-shadow text-center" style="flex:1; border-color:var(--accent-lime); border-width:3px; background:#f4fcc1;">
+                        <h4 style="color:var(--text-dark); font-size:0.8em; margin-bottom:15px;">SIKLUS FURNINEST</h4>
+                        <div style="font-size:5em; font-weight:900; line-height:1; color:#16a34a;">< 5</div>
+                        <p style="font-size:1em; font-weight:bold; margin-top:10px;">MENIT</p>
+                        <p style="font-size:0.6em;">Waktu klik, modifikasi, dan lihat harga akhir.</p>
+                    </div>
+                </div>
+
+                <div class="flex gap-4" style="margin-top:40px;">
+                    <div class="momentum-card" style="background:var(--white);">
+                        <i class="fa-solid fa-chart-line" style="color:#2563eb;"></i>
+                        <div>
+                            <h3 style="font-size:1.1em;">+40% Peningkatan Konversi</h3>
+                            <p style="font-size:0.65em;">Visual 3D yang interaktif memicu emosi pembeli dan meningkatkan rasa percaya diri untuk *checkout*.</p>
+                        </div>
+                    </div>
+                    <div class="momentum-card" style="background:var(--white);">
+                        <i class="fa-solid fa-rotate-left" style="color:#16a34a;"></i>
+                        <div>
+                            <h3 style="font-size:1.1em;">Near 0% Retur</h3>
+                            <p style="font-size:0.65em;">Tidak ada alasan "Barangnya beda sama bayangan saya" karena pembeli merancangnya sendiri secara visual.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 11: ROADMAP EKOSISTEM -->
+            <section>
+                <h2>Roadmap <span style="border-bottom: 3px solid var(--accent-lime);">Ekosistem FurniNest</span></h2>
+                <p>Kami membangun infrastruktur secara bertahap hingga menjadi *Software as a Service* (SaaS) manufaktur.</p>
+
+                <div class="roadmap-container">
+                    <div class="roadmap-line"></div>
+                    
+                    <!-- Milestone 1 -->
+                    <div class="milestone">
+                        <div class="ms-title">M1: Fondasi<br>Interaktif</div>
+                        <div class="ms-box box-shadow" style="border-color:var(--accent-lime); background:var(--accent-lime);">
+                            <i class="fa-solid fa-cube"></i>
+                        </div>
+                        <div class="ms-desc">Web 3D Customizer & Dynamic Pricing aktif (Saat Ini).</div>
+                    </div>
+
+                    <!-- Milestone 2 -->
+                    <div class="milestone">
+                        <div class="ms-title">M2: Integrasi<br>Augmented Reality</div>
+                        <div class="ms-box box-shadow">
+                            <i class="fa-solid fa-vr-cardboard"></i>
+                        </div>
+                        <div class="ms-desc">Memproyeksikan furnitur 3D langsung ke ruangan nyata (WebXR).</div>
+                    </div>
+
+                    <!-- Milestone 3 -->
+                    <div class="milestone">
+                        <div class="ms-title">M3: AI Design<br>Assistant</div>
+                        <div class="ms-box box-shadow">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        </div>
+                        <div class="ms-desc">AI merekomendasikan furnitur & warna berdasarkan foto kamar.</div>
+                    </div>
+
+                    <!-- Milestone 4 (The Hub) -->
+                    <div class="milestone" style="flex:1.5;">
+                        <div class="ms-title">M4: Infrastruktur B2B<br>(SaaS Ekosistem)</div>
+                        <div class="hub-container">
+                            <div class="hub-center box-shadow">
+                                <i class="fa-solid fa-building"></i>
+                            </div>
+                            <div class="hub-node box-shadow node-1"><i class="fa-solid fa-wallet" style="font-size:1.5em;margin-bottom:3px;"></i> Finansial</div>
+                            <div class="hub-node box-shadow node-2"><i class="fa-solid fa-truck" style="font-size:1.5em;margin-bottom:3px;"></i> Logistik</div>
+                            <div class="hub-node box-shadow node-3"><i class="fa-solid fa-tree" style="font-size:1.5em;margin-bottom:3px;"></i> Supplier</div>
+                            <div class="hub-node box-shadow node-4"><i class="fa-solid fa-chart-pie" style="font-size:1.5em;margin-bottom:3px;"></i> Analitik</div>
+                            <div class="hub-node box-shadow node-5"><i class="fa-solid fa-handshake" style="font-size:1.5em;margin-bottom:3px;"></i> Kemitraan</div>
+                            <div class="hub-node box-shadow node-6"><i class="fa-solid fa-mobile" style="font-size:1.5em;margin-bottom:3px;"></i> Frontend</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="giant-arrow">
+                    <div style="font-size: 0.6em; font-weight: bold; line-height: 1.4; text-align: right; width: 100%; padding-right: 80px; color:var(--text-dark);">
+                        Semakin banyak transaksi.<br>↓<br>
+                        Semakin akurat algoritma.<br>↓<br>
+                        Semakin efisien operasional mitra.<br>↓<br>
+                        <strong>Dominasi Pasar Skala Nasional.</strong>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 12: CLOSING -->
+            <section data-background-image="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=2000&auto=format&fit=crop" data-background-color="#000" data-background-opacity="0.4">
+                <div class="bg-dark-glass text-center" style="max-width: 800px; margin: 0 auto; padding: 50px; position:absolute; top:50%; left:50%; transform:translate(-50%, -50%);">
+                    <i class="fa-solid fa-couch" style="font-size:3em; color:var(--accent-lime); margin-bottom:20px;"></i>
+                    <h1 style="color: #fff; font-size: 3.5em; margin-bottom:10px;">FurniNest.</h1>
+                    <p style="font-size: 1.1em; color: #ddd; line-height:1.6; margin-bottom:30px;">
+                        Kami membangun infrastruktur digital yang <br>menyatukan imajinasi dengan keahlian pengrajin lokal.
+                    </p>
+                    <div style="background:var(--accent-lime); color:var(--text-dark); display:inline-block; padding:15px 40px; border-radius:50px; font-weight:800; text-transform:uppercase; font-size:0.8em; letter-spacing:2px; box-shadow: 0 10px 20px rgba(204, 255, 0, 0.3);">
+                        Visual Jelas • Harga Pasti • Furnitur Presisi
+                    </div>
+                    <p style="margin-top:40px; color:#aaa; font-size:0.8em; font-weight:bold;">Terima Kasih.</p>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.js"></script>
+    <script>
+        Reveal.initialize({
+            controls: true,
+            progress: true,
+            center: false,
+            hash: true,
+            width: 1200,
+            height: 700,
+            margin: 0.05,
+            transition: 'slide'
+        });
+    </script>
+    <style>
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+    </style>
+</body>
+</html>
