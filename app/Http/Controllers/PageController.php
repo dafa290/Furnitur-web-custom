@@ -119,6 +119,7 @@ class PageController extends Controller
             'tab' => $tab,
             'addresses' => Address::where('user_id', $user->id)->get(),
             'orders' => OrderHistory::where('user_id', $user->id)->get(),
+            'wishlists' => \App\Models\Wishlist::where('user_id', $user->id)->get(),
             'cartCount' => $this->cartCount(),
         ]);
     }

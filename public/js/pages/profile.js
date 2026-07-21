@@ -59,3 +59,29 @@ async function handleChangePassword(e) {
         msgDiv.innerHTML = '<div class="message-error">Terjadi kesalahan sistem</div>';
     }
 }
+
+window.removeFromWishlist = async function(productId) {
+    if (!confirm('Hapus produk ini dari wishlist?')) return;
+    
+    try {
+        const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        const response = await fetch('/api/wishlist/remove', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': token
+            },
+            body: JSON.stringify({ productId })
+        });
+        const res = await response.json();
+        if(res.success || res.status === 'SUCCESS') {
+            if (typeof showToast === 'function') showToast('Berhasil dihapus dari wishlist');
+            setTimeout(() => window.location.reload(), 1000);
+        } else {
+            alert(res.message || 'Gagal menghapus wishlist');
+        }
+    } catch(e) {
+        console.error(e);
+        alert('Terjadi kesalahan');
+    }
+}

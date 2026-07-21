@@ -36,17 +36,21 @@ class WishlistController extends Controller
         $user = $this->currentUser($request);
         if (!$user) return response()->json(['error' => 'Login required'], 401);
 
-        $request->validate(['product_id' => 'required|integer']);
+        $productId = $request->input('product_id') ?? $request->input('productId');
+        if (!$productId) {
+            return response()->json(['error' => 'Product ID is required'], 400);
+        }
 
-        $product = \App\Models\Product::find($request->product_id);
-        if (!$product) return response()->json(['error' => 'Product not found'], 404);
+        $productName = $request->input('productName') ?? $request->input('product_name') ?? 'Produk FurniNest';
+        $productPrice = $request->input('productPrice') ?? $request->input('product_price') ?? 0;
+        $productImg = $request->input('productImg') ?? $request->input('product_img');
 
         Wishlist::firstOrCreate(
-            ['user_id' => $user->id, 'product_id' => $request->product_id],
+            ['user_id' => $user->id, 'product_id' => $productId],
             [
-                'product_name' => $product->name,
-                'product_price' => $product->price,
-                'product_img' => $product->img
+                'product_name' => $productName,
+                'product_price' => $productPrice,
+                'product_img' => $productImg
             ]
         );
 
@@ -58,10 +62,13 @@ class WishlistController extends Controller
         $user = $this->currentUser($request);
         if (!$user) return response()->json(['error' => 'Unauthorized'], 401);
 
-        $request->validate(['product_id' => 'required|integer']);
+        $productId = $request->input('product_id') ?? $request->input('productId');
+        if (!$productId) {
+            return response()->json(['error' => 'Product ID is required'], 400);
+        }
 
         Wishlist::where('user_id', $user->id)
-            ->where('product_id', $request->product_id)
+            ->where('product_id', $productId)
             ->delete();
 
         return response()->json(['success' => true]);

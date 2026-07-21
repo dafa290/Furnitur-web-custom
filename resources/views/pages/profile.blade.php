@@ -155,11 +155,33 @@
     <div class="card shadow-sm border-0 rounded-4 p-4 p-md-5 bg-white">
         <h2 class="h4 fw-bold mb-4" style="font-family: 'Playfair Display', serif; color: var(--brown);"><i class="fas fa-heart text-warning me-2"></i> Wishlist</h2>
         <div>
-            <div class="text-center py-5 bg-light rounded-4 border border-dashed">
-                <i class="fas fa-heart-broken text-warning fa-3x mb-3"></i>
-                <p class="text-muted mb-1">Wishlist Anda kosong.</p>
-                <p class="text-muted small">Simpan produk favorit ke wishlist untuk membelinya nanti.</p>
-            </div>
+            @if(isset($wishlists) && $wishlists->isEmpty())
+                <div class="text-center py-5 bg-light rounded-4 border border-dashed">
+                    <i class="fas fa-heart-broken text-warning fa-3x mb-3"></i>
+                    <p class="text-muted mb-1">Wishlist Anda kosong.</p>
+                    <p class="text-muted small">Simpan produk favorit ke wishlist untuk membelinya nanti.</p>
+                </div>
+            @else
+                <div class="row g-4">
+                    @foreach($wishlists as $item)
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card h-100 border-0 rounded-4 shadow-sm">
+                                <img src="{{ $item->product_img }}" class="card-img-top rounded-top-4" alt="{{ $item->product_name }}" style="height: 200px; object-fit: cover;">
+                                <div class="card-body p-4 d-flex flex-column">
+                                    <h3 class="h6 fw-bold mb-2">{{ $item->product_name }}</h3>
+                                    <p class="text-warning fw-bold mb-3">Rp {{ number_format($item->product_price, 0, ',', '.') }}</p>
+                                    <div class="mt-auto d-flex gap-2">
+                                        <a href="/product/{{ $item->product_id }}" class="btn btn-outline-dark btn-sm rounded-pill flex-grow-1 fw-bold text-center py-2">Lihat Produk</a>
+                                        <button class="btn btn-outline-danger btn-sm rounded-pill fw-bold" onclick="removeFromWishlist('{{ $item->product_id }}')">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            @endif
         </div>
     </div>
     @endif
