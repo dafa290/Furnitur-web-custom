@@ -47,6 +47,17 @@
                     <input type="text" name="material" class="form-control" placeholder="Contoh: Kayu Mahoni, Velvet">
                 </div>
                 <div class="form-group">
+                    <label>Warna Dasar</label>
+                    <select name="color" class="form-control">
+                        <option value="">-- Pilih Warna Dasar --</option>
+                        <option value="Natural">Natural</option>
+                        <option value="Walnut">Walnut</option>
+                        <option value="Olive">Olive</option>
+                        <option value="Beige">Beige</option>
+                        <option value="Charcoal">Charcoal</option>
+                    </select>
+                </div>
+                <div class="form-group">
                     <label>Dimensi</label>
                     <input type="text" name="dimensions" class="form-control" placeholder="Contoh: 120 x 60 x 75 cm">
                 </div>

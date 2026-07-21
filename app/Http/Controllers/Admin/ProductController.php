@@ -33,7 +33,7 @@ class ProductController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'material' => 'nullable|string',
             'dimensions' => 'nullable|string',
-            'colors' => 'nullable|string',
+            'color' => 'nullable|string',
         ]);
 
         $data = $request->all();

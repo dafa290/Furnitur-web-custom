@@ -53,6 +53,17 @@
                     <input type="text" name="material" class="form-control" value="{{ $product->material }}">
                 </div>
                 <div class="form-group">
+                    <label>Warna Dasar</label>
+                    <select name="color" class="form-control">
+                        <option value="">-- Pilih Warna Dasar --</option>
+                        <option value="Natural" {{ $product->color == 'Natural' ? 'selected' : '' }}>Natural</option>
+                        <option value="Walnut" {{ $product->color == 'Walnut' ? 'selected' : '' }}>Walnut</option>
+                        <option value="Olive" {{ $product->color == 'Olive' ? 'selected' : '' }}>Olive</option>
+                        <option value="Beige" {{ $product->color == 'Beige' ? 'selected' : '' }}>Beige</option>
+                        <option value="Charcoal" {{ $product->color == 'Charcoal' ? 'selected' : '' }}>Charcoal</option>
+                    </select>
+                </div>
+                <div class="form-group">
                     <label>Dimensi</label>
                     <input type="text" name="dimensions" class="form-control" value="{{ $product->dimensions }}">
                 </div>

@@ -42,7 +42,7 @@ async function handleChangePassword(e) {
         const data = Object.fromEntries(formData.entries());
         const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
         
-        const response = await fetch('/api/profile/password', {
+        const response = await fetch('/api/profile/change-password', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': token },
             body: JSON.stringify(data)
