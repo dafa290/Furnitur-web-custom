@@ -17,6 +17,10 @@ class AuthController extends Controller
 
         $user = User::where('email', $request->email)->first();
         if ($user && Hash::check($request->password, $user->password)) {
+            if (!$user->active) {
+                return back()->withErrors(['login' => 'Akun Anda telah dinonaktifkan oleh Admin.'])->withInput();
+            }
+
             $request->session()->put('user_id', $user->id);
             $request->session()->put('currentUser', $user);
             return redirect('/home');

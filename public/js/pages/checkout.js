@@ -172,6 +172,14 @@ async function processPayment() {
         });
 
         const result = await response.json();
+        
+        if (!response.ok && response.status === 400) {
+            payBtn.innerHTML = originalHtml;
+            payBtn.disabled = false;
+            alert(result.message);
+            return;
+        }
+
         if (result.status === 'SUCCESS' && result.redirectUrl) {
             localStorage.setItem('purchased_ids', JSON.stringify(selectedIds));
             localStorage.setItem('last_order_id', result.orderId);
@@ -228,6 +236,11 @@ async function processCOD() {
             })
         });
         const result = await r.json();
+
+        if (!r.ok && r.status === 400) {
+            alert(result.message);
+            return;
+        }
         localStorage.setItem('purchased_ids', JSON.stringify(selectedIds));
         showToast('✅ Pesanan COD berhasil dibuat!');
         setTimeout(() => { window.location.href = '/payment-success?orderId=' + (result.orderId || ''); }, 1500);

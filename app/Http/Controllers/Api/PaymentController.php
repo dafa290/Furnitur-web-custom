@@ -28,6 +28,23 @@ class PaymentController extends Controller
             'addressId' => 'required',
         ]);
 
+        // Check stock availability
+        foreach ($data['items'] as $item) {
+            $product = \App\Models\Product::find($item['id']);
+            if (!$product) {
+                return response()->json([
+                    'status' => 'FAILED',
+                    'message' => 'Barang ' . ($item['name'] ?? 'tidak diketahui') . ' sudah tidak tersedia atau telah dihapus.'
+                ], 400);
+            }
+            if ($product->stock < ($item['quantity'] ?? 1)) {
+                return response()->json([
+                    'status' => 'FAILED',
+                    'message' => 'Stok produk ' . $product->name . ' tidak mencukupi (tersedia: ' . $product->stock . ').'
+                ], 400);
+            }
+        }
+
         $orderId = 'ORDER-' . strtoupper(Str::random(8));
         $totalAmount = collect($data['items'])->sum(function ($item) {
             return ($item['price'] ?? 0) * ($item['quantity'] ?? 1);
