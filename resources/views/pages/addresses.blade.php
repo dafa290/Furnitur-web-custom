@@ -2,6 +2,10 @@
 
 @section('title', 'Alamat Saya - FurniNest')
 
+@section('extra_css')
+<link rel="stylesheet" href="{{ asset('css/pages/addresses.css') }}">
+@endsection
+
 @section('content')
 <div class="address-container">
     <h1 class="page-title"><i class="fas fa-map-pin"></i> Alamat Saya</h1>
@@ -105,44 +109,7 @@
     </div>
 </div>
 
-<style>
-    .address-container { max-width: 1200px; margin: 40px auto 60px; padding: 0 20px; }
-    .page-title { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 600; color: var(--brown); margin-bottom: 32px; }
-    .page-title i { color: var(--gold); margin-right: 12px; }
-    .address-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 24px; margin-bottom: 40px; }
-    .address-card { background: white; border-radius: 24px; padding: 24px; box-shadow: var(--shadow); border: 1px solid var(--border-light); position: relative; transition: all 0.3s; }
-    .address-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
-    .address-card.default { border-left: 4px solid var(--gold); }
-    .address-label { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--brown); }
-    .badge-default { background: var(--gold); color: white; padding: 4px 12px; border-radius: 20px; font-size: 10px; font-weight: 600; }
-    .address-detail { color: var(--text-light); font-size: 14px; line-height: 1.7; margin-bottom: 20px; }
-    .address-actions { display: flex; gap: 12px; flex-wrap: wrap; }
-    .btn-sm { padding: 8px 16px; border-radius: 30px; font-size: 12px; font-weight: 500; cursor: pointer; transition: all 0.3s; display: inline-flex; align-items: center; gap: 6px; border: none; }
-    .btn-primary-sm { background: var(--gold); color: white; }
-    .btn-edit-sm { background: rgba(92, 61, 46, 0.1); color: var(--brown); border: 1px solid var(--border-light); }
-    .btn-danger-sm { background: rgba(239, 68, 68, 0.1); color: #dc2626; border: 1px solid rgba(239, 68, 68, 0.3); }
-    .add-card { display: flex; align-items: center; justify-content: center; cursor: pointer; border: 2px dashed var(--border-light); background: rgba(255,255,255,0.5); min-height: 200px; }
-    .add-card:hover { border-color: var(--gold); background: white; }
-    .add-card-content { text-align: center; }
-    .add-card-content i { font-size: 48px; color: var(--gold); margin-bottom: 12px; }
-    .form-card { background: white; border-radius: 24px; padding: 32px; box-shadow: var(--shadow); border: 1px solid var(--border-light); margin-top: 20px; }
-    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-    .form-group { margin-bottom: 16px; }
-    .form-group label { display: block; margin-bottom: 8px; font-size: 13px; font-weight: 600; color: var(--brown); text-transform: uppercase; }
-    .form-group input, .form-group textarea { width: 100%; padding: 12px 16px; background: var(--warm-white); border: 1px solid var(--border-light); border-radius: 16px; font-family: 'Inter', sans-serif; font-size: 14px; }
-    .full-width { grid-column: span 2; }
-    .checkbox-group { display: flex; align-items: center; gap: 12px; }
-    .btn-submit { background: var(--brown); color: white; padding: 12px 28px; border: none; border-radius: 40px; font-weight: 600; cursor: pointer; }
-    .btn-cancel { background: transparent; border: 1px solid var(--border-light); color: var(--text-light); padding: 12px 28px; border-radius: 40px; font-weight: 600; cursor: pointer; }
-
-    @media (max-width: 768px) { .form-grid { grid-template-columns: 1fr; } .full-width { grid-column: span 1; } }
-</style>
-
-<script>
-    function toggleAddressForm() {
-        const form = document.getElementById('addAddressForm');
-        form.style.display = (form.style.display === 'none' || form.style.display === '') ? 'block' : 'none';
-        if (form.style.display === 'block') form.scrollIntoView({ behavior: 'smooth' });
-    }
-</script>
+@section('extra_js')
+<script src="{{ asset('js/pages/addresses.js') }}"></script>
+@endsection
 @endsection
