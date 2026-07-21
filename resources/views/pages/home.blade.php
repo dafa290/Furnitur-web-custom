@@ -5,17 +5,7 @@
 @section('extra_css')
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 <link rel="stylesheet" href="{{ asset('css/home-lama.css') }}">
-<style>
-    /* Hide the global layout's footer and padding so the old homepage design takes over */
-    #footer { display: none !important; }
-    .main-content { padding-top: 0 !important; }
-    
-    /* Make sure our navbar from layout stays on top */
-    .navbar { z-index: 9999 !important; }
-
-    /* Override some defaults from home-lama that might mess with layout */
-    body { overflow-x: hidden; }
-</style>
+<link rel="stylesheet" href="{{ asset('css/pages/home.css') }}">
 @endsection
 
 @section('content')
@@ -201,7 +191,5 @@
 
 @section('extra_js')
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-<script>
-    AOS.init({ once: true, offset: 50, duration: 800 });
-</script>
+<script src="{{ asset('js/pages/home.js') }}"></script>
 @endsection
