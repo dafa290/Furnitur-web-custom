@@ -27,6 +27,11 @@ use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 
+Route::get('/railway-setup-db', function () {
+    \Illuminate\Support\Facades\Artisan::call('migrate:fresh', ['--force' => true, '--seed' => true]);
+    return 'Database migrated and seeded successfully.';
+});
+
 Route::get('/', [PageController::class, 'home']);
 Route::get('/test', [TestController::class, 'test']);
 Route::get('/home', [PageController::class, 'home']);
