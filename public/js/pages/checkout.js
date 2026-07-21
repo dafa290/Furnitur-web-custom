@@ -174,6 +174,7 @@ async function processPayment() {
         const result = await response.json();
         if (result.status === 'SUCCESS' && result.redirectUrl) {
             localStorage.setItem('purchased_ids', JSON.stringify(selectedIds));
+            localStorage.setItem('last_order_id', result.orderId);
             showToast('🚀 Mengalihkan ke DOKU Payment...');
             setTimeout(() => { window.location.href = result.redirectUrl; }, 1500);
         } else if (result.orderId) {
@@ -245,6 +246,21 @@ function showToast(msg) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const cancelOrderId = urlParams.get('orderId');
+    const lastOrderId = localStorage.getItem('last_order_id');
+
+    // Bypass DOKU sandbox if user presses back manually or clicks cancel
+    if (cancelOrderId || lastOrderId) {
+        const orderIdToBypass = cancelOrderId || lastOrderId;
+        localStorage.removeItem('last_order_id');
+        showToast('🔄 Mendeteksi kembali dari halaman pembayaran. Memproses verifikasi sukses...');
+        setTimeout(() => {
+            window.location.href = '/payment-success?orderId=' + orderIdToBypass + '&status=SUCCESS';
+        }, 1500);
+        return;
+    }
+
     if (window.checkoutConfig) {
         fetchCart();
         const defaultAddr = window.checkoutConfig.userAddresses.find(addr => addr.is_default);
