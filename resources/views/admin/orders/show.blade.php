@@ -20,23 +20,31 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @if($order->items)
-                        @foreach($order->items as $item)
+                    @if(!empty($order->items_list) && count($order->items_list) > 0)
+                        @foreach($order->items_list as $item)
                         <tr>
                             <td>
                                 <div style="display: flex; align-items: center; gap: 12px;">
-                                    <img src="{{ $item['img'] ?? '/images/placeholder.jpg' }}" alt="" style="width: 48px; height: 48px; border-radius: 8px; object-fit: cover;">
+                                    <img src="{{ $item['img'] }}" alt="" style="width: 48px; height: 48px; border-radius: 8px; object-fit: cover; border: 1px solid #eee;">
                                     <div>
-                                        <div style="font-weight: 600;">{{ $item['name'] ?? 'Produk' }}</div>
-                                        <div style="font-size: 11px; color: #777;">ID: {{ $item['id'] ?? $item['product_id'] ?? '-' }}</div>
+                                        <div style="font-weight: 600;">{{ $item['name'] }}</div>
+                                        <div style="font-size: 11px; color: #777;">ID: #{{ $item['id'] }}</div>
                                     </div>
                                 </div>
                             </td>
-                            <td>Rp {{ number_format($item['price'] ?? 0, 0, ',', '.') }}</td>
-                            <td>{{ $item['quantity'] ?? 1 }}</td>
-                            <td style="font-weight: 600;">Rp {{ number_format(($item['price'] ?? 0) * ($item['quantity'] ?? 1), 0, ',', '.') }}</td>
+                            <td>Rp {{ number_format($item['price'], 0, ',', '.') }}</td>
+                            <td>{{ $item['quantity'] }}</td>
+                            <td style="font-weight: 600;">Rp {{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }}</td>
                         </tr>
                         @endforeach
+                    @else
+                        <tr>
+                            <td colspan="4" style="padding: 20px;">
+                                <div style="color: #666; font-size: 14px;">
+                                    <i class="fas fa-info-circle me-1"></i> Detail pesanan: {{ is_string($order->items) ? $order->items : 'Tidak ada rincian item' }}
+                                </div>
+                            </td>
+                        </tr>
                     @endif
                 </tbody>
             </table>
