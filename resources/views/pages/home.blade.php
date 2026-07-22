@@ -67,19 +67,19 @@
         <div class="section-line"></div>
     </div>
     <div class="category-grid" id="categoryGrid">
-        <div class="category-item" onclick="window.location.href='/home#productsSection'">
+        <div class="category-item" onclick="filterByCategory('Sofa')">
             <div class="category-icon"><i class="fas fa-couch"></i></div>
             <h3>Sofa & Kursi</h3>
         </div>
-        <div class="category-item" onclick="window.location.href='/home#productsSection'">
+        <div class="category-item" onclick="filterByCategory('Tempat Tidur')">
             <div class="category-icon"><i class="fas fa-bed"></i></div>
             <h3>Tempat Tidur</h3>
         </div>
-        <div class="category-item" onclick="window.location.href='/home#productsSection'">
+        <div class="category-item" onclick="filterByCategory('Meja')">
             <div class="category-icon"><i class="fas fa-table"></i></div>
             <h3>Meja</h3>
         </div>
-        <div class="category-item" onclick="window.location.href='/home#productsSection'">
+        <div class="category-item" onclick="filterByCategory('Lemari')">
             <div class="category-icon"><i class="fas fa-archive"></i></div>
             <h3>Lemari & Rak</h3>
         </div>

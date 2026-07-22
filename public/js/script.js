@@ -130,7 +130,7 @@ function getFiltered() {
         if (p.price > maxPrice) return false;
         if (checkedCats.length && !checkedCats.includes(p.category)) return false;
         if (checkedMats.length && !checkedMats.includes(p.material)) return false;
-        if (activeColor && p.color !== activeColor) return false;
+        if (activeColor && !p.color.toLowerCase().includes(activeColor.toLowerCase())) return false;
         return true;
     });
 }
