@@ -61,6 +61,20 @@
                         </select>
                         <i class="fas fa-chevron-down"></i>
                     </div>
+                    @if(count($addresses) == 0)
+                        <div class="mt-2">
+                            <small class="text-danger mb-2 d-block">⚠️ Anda belum menambahkan alamat pengiriman.</small>
+                            <a href="/alamat/manage" class="btn btn-sm w-100 fw-bold" style="background-color: var(--gold); color: white; border-radius: 8px;">
+                                <i class="fas fa-plus"></i> Tambah Alamat Sekarang
+                            </a>
+                        </div>
+                    @else
+                        <div class="text-end mt-2">
+                            <a href="/alamat/manage" class="text-decoration-none small fw-bold" style="color: var(--gold);">
+                                <i class="fas fa-map-marker-alt"></i> Kelola / Tambah Alamat
+                            </a>
+                        </div>
+                    @endif
                 </div>
                 
                 <div id="selectedAddressDisplay" style="display: none;" class="address-card-selected">
