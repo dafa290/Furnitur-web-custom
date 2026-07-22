@@ -8,9 +8,9 @@
 
 @section('content')
 <div class="container-fluid p-0">
-    <div class="row g-0" style="height: calc(100vh - 80px);">
+    <div class="row g-0">
         <!-- Canvas Container -->
-        <div class="col-lg-9 col-md-8 position-relative bg-light" id="canvas-container">
+        <div class="col-lg-9 col-md-8 position-relative bg-light" id="canvas-container" style="min-height: 60vh;">
             <div id="loading" class="position-absolute top-0 start-0 w-100 h-100 bg-white d-flex justify-content-center align-items-center" style="z-index: 100; transition: opacity 0.5s;">
                 <div class="spinner-border text-warning" role="status" style="width: 3rem; height: 3rem;">
                     <span class="visually-hidden">Loading...</span>
@@ -19,7 +19,7 @@
         </div>
 
         <!-- Controls Panel -->
-        <div class="col-lg-3 col-md-4 bg-white shadow-sm" style="overflow-y: auto; z-index: 10;">
+        <div class="col-lg-3 col-md-4 bg-white shadow-sm" style="z-index: 10;">
             <div class="p-4">
                 <h3 class="mb-4 pb-2 border-bottom text-dark" style="font-family: 'Playfair Display', serif;">Kustomisasi</h3>
 

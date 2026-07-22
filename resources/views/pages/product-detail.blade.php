@@ -66,7 +66,7 @@
                 <div class="d-flex align-items-center gap-3 flex-wrap">
                     <div class="input-group border rounded-pill overflow-hidden" style="width: 130px; height: 50px;">
                         <button class="btn btn-light border-0 text-gold fw-bold px-3" type="button" onclick="decrementQty()">−</button>
-                        <input type="number" id="quantity" class="form-control border-0 text-center fw-bold bg-white" value="1" min="1" max="99" readonly>
+                        <input type="text" id="quantity" class="form-control border-0 text-center fw-bold bg-white" value="1" min="1" max="99" readonly>
                         <button class="btn btn-light border-0 text-gold fw-bold px-3" type="button" onclick="incrementQty({{ $product->stock ?? 99 }})">+</button>
                     </div>
                     <button class="btn btn-primary-custom flex-grow-1 rounded-pill fw-bold" style="height: 50px;" onclick="addToCartDetailPage({{ $product->id ?? 0 }})">

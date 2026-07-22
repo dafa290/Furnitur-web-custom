@@ -21,8 +21,8 @@
         <div class="nav-menu">
             <a href="/home">Beranda</a>
             <a href="/custom">Custom</a>
-            <a href="#productsSection">Produk</a>
-            <a href="#categorySection">Kategori</a>
+            <a href="/home#productsSection">Produk</a>
+            <a href="/home#categorySection">Kategori</a>
             <a href="#footer">Kontak</a>
             
             @if(!session('currentUser'))
@@ -98,11 +98,11 @@
     <div class="container">
         <div class="footer-grid">
             <div class="footer-col"><h4>FurniNest</h4><p>Furniture premium dengan kualitas terbaik dan desain timeless untuk hunian impian Anda.</p></div>
-            <div class="footer-col"><h4>Navigasi</h4><a href="/home">Beranda</a><a href="#productsSection">Produk</a><a href="#categorySection">Kategori</a><a href="#footer">Kontak</a></div>
+            <div class="footer-col"><h4>Navigasi</h4><a href="/home">Beranda</a><a href="/home#productsSection">Produk</a><a href="/home#categorySection">Kategori</a><a href="#footer">Kontak</a></div>
             <div class="footer-col"><h4>Kontak</h4><p>📞 +62 812 3456 7890</p><p>✉️ hello@furninest.com</p><p>📍 Jakarta, Indonesia</p></div>
             <div class="footer-col"><h4>Ikuti Kami</h4><div class="social-icons"><i class="fab fa-instagram" onclick="showSocialNotification('Instagram')"></i><i class="fab fa-pinterest" onclick="showSocialNotification('Pinterest')"></i><i class="fab fa-facebook-f" onclick="showSocialNotification('Facebook')"></i></div></div>
         </div>
-        <div class="copyright">© 2025 FurniNest — Premium Furniture for Spaces with Character</div>
+        <div class="copyright">© 2026 FurniNest — Premium Furniture for Spaces with Character</div>
     </div>
 </footer>
 
