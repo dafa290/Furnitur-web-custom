@@ -244,11 +244,35 @@ document.getElementById('furniture-type').addEventListener('change', (e) => {
     const doorGroup = document.getElementById('door-config-group');
     doorGroup.style.display = (config.type === 'wardrobe') ? 'block' : 'none';
     
-    // Set default dimensions based on type
-    if (config.type === 'bed') { config.width = 1.6; config.height = 0.5; config.depth = 2.0; }
-    else if (config.type === 'chair') { config.width = 0.5; config.height = 0.9; config.depth = 0.5; }
-    else if (config.type === 'table') { config.width = 1.2; config.height = 0.75; config.depth = 0.6; }
-    else { config.width = 1.2; config.height = 2.0; config.depth = 0.6; }
+    // Set default dimensions and dynamic slider limits based on type
+    const widthRange = document.getElementById('width-range');
+    const heightRange = document.getElementById('height-range');
+    const depthRange = document.getElementById('depth-range');
+
+    if (config.type === 'bed') { 
+        config.width = 1.6; config.height = 0.5; config.depth = 2.0; 
+        widthRange.min = 90; widthRange.max = 220;
+        heightRange.min = 20; heightRange.max = 80;
+        depthRange.min = 190; depthRange.max = 220;
+    }
+    else if (config.type === 'chair') { 
+        config.width = 0.5; config.height = 0.9; config.depth = 0.5; 
+        widthRange.min = 40; widthRange.max = 80;
+        heightRange.min = 40; heightRange.max = 130;
+        depthRange.min = 40; depthRange.max = 80;
+    }
+    else if (config.type === 'table') { 
+        config.width = 1.2; config.height = 0.75; config.depth = 0.6; 
+        widthRange.min = 60; widthRange.max = 240;
+        heightRange.min = 40; heightRange.max = 120;
+        depthRange.min = 40; depthRange.max = 120;
+    }
+    else { // wardrobe
+        config.width = 1.2; config.height = 2.0; config.depth = 0.6; 
+        widthRange.min = 40; widthRange.max = 300;
+        heightRange.min = 100; heightRange.max = 250;
+        depthRange.min = 30; depthRange.max = 100;
+    }
 
     updateUIFromConfig();
     createFurniture();
