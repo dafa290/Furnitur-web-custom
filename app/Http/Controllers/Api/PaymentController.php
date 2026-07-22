@@ -30,6 +30,11 @@ class PaymentController extends Controller
 
         // Check stock availability
         foreach ($data['items'] as $item) {
+            // Bypass stock validation for custom made-to-order furniture
+            if (isset($item['name']) && str_starts_with($item['name'], 'Custom')) {
+                continue;
+            }
+
             $product = \App\Models\Product::find($item['id']);
             if (!$product) {
                 return response()->json([
