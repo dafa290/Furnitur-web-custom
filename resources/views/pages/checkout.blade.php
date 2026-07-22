@@ -76,7 +76,7 @@
                     <div class="label-text">Metode Pembayaran</div>
                     <div class="doku-logo">
                         <span>Powered by</span>
-                        <img src="https://doku.id/assets/img/logo-doku.png" alt="DOKU" style="height: 24px;" onerror="this.src='https://cdn.worldvectorlogo.com/logos/doku.svg'; this.onerror=null;">
+                        <img src="/assets/images/logo/doku-logo.svg" alt="DOKU" style="height: 24px;">
                     </div>
                 </div>
 
