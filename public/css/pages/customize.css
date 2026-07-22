@@ -1,3 +1,13 @@
 .color-option.active {
     border-color: #d4af37 !important;
 }
+
+#canvas-container canvas {
+    touch-action: none !important;
+    outline: none !important;
+    cursor: grab;
+}
+
+#canvas-container canvas:active {
+    cursor: grabbing;
+}

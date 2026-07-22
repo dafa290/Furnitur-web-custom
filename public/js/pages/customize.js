@@ -37,9 +37,14 @@ function init() {
     
     controls = new THREE.OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
-    controls.minDistance = 2;
-    controls.maxDistance = 10;
+    controls.dampingFactor = 0.05;
+    controls.enableZoom = true;
+    controls.enablePan = true;
+    controls.enableRotate = true;
+    controls.minDistance = 1; // Allow zooming in closer
+    controls.maxDistance = 20; // Allow zooming out further
     controls.target.set(0, 1, 0);
+    controls.update(); // Initialize target
 
     // Lights
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
